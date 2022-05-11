@@ -57,7 +57,7 @@ friends.request(page) { response in
 
 ## 使用
 
-### `0x00`, 修改`Session`的配置项 (可选):
+### `0x00`, 修改`Session`的配置项(可选):
 
 `Session`都有默认值, 所以这一步是可选的
 
@@ -73,7 +73,7 @@ Far.session.eventMonitors([Alamofire.ClosureEventMonitor()])
 
 > ⚠️: 在网络请求开始后, 对`Session`的设置将不再生效.
 
-### `0x01`, 修改默认`API`的配置项 (可选):
+### `0x01`, 修改默认的`API`配置项(可选):
 
 ```swift
 // 设置base URL
@@ -88,23 +88,22 @@ Far.default.headers([
 ... 
 ```
 
-### `0x10`, 定义请求接口:
+### `0x10`, 定义请求接口, 并增加配置项(可选):
 
 ```swift
 // 定义login接口
 let login = POST<Account, UserInfo>("login")
 
 // 定义friends接口
-let friends = POST<Page, [Friend]>("friends")
+let friends = POST<Page, [Friend]>("friends").timeoutInterval(2)
 ```
 
-### `0x11`, 给定义的API增加配置项 (可选):
+### `0x11`, 增加配置项(可选), 并调用API:
 
 ```swift
 let account = Account(name: "Jack", password: "*******")
   
 login
-    .timeoutInterval(2)
     .mock("http://www.mocking.com/login")
     .request(account) { response in
         // some logic here
