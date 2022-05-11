@@ -1,5 +1,5 @@
 //
-//  Store.API.Modify+Helper
+//  Settings.API._Modify+Helper
 //
 
 import Foundation
@@ -7,7 +7,7 @@ import Alamofire
 
 
 // MARK: - DataRequest
-extension Store.API.Modify {
+extension Settings.API._Modify {
     
     // MARK: HTTPMethod
     func _method() -> Alamofire.HTTPMethod? {
@@ -34,7 +34,7 @@ extension Store.API.Modify {
                 
             case .path(let pathURL):
                 // modify `base url` or setting `base url`
-                let anyBaseURL = self.dataRequest.api.base?() ?? Far.api.dataRequest.base._value()
+                let anyBaseURL = self.dataRequest.api.base?() ?? Far._default.dataRequest.base._value()
                 
                 if let baseURL = anyBaseURL {
                     anyFullURL = baseURL + pathURL()
@@ -50,7 +50,7 @@ extension Store.API.Modify {
         fullURL += appendPaths
         
         // mock only in debug mode
-        _Debug.only {
+        _Debug.execute {
             if let mock = self.dataRequest.api.mock {
                 let mockURL = mock()
                 _Log.warning("Using mock `\(mockURL)` for `\(fullURL)`", location: self.requestLocation)
@@ -63,8 +63,8 @@ extension Store.API.Modify {
     
     // MARK: HTTPHeaders
     func _headers() -> Alamofire.HTTPHeaders {
-        // combinedHeaders init from `Store._api.dataRequest.headers()` or an empty headers
-        var combinedHeaders = Far.api.dataRequest.headers._value() ?? Alamofire.HTTPHeaders()
+        // combinedHeaders init from `Far._default.dataRequest.headers` or an empty headers
+        var combinedHeaders = Far._default.dataRequest.headers._value() ?? Alamofire.HTTPHeaders()
         
         // Context.dataRequest.headers override or appends to combinedHeaders
         for h in self.dataRequest.headers {
@@ -86,13 +86,13 @@ extension Store.API.Modify {
             
             switch method {
                 // URLEncoding
-                case .get: return Far.api.dataRequest.encoding.get._value
-                case .delete: return Far.api.dataRequest.encoding.delete._value
+                case .get: return Far._default.dataRequest.encoding.get._value
+                case .delete: return Far._default.dataRequest.encoding.delete._value
                     
                 // JSONEncoding
-                case .patch: return Far.api.dataRequest.encoding.patch._value
-                case .post: return Far.api.dataRequest.encoding.post._value
-                case .put: return Far.api.dataRequest.encoding.put._value
+                case .patch: return Far._default.dataRequest.encoding.patch._value
+                case .post: return Far._default.dataRequest.encoding.post._value
+                case .put: return Far._default.dataRequest.encoding.put._value
                     
                 // default
                 default: return Alamofire.URLEncoding.default
@@ -112,13 +112,13 @@ extension Store.API.Modify {
             
             switch method {
                 // URLEncodedFormParameterEncoder
-                case .get: return Far.api.dataRequest.encoder.get._value
-                case .delete: return Far.api.dataRequest.encoder.delete._value
+                case .get: return Far._default.dataRequest.encoder.get._value
+                case .delete: return Far._default.dataRequest.encoder.delete._value
                     
                 // JSONEncoding
-                case .patch: return Far.api.dataRequest.encoder.patch._value
-                case .post: return Far.api.dataRequest.encoder.post._value
-                case .put: return Far.api.dataRequest.encoder.put._value
+                case .patch: return Far._default.dataRequest.encoder.patch._value
+                case .post: return Far._default.dataRequest.encoder.post._value
+                case .put: return Far._default.dataRequest.encoder.put._value
                     
                 // default
                 default: return Alamofire.URLEncodedFormParameterEncoder.default
@@ -143,47 +143,47 @@ extension Store.API.Modify {
     
     // MARK: Redirect
     func _redirectHandler() -> Alamofire.RedirectHandler? {
-        self.dataRequest.redirectHandler ?? Far.api.dataRequest.redirect._value
+        self.dataRequest.redirectHandler ?? Far._default.dataRequest.redirect._value
     }
 }
 
 
 // MARK: - DataResponse
-extension Store.API.Modify {
+extension Settings.API._Modify {
     
     // MARK: Validate DataResponse
     func _validation() -> (Range<Int>?, [String]?, [String : DataRequest.Validation]) {
         let acceptableStatusCodes = self.dataResponse.acceptableStatusCodes ??
-        Far.api.dataResponse.acceptableStatusCodes._value
+        Far._default.dataResponse.acceptableStatusCodes._value
         
         let acceptableContentTypes = self.dataResponse.acceptableContentTypes?() ??
-        Far.api.dataResponse.acceptableContentTypes._value
+        Far._default.dataResponse.acceptableContentTypes._value
         
-        let validations = self.dataResponse.validations.merging(Far.api.dataResponse.validations._value ?? [:], uniquingKeysWith: { (current, _) in current }) /* merging using Store.API.Modify value */
+        let validations = self.dataResponse.validations.merging(Far._default.dataResponse.validations._value ?? [:], uniquingKeysWith: { (current, _) in current }) /* merging using Store.API.Modify value */
         
         return (acceptableStatusCodes, acceptableContentTypes, validations)
     }
     
     // MARK: Cache DataResponse
     func _cachedResponseHandler() -> Alamofire.CachedResponseHandler? {
-        self.dataResponse.cachedResponseHandler ?? Far.api.dataResponse.cachedResponseHandler._value
+        self.dataResponse.cachedResponseHandler ?? Far._default.dataResponse.cachedResponseHandler._value
     }
     
     // MARK: DispatchQueue
     func _queue() -> DispatchQueue {
-        self.dataResponse.queue ?? Far.api.dataResponse.queue._value
+        self.dataResponse.queue ?? Far._default.dataResponse.queue._value
     }
     
     // MARK: Serialize DataResponse
     func _dataResponseSerializer() -> Alamofire.DataResponseSerializer {
         let dataPreprocessor = self.dataResponse.serializeData.dataPreprocessor ??
-        Far.api.dataResponse.serializeData.dataPreprocessor._value
+        Far._default.dataResponse.serializeData.dataPreprocessor._value
         
         let emptyResponseCodes = self.dataResponse.serializeData.emptyResponseCodes ??
-        Far.api.dataResponse.serializeData.emptyResponseCodes._value
+        Far._default.dataResponse.serializeData.emptyResponseCodes._value
         
         let emptyRequestMethods = self.dataResponse.serializeData.emptyRequestMethods ??
-        Far.api.dataResponse.serializeData.emptyRequestMethods._value
+        Far._default.dataResponse.serializeData.emptyRequestMethods._value
         
         return Alamofire.DataResponseSerializer(dataPreprocessor: dataPreprocessor,
                                                 emptyResponseCodes: emptyResponseCodes,
@@ -192,16 +192,16 @@ extension Store.API.Modify {
     
     func _stringResponseSerializer() -> Alamofire.StringResponseSerializer {
         let dataPreprocessor = self.dataResponse.serializeString.dataPreprocessor ??
-        Far.api.dataResponse.serializeString.dataPreprocessor._value
+        Far._default.dataResponse.serializeString.dataPreprocessor._value
         
         let encoding = self.dataResponse.serializeString.encoding ??
-        Far.api.dataResponse.serializeString.encoding._value
+        Far._default.dataResponse.serializeString.encoding._value
         
         let emptyResponseCodes = self.dataResponse.serializeString.emptyResponseCodes ??
-        Far.api.dataResponse.serializeString.emptyResponseCodes._value
+        Far._default.dataResponse.serializeString.emptyResponseCodes._value
         
         let emptyRequestMethods = self.dataResponse.serializeString.emptyRequestMethods ??
-        Far.api.dataResponse.serializeString.emptyRequestMethods._value
+        Far._default.dataResponse.serializeString.emptyRequestMethods._value
         
         return Alamofire.StringResponseSerializer(dataPreprocessor: dataPreprocessor,
                                                   encoding: encoding,
@@ -212,16 +212,16 @@ extension Store.API.Modify {
     @available(*, deprecated, message: "JSONResponseSerializer deprecated and will be removed in Alamofire 6. Use DecodableResponseSerializer instead.")
     func _jsonResponseSerializer() -> Alamofire.JSONResponseSerializer {
         let dataPreprocessor = self.dataResponse.serializeJSON.dataPreprocessor ??
-        Far.api.dataResponse.serializeJSON.dataPreprocessor._value
+        Far._default.dataResponse.serializeJSON.dataPreprocessor._value
         
         let emptyResponseCodes = self.dataResponse.serializeJSON.emptyResponseCodes ??
-        Far.api.dataResponse.serializeJSON.emptyResponseCodes._value
+        Far._default.dataResponse.serializeJSON.emptyResponseCodes._value
         
         let emptyRequestMethods = self.dataResponse.serializeJSON.emptyRequestMethods ??
-        Far.api.dataResponse.serializeJSON.emptyRequestMethods._value
+        Far._default.dataResponse.serializeJSON.emptyRequestMethods._value
         
         let options = self.dataResponse.serializeJSON.options ??
-        Far.api.dataResponse.serializeJSON.options._value
+        Far._default.dataResponse.serializeJSON.options._value
         
         return Alamofire.JSONResponseSerializer(dataPreprocessor: dataPreprocessor,
                                                 emptyResponseCodes: emptyResponseCodes,
@@ -232,19 +232,19 @@ extension Store.API.Modify {
     func _decodableResponseSerializer<R>() -> Alamofire.DecodableResponseSerializer<R>
     where R: Decodable {
         let dataPreprocessor = self.dataResponse.serializeDecodable.dataPreprocessor ??
-        Far.api.dataResponse.serializeDecodable.dataPreprocessor._value ??
+        Far._default.dataResponse.serializeDecodable.dataPreprocessor._value ??
         Alamofire.DecodableResponseSerializer<R>.defaultDataPreprocessor
         
         let decoder = self.dataResponse.serializeDecodable.decoder ??
-        Far.api.dataResponse.serializeDecodable.decoder._value ??
+        Far._default.dataResponse.serializeDecodable.decoder._value ??
         JSONDecoder()
         
         let emptyResponseCodes = self.dataResponse.serializeDecodable.emptyResponseCodes ??
-        Far.api.dataResponse.serializeDecodable.emptyResponseCodes._value ??
+        Far._default.dataResponse.serializeDecodable.emptyResponseCodes._value ??
         Alamofire.DecodableResponseSerializer<R>.defaultEmptyResponseCodes
         
         let emptyRequestMethods = self.dataResponse.serializeDecodable.emptyRequestMethods ??
-        Far.api.dataResponse.serializeDecodable.emptyRequestMethods._value ??
+        Far._default.dataResponse.serializeDecodable.emptyRequestMethods._value ??
         Alamofire.DecodableResponseSerializer<R>.defaultEmptyRequestMethods
         
         return Alamofire.DecodableResponseSerializer(dataPreprocessor: dataPreprocessor,
@@ -255,7 +255,7 @@ extension Store.API.Modify {
 }
 
 // MARK: - Accessing
-extension Store.API.Modify {
+extension Settings.API._Modify {
     
     // MARK: - Accessing Request
     func _accessingRequest() -> Available<Alamofire.Request>? {

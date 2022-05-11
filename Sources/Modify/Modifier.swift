@@ -11,7 +11,7 @@ public protocol Modifier {
 
 
 /// ModifyContext
-public typealias ModifyContext = Store.API.Modify
+public typealias ModifyContext = Settings.API._Modify
 
 
 /// AnyModifier

@@ -1,26 +1,26 @@
 //
-//  Store.API.Modify.swift
+//  Settings.API._Modify.swift
 //
 
 import Foundation
 import Alamofire
 
 
-extension Store.API {
+extension Settings.API {
     
-    public final class Modify {
+    public final class _Modify {
         
         // DataRequest Location
         let requestLocation: _Location
         
         // DataRequest
-        var dataRequest = Store.API.Modify._DataRequest()
+        var dataRequest = Settings.API._Modify._DataRequest()
         
         // DataResponse
-        var dataResponse = Store.API.Modify._DataResponse()
+        var dataResponse = Settings.API._Modify._DataResponse()
         
         // Accessing
-        var accessing = Store.API.Modify._Accessing()
+        var accessing = Settings.API._Modify._Accessing()
         
         /// init
         init(requestLocation: _Location) {
@@ -30,14 +30,14 @@ extension Store.API {
 }
 
 
-extension Store.API.Modify {
+extension Settings.API._Modify {
     
     // MARK: DataRequest
     /// _DataRequest
     struct _DataRequest {
         
         // API
-        var api = Store.API.Modify._API()
+        var api = Settings.API._Modify._API()
         
         // Headers
         var headers: Alamofire.HTTPHeaders = Alamofire.HTTPHeaders()
@@ -73,10 +73,10 @@ extension Store.API.Modify {
         var queue: DispatchQueue?
         
         // Serialize DataResponse
-        var serializeData = Store.API.Modify._SerializeData()
-        var serializeString = Store.API.Modify._SerializeString()
-        var serializeJSON = Store.API.Modify._SerializeJSON()
-        var serializeDecodable = Store.API.Modify._SerializeDecodable()
+        var serializeData = Settings.API._Modify._SerializeData()
+        var serializeString = Settings.API._Modify._SerializeString()
+        var serializeJSON = Settings.API._Modify._SerializeJSON()
+        var serializeDecodable = Settings.API._Modify._SerializeDecodable()
     }
     
     

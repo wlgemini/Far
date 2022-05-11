@@ -1,15 +1,14 @@
 //
-//  Store.API.Default.swift
+//  Settings.API.Default.swift
 //
 
 import Foundation
 import Alamofire
 
 
-// MARK: API
-extension Store.API {
+extension Settings.API {
     
-    /// API
+    /// Default API setting
     public final class Default {
         
         public var dataRequest = DataRequest()
@@ -22,7 +21,7 @@ extension Store.API {
 
 
 // MARK: - DataRequest/DataResponse
-extension Store.API.Default {
+extension Settings.API.Default {
     
     /// DataRequest
     public struct DataRequest {
@@ -78,7 +77,7 @@ extension Store.API.Default {
 
 
 // MARK: - Encoder/Encoding
-extension Store.API.Default {
+extension Settings.API.Default {
     
     /// Encoder
     public struct Encoder {
@@ -125,7 +124,7 @@ extension Store.API.Default {
 
 
 // MARK: - Serializer
-extension Store.API.Default {
+extension Settings.API.Default {
     
     /// SerializeData
     public struct SerializeData {

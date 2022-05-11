@@ -1,12 +1,12 @@
 //
-//  Store.API.swift
+//  Settings.API.swift
 //
 
 import Foundation
 import Alamofire
 
 
-extension Store {
+extension Settings {
     
     /// namespace for `API`
     public enum API {}
