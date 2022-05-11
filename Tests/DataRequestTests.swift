@@ -43,11 +43,13 @@ class DataRequestTests {
         Far.default.dataRequest.base("https://httpbin.org")
         let expectation = XCTestExpectation(description: "")
         var response: DataResponse<Auth, AFError>?
-        let get = GET<[String: Any], Auth>("/basic-auth/some_user/somepassword")
+        let username = "some_user"
+        let password = "some_password"
+        let get = GET<[String: Any], Auth>("/basic-auth/\(username)/\(password)")
 
         
         // When
-        get.authenticate(username: "some_user", password: "somepassword").request(nil) { resp in
+        get.authenticate(username: username, password: password).request(nil) { resp in
             response = resp
             expectation.fulfill()
         }
@@ -65,40 +67,32 @@ class DataRequestTests {
     func statusCodes(test: XCTestCase) {
         // Given
         Far.default.dataRequest.base("https://httpbin.org")
+        
         let vali0Filfill = XCTestExpectation(description: "")
-        let vali0: [String: Alamofire.DataRequest.Validation] = [
-            "vali0": { (req, resp, data) -> DataRequest.ValidationResult in
+        let vali0: (String, Alamofire.DataRequest.Validation) = (
+            "vali1", { (req, resp, data) -> DataRequest.ValidationResult in
                 vali0Filfill.fulfill()
                 return .success(())
             }
-        ]
-        
-        let vali1Filfill = XCTestExpectation(description: "")
-        let vali1: (String, Alamofire.DataRequest.Validation) = (
-            "vali1", { (req, resp, data) -> DataRequest.ValidationResult in
-                vali1Filfill.fulfill()
-                return .success(())
-            }
         )
-        Far.default.dataResponse.validations(vali0)
         
         let respFilfill = XCTestExpectation(description: "")
         var response: DataResponse<Any, AFError>?
-        let get = GET<[String: Any], Any>("/status/400")
+        let get = GET<[String: Any], Any>("/status/200")
         
         // When
         get
-            .validate(identifier: vali1.0, validation: vali1.1)
+            .validate(identifier: vali0.0, validation: vali0.1)
             .request(nil) { resp in
             response = resp
             respFilfill.fulfill()
         }
         
-        test.wait(for: [vali0Filfill, vali1Filfill, respFilfill], timeout: 60)
+        test.wait(for: [vali0Filfill, respFilfill], timeout: 60)
         
         // Then
         XCTAssertNotNil(response)
-        XCTAssert(response?.response?.statusCode == 400)
+        XCTAssert(response?.response?.statusCode == 200)
     }
     
     func headers(test: XCTestCase) {
