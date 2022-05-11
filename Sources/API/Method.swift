@@ -7,7 +7,7 @@ import Alamofire
 
 // MARK: - Method
 public protocol Method: API {
-        
+    
     init(_ path: @escaping @autoclosure Compute<String>)
     
     init(url: @escaping @autoclosure Compute<String>)
@@ -18,7 +18,7 @@ public protocol Method: API {
 public struct GET<Parameters, Returns>: Method {
     
     public let modifier: AnyModifier
-
+    
     public init(_ path: @escaping @autoclosure Compute<String>) {
         let modifier = AnyModifier(DataRequestModifier.HTTPMethod(method: .get),
                                    DataRequestModifier.InitialURL(path: path))
@@ -40,7 +40,7 @@ public struct GET<Parameters, Returns>: Method {
 public struct POST<Parameters, Returns>: Method {
     
     public let modifier: AnyModifier
-
+    
     public init(_ path: @escaping @autoclosure Compute<String>) {
         let modifier = AnyModifier(DataRequestModifier.HTTPMethod(method: .post),
                                    DataRequestModifier.InitialURL(path: path))
@@ -62,7 +62,7 @@ public struct POST<Parameters, Returns>: Method {
 public struct PUT<Parameters, Returns>: Method {
     
     public let modifier: AnyModifier
-
+    
     public init(_ path: @escaping @autoclosure Compute<String>) {
         let modifier = AnyModifier(DataRequestModifier.HTTPMethod(method: .put),
                                    DataRequestModifier.InitialURL(path: path))
@@ -84,7 +84,7 @@ public struct PUT<Parameters, Returns>: Method {
 public struct PATCH<Parameters, Returns>: Method {
     
     public let modifier: AnyModifier
-
+    
     public init(_ path: @escaping @autoclosure Compute<String>) {
         let modifier = AnyModifier(DataRequestModifier.HTTPMethod(method: .patch),
                                    DataRequestModifier.InitialURL(path: path))
@@ -104,9 +104,9 @@ public struct PATCH<Parameters, Returns>: Method {
 
 
 public struct DELETE<Parameters, Returns>: Method {
-
+    
     public let modifier: AnyModifier
-
+    
     public init(_ path: @escaping @autoclosure Compute<String>) {
         let modifier = AnyModifier(DataRequestModifier.HTTPMethod(method: .delete),
                                    DataRequestModifier.InitialURL(path: path))

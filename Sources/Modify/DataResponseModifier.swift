@@ -91,9 +91,9 @@ public enum DataResponseModifier {
         }
         
         public func modify(context: ModifyContext) {
-            context.dataResponse.serializeData.dataPreprocessor._value = self._serializer.dataPreprocessor
-            context.dataResponse.serializeData.emptyResponseCodes._value = self._serializer.emptyResponseCodes
-            context.dataResponse.serializeData.emptyRequestMethods._value = self._serializer.emptyRequestMethods
+            context.dataResponse.serializeData.dataPreprocessor = self._serializer.dataPreprocessor
+            context.dataResponse.serializeData.emptyResponseCodes = self._serializer.emptyResponseCodes
+            context.dataResponse.serializeData.emptyRequestMethods = self._serializer.emptyRequestMethods
         }
         
         let _serializer: Alamofire.DataResponseSerializer
@@ -107,16 +107,17 @@ public enum DataResponseModifier {
         }
         
         public func modify(context: ModifyContext) {
-            context.dataResponse.serializeString.dataPreprocessor._value = self._serializer.dataPreprocessor
-            context.dataResponse.serializeString.encoding._value = self._serializer.encoding
-            context.dataResponse.serializeString.emptyResponseCodes._value = self._serializer.emptyResponseCodes
-            context.dataResponse.serializeString.emptyRequestMethods._value = self._serializer.emptyRequestMethods
+            context.dataResponse.serializeString.dataPreprocessor = self._serializer.dataPreprocessor
+            context.dataResponse.serializeString.encoding = self._serializer.encoding
+            context.dataResponse.serializeString.emptyResponseCodes = self._serializer.emptyResponseCodes
+            context.dataResponse.serializeString.emptyRequestMethods = self._serializer.emptyRequestMethods
         }
         
         let _serializer: Alamofire.StringResponseSerializer
     }
     
     /// SerializeJSON
+    @available(*, deprecated, message: "JSONResponseSerializer deprecated and will be removed in Alamofire 6. Use DecodableResponseSerializer instead.")
     public struct SerializeJSON: Modifier {
         
         public init(_ serializer: Alamofire.JSONResponseSerializer) {
@@ -124,10 +125,10 @@ public enum DataResponseModifier {
         }
         
         public func modify(context: ModifyContext) {
-            context.dataResponse.serializeJSON.dataPreprocessor._value = self._serializer.dataPreprocessor
-            context.dataResponse.serializeJSON.emptyResponseCodes._value = self._serializer.emptyResponseCodes
-            context.dataResponse.serializeJSON.emptyRequestMethods._value = self._serializer.emptyRequestMethods
-            context.dataResponse.serializeJSON.options._value = self._serializer.options
+            context.dataResponse.serializeJSON.dataPreprocessor = self._serializer.dataPreprocessor
+            context.dataResponse.serializeJSON.emptyResponseCodes = self._serializer.emptyResponseCodes
+            context.dataResponse.serializeJSON.emptyRequestMethods = self._serializer.emptyRequestMethods
+            context.dataResponse.serializeJSON.options = self._serializer.options
         }
         
         let _serializer: Alamofire.JSONResponseSerializer
@@ -142,10 +143,10 @@ public enum DataResponseModifier {
         }
         
         public func modify(context: ModifyContext) {
-            context.dataResponse.serializeDecodable.dataPreprocessor._value = self._serializer.dataPreprocessor
-            context.dataResponse.serializeDecodable.decoder._value = self._serializer.decoder
-            context.dataResponse.serializeDecodable.emptyResponseCodes._value = self._serializer.emptyResponseCodes
-            context.dataResponse.serializeDecodable.emptyRequestMethods._value = self._serializer.emptyRequestMethods
+            context.dataResponse.serializeDecodable.dataPreprocessor = self._serializer.dataPreprocessor
+            context.dataResponse.serializeDecodable.decoder = self._serializer.decoder
+            context.dataResponse.serializeDecodable.emptyResponseCodes = self._serializer.emptyResponseCodes
+            context.dataResponse.serializeDecodable.emptyRequestMethods = self._serializer.emptyRequestMethods
         }
         
         let _serializer: Alamofire.DecodableResponseSerializer<T>

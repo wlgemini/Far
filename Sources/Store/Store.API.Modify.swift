@@ -14,13 +14,13 @@ extension Store.API {
         let requestLocation: _Location
         
         // DataRequest
-        let dataRequest = Store.API.Modify._DataRequest()
+        var dataRequest = Store.API.Modify._DataRequest()
         
         // DataResponse
-        let dataResponse = Store.API.Modify._DataResponse()
+        var dataResponse = Store.API.Modify._DataResponse()
         
         // Accessing
-        let accessing = Store.API.Modify._Accessing()
+        var accessing = Store.API.Modify._Accessing()
         
         /// init
         init(requestLocation: _Location) {
@@ -34,10 +34,10 @@ extension Store.API.Modify {
     
     // MARK: DataRequest
     /// _DataRequest
-    final class _DataRequest {
+    struct _DataRequest {
         
         // API
-        let api = Store.API.Modify._API()
+        var api = Store.API.Modify._API()
         
         // Headers
         var headers: Alamofire.HTTPHeaders = Alamofire.HTTPHeaders()
@@ -59,7 +59,7 @@ extension Store.API.Modify {
     
     // MARK: DataResponse
     /// _DataResponse
-    final class _DataResponse {
+    struct _DataResponse {
                 
         // Validate DataResponse
         var acceptableStatusCodes: Range<Int>?
@@ -82,7 +82,7 @@ extension Store.API.Modify {
     
     // MARK: Accessing
     /// _Accessing
-    final class _Accessing {
+    struct _Accessing {
         
         var onRequestAvailable: Available<Alamofire.Request>?
     }
@@ -90,7 +90,7 @@ extension Store.API.Modify {
     
     // MARK: DataRequest.API
     /// _API
-    final class _API {
+    struct _API {
         
         // Method
         var method: Alamofire.HTTPMethod?
@@ -107,115 +107,103 @@ extension Store.API.Modify {
     
     // MARK: - DataRequest.Encoder/Encoding
     /// _Encoder
-    final class _Encoder {
+    struct _Encoder {
         
         /// for `get` encoder. default: `Alamofire.URLEncodedFormParameterEncoder.default`
-        var get = Setter.Copy.Nillable<Alamofire.ParameterEncoder>()
+        var get: Alamofire.ParameterEncoder?
         
         /// for `delete` encoder. default: `Alamofire.URLEncodedFormParameterEncoder.default`
-        var delete = Setter.Copy.Nillable<Alamofire.ParameterEncoder>()
+        var delete: Alamofire.ParameterEncoder?
         
         /// for `patch` encoder. default: `Alamofire.JSONParameterEncoder.default`
-        var patch = Setter.Copy.Nillable<Alamofire.ParameterEncoder>()
+        var patch: Alamofire.ParameterEncoder?
         
         /// for `post` encoder. default: `Alamofire.JSONParameterEncoder.default`
-        var post = Setter.Copy.Nillable<Alamofire.ParameterEncoder>()
+        var post: Alamofire.ParameterEncoder?
         
         /// for `put` encoder. default: `Alamofire.JSONParameterEncoder.default`
-        var put = Setter.Copy.Nillable<Alamofire.ParameterEncoder>()
-        
-        init() { }
+        var put: Alamofire.ParameterEncoder?
     }
     
     /// _Encoding
-    final class _Encoding {
+    struct _Encoding {
         
         /// for `get` encoding. default: `Alamofire.URLEncoding.default`
-        var get = Setter.Copy.Nillable<Alamofire.ParameterEncoding>()
+        var get: Alamofire.ParameterEncoding?
         
         /// for `delete` encoding. default: `Alamofire.URLEncoding.default`
-        var delete = Setter.Copy.Nillable<Alamofire.ParameterEncoding>()
+        var delete: Alamofire.ParameterEncoding?
         
         /// for `patch` encoding. default: `Alamofire.JSONEncoding.default`
-        var patch = Setter.Copy.Nillable<Alamofire.ParameterEncoding>()
+        var patch: Alamofire.ParameterEncoding?
         
         /// for `post` encoding. default: `Alamofire.JSONEncoding.default`
-        var post = Setter.Copy.Nillable<Alamofire.ParameterEncoding>()
+        var post: Alamofire.ParameterEncoding?
         
         /// for `put` encoding. default: `Alamofire.JSONEncoding.default`
-        var put = Setter.Copy.Nillable<Alamofire.ParameterEncoding>()
-        
-        init() { }
+        var put: Alamofire.ParameterEncoding?
     }
     
     
     // MARK: - DataResponse.Serializer
     /// _SerializeData
-    final class _SerializeData {
+    struct _SerializeData {
         
         /// default `Alamofire.DataResponseSerializer.defaultDataPreprocessor`
-        public var dataPreprocessor = Setter.Copy.Nillable<Alamofire.DataPreprocessor>()
+        var dataPreprocessor: Alamofire.DataPreprocessor?
         
         /// default `Alamofire.DataResponseSerializer.defaultEmptyResponseCodes`
-        public var emptyResponseCodes = Setter.Copy.Nillable<Set<Int>>()
+        var emptyResponseCodes: Set<Int>?
         
         /// default `Alamofire.DataResponseSerializer.defaultEmptyRequestMethods`
-        public var emptyRequestMethods = Setter.Copy.Nillable<Set<Alamofire.HTTPMethod>>()
-        
-        init() { }
+        var emptyRequestMethods: Set<Alamofire.HTTPMethod>?
     }
     
     /// _SerializeString
-    final class _SerializeString {
+    struct _SerializeString {
         
         /// default `Alamofire.StringResponseSerializer.defaultDataPreprocessor`
-        public var dataPreprocessor = Setter.Copy.Nillable<Alamofire.DataPreprocessor>()
+        var dataPreprocessor: Alamofire.DataPreprocessor?
         
         /// default `nil`
-        public var encoding = Setter.Copy.Nillable<String.Encoding>()
+        var encoding: String.Encoding?
         
         /// default `Alamofire.StringResponseSerializer.defaultEmptyResponseCodes`
-        public var emptyResponseCodes = Setter.Copy.Nillable<Set<Int>>()
+        var emptyResponseCodes: Set<Int>?
         
         /// default `Alamofire.StringResponseSerializer.defaultEmptyRequestMethods`
-        public var emptyRequestMethods = Setter.Copy.Nillable<Set<Alamofire.HTTPMethod>>()
-        
-        init() { }
+        var emptyRequestMethods: Set<Alamofire.HTTPMethod>?
     }
     
     /// _SerializeJSON
-    final class _SerializeJSON {
+    struct _SerializeJSON {
         
         /// default `Alamofire.JSONResponseSerializer.defaultDataPreprocessor`
-        public var dataPreprocessor = Setter.Copy.Nillable<Alamofire.DataPreprocessor>()
+        var dataPreprocessor: Alamofire.DataPreprocessor?
         
         /// default `Alamofire.JSONResponseSerializer.defaultEmptyResponseCodes`
-        public var emptyResponseCodes = Setter.Copy.Nillable<Set<Int>>()
+        var emptyResponseCodes: Set<Int>?
         
         /// default `Alamofire.JSONResponseSerializer.defaultEmptyRequestMethods`
-        public var emptyRequestMethods = Setter.Copy.Nillable<Set<Alamofire.HTTPMethod>>()
+        var emptyRequestMethods: Set<Alamofire.HTTPMethod>?
         
         /// default `.allowFragments`
-        public var options = Setter.Copy.Nillable<JSONSerialization.ReadingOptions>()
-        
-        init() { }
+        var options: JSONSerialization.ReadingOptions?
     }
     
     /// _SerializeDecodable
-    final class _SerializeDecodable {
+    struct _SerializeDecodable {
         
         /// default `Alamofire.DecodableResponseSerializer<API.R>.defaultDataPreprocessor`
-        public var dataPreprocessor = Setter.Copy.Nillable<Alamofire.DataPreprocessor>()
+        var dataPreprocessor: Alamofire.DataPreprocessor?
         
         /// default `JSONDecoder`
-        public var decoder = Setter.Copy.Nillable<Alamofire.DataDecoder>()
+        var decoder: Alamofire.DataDecoder?
         
         /// default `Alamofire.DecodableResponseSerializer<API.R>.defaultEmptyResponseCodes`
-        public var emptyResponseCodes = Setter.Copy.Nillable<Set<Int>>()
+        var emptyResponseCodes: Set<Int>?
         
         /// default `Alamofire.DecodableResponseSerializer<API.R>.defaultEmptyRequestMethods`
-        public var emptyRequestMethods = Setter.Copy.Nillable<Set<Alamofire.HTTPMethod>>()
-        
-        init() { }
+        var emptyRequestMethods: Set<Alamofire.HTTPMethod>?
     }
 }

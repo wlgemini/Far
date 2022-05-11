@@ -37,6 +37,7 @@ public extension API {
     }
     
     // MARK: Parameters == [String: Any], Returns == Any
+    @available(*, deprecated, message: "JSONResponseSerializer deprecated and will be removed in Alamofire 6. Use DecodableResponseSerializer instead.")
     func request(_ parameters: Parameters?,
                  completion: @escaping (Alamofire.AFDataResponse<Returns>) -> Void,
                  file: String = #fileID,
@@ -93,6 +94,7 @@ public extension API {
     }
     
     // MARK: Parameters == Encodable, Returns == Any
+    @available(*, deprecated, message: "JSONResponseSerializer deprecated and will be removed in Alamofire 6. Use DecodableResponseSerializer instead.")
     func request(_ parameters: Parameters?,
                  completion: @escaping (Alamofire.AFDataResponse<Returns>) -> Void,
                  file: String = #fileID,
@@ -140,13 +142,13 @@ extension API {
         let headers = context._headers()
         let encoding = context._encoding()
         let requestModifier = context._urlRequestModifier()
-        return Store._sessionRaw.request(url,
-                                         method: method,
-                                         parameters: parameters,
-                                         encoding: encoding,
-                                         headers: headers,
-                                         interceptor: nil,
-                                         requestModifier: requestModifier)
+        return Far._sessionFinalized.request(url,
+                                             method: method,
+                                             parameters: parameters,
+                                             encoding: encoding,
+                                             headers: headers,
+                                             interceptor: nil,
+                                             requestModifier: requestModifier)
     }
     
     /// request encodable
@@ -157,13 +159,13 @@ extension API {
         let headers = context._headers()
         let encoder = context._encoder()
         let requestModifier = context._urlRequestModifier()
-        return Store._sessionRaw.request(url,
-                                         method: method,
-                                         parameters: parameters,
-                                         encoder: encoder,
-                                         headers: headers,
-                                         interceptor: nil,
-                                         requestModifier: requestModifier)
+        return Far._sessionFinalized.request(url,
+                                             method: method,
+                                             parameters: parameters,
+                                             encoder: encoder,
+                                             headers: headers,
+                                             interceptor: nil,
+                                             requestModifier: requestModifier)
     }
     
     /// request modify
@@ -239,6 +241,7 @@ extension API {
     }
     
     /// response json
+    @available(*, deprecated, message: "JSONResponseSerializer deprecated and will be removed in Alamofire 6. Use DecodableResponseSerializer instead.")
     func _response(request: Alamofire.DataRequest,
                    context: ModifyContext,
                    completion: @escaping (Alamofire.AFDataResponse<Returns>) -> Void)
