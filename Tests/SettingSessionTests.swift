@@ -28,36 +28,36 @@ class SettingSessionTests {
         XCTAssert(Far._isSessionFinalized == false, "session finalized")
         
         // session finalize
-        let _ = Far._session
+        let session = Far.sessionFinalize()
         
         // session finalized
         XCTAssert(Far._isSessionFinalized == true, "session not finalized")
         
         // URLSessionConfiguration.af.default
-        for header in Far._session.sessionConfiguration.headers {
+        for header in session.sessionConfiguration.headers {
             XCTAssert(Far.session.configuration.value.headers.contains(header), "configuration.header not match")
         }
         
         // requestQueue
-        XCTAssert(Far._session.requestQueue.label == Far.session.requestQueue.value?.label, "requestQueue not equal")
+        XCTAssert(session.requestQueue.label == Far.session.requestQueue.value?.label, "requestQueue not equal")
         
         // serializationQueue
-        XCTAssert(Far._session.serializationQueue.label == Far.session.serializationQueue.value?.label, "serializationQueue not equal")
+        XCTAssert(session.serializationQueue.label == Far.session.serializationQueue.value?.label, "serializationQueue not equal")
         
         // interceptor
-        XCTAssert(Far._session.interceptor != nil && Far.session.interceptor.value != nil, "interceptor is nil")
+        XCTAssert(session.interceptor != nil && Far.session.interceptor.value != nil, "interceptor is nil")
         
         // serverTrustManager
-        XCTAssert(Far._session.serverTrustManager === Far.session.serverTrustManager.value, "serverTrustManager not equal")
+        XCTAssert(session.serverTrustManager === Far.session.serverTrustManager.value, "serverTrustManager not equal")
         
         // redirectHandler
-        XCTAssert(Far._session.redirectHandler != nil && Far.session.redirectHandler.value != nil, "redirectHandler is nil")
+        XCTAssert(session.redirectHandler != nil && Far.session.redirectHandler.value != nil, "redirectHandler is nil")
         
         // cachedResponseHandler
-        XCTAssert(Far._session.cachedResponseHandler != nil && Far.session.redirectHandler.value != nil, "cachedResponseHandler is nil")
+        XCTAssert(session.cachedResponseHandler != nil && Far.session.redirectHandler.value != nil, "cachedResponseHandler is nil")
         
         // eventMonitors
-        let isMonitorsEqual = Far._session.eventMonitor.monitors.count == Far._session.defaultEventMonitors.count + (Far.session.eventMonitors.value?.count ?? 0)
+        let isMonitorsEqual = session.eventMonitor.monitors.count == session.defaultEventMonitors.count + (Far.session.eventMonitors.value?.count ?? 0)
         XCTAssert(isMonitorsEqual, "eventMonitors not equal")
     }
 }

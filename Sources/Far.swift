@@ -14,6 +14,11 @@ public enum Far {}
 extension Far {
     
     public static let session = Settings.Session()
+    
+    @discardableResult
+    public static func sessionFinalize() -> Alamofire.Session {
+        Self._session
+    }
 }
 
 
