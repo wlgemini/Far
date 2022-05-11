@@ -32,7 +32,7 @@ where A: API {
         self._modifiedAPI
     }
     
-    public var projectedValue: APIWrapper<A> {
+    public var projectedValue: AccessingRequest<A> {
         self
     }
     

@@ -20,7 +20,7 @@ extension Far {
 // MARK: API Default
 extension Far {
     
-    public static var apiDefault: Settings.API.Default {
+    public static var `default`: Settings.API.Default {
         Self._default
     }
 }
