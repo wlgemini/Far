@@ -4,14 +4,14 @@
 
 import XCTest
 @testable import Alamofire
-@testable import Far
+import Far
 
 
 class SettingSessionTests {
     
     func sessionSetting() {
         // session not finalized
-        XCTAssert(Far._isSessionFinalized == false, "session finalized")
+        XCTAssert(Far.isSessionFinalized == false, "session finalized")
         
         Far.session.configuration(URLSessionConfiguration.af.default)
         Far.session.requestQueue(DispatchQueue(label: "requestQueue"))
@@ -25,13 +25,13 @@ class SettingSessionTests {
     
     func sessionInit() {
         // session not finalized
-        XCTAssert(Far._isSessionFinalized == false, "session finalized")
+        XCTAssert(Far.isSessionFinalized == false, "session finalized")
         
         // session finalize
         let session = Far.sessionFinalize()
         
         // session finalized
-        XCTAssert(Far._isSessionFinalized == true, "session not finalized")
+        XCTAssert(Far.isSessionFinalized == true, "session not finalized")
         
         // URLSessionConfiguration.af.default
         for header in session.sessionConfiguration.headers {

@@ -6,7 +6,7 @@
 
 import XCTest
 @testable import Alamofire
-@testable import Far
+import Far
 
 
 class DataRequestTests {
@@ -15,8 +15,8 @@ class DataRequestTests {
         // Given
         Far.default.dataRequest.base("https://httpbin.org")
         let expectation = XCTestExpectation(description: "")
-        var response: DataResponse<Any, AFError>?
-        let post = POST<[String: Any], Any>("/post")
+        var response: DataResponse<Data, AFError>?
+        let post = POST<[String: Any], Data>("/post")
 
         
         // When
@@ -77,8 +77,8 @@ class DataRequestTests {
         )
         
         let respFilfill = XCTestExpectation(description: "")
-        var response: DataResponse<Any, AFError>?
-        let get = GET<[String: Any], Any>("/status/200")
+        var response: DataResponse<Data, AFError>?
+        let get = GET<[String: Any], Data>("/status/200")
         
         // When
         get

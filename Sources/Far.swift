@@ -15,6 +15,10 @@ extension Far {
     
     public static let session = Settings.Session()
     
+    public static var isSessionFinalized: Bool {
+        self._isSessionFinalized
+    }
+    
     @discardableResult
     public static func sessionFinalize() -> Alamofire.Session {
         Self._session
