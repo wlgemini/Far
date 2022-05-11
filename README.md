@@ -98,7 +98,7 @@ let login = POST<Account, UserInfo>("login")
 let friends = POST<Page, [Friend]>("friends").timeoutInterval(2)
 ```
 
-### `0x11`, 增加配置项(可选), 并调用API:
+### `0x11`, 增加配置项(可选), 并请求API:
 
 ```swift
 let account = Account(name: "Jack", password: "*******")
