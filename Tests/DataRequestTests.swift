@@ -50,7 +50,7 @@ class DataRequestTests {
         
         // When
         get.authenticate(username: username, password: password).request(nil) { resp in
-            response = resp
+            response = resp.result
             expectation.fulfill()
         }
         
