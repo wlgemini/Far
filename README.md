@@ -51,13 +51,15 @@ friends.request(page) { response in
 
 并且, 根据*配置项*的影响范围，定义了不同的优先级:
 
-定义API时产生的*配置项* `>` 默认的API*配置项* `>` `Session`的*配置项*
+`定义API时产生的配置项 > 默认的API配置项 > Session的配置项`
 
 当不同层次中出现冲突的*配置项*时，优先使用高优先级的配置项
 
 ## 使用
 
-**`0x00`, 修改`Session`的配置项 (可选):**
+### `0x00`, 修改`Session`的配置项 (可选):
+
+`Session`都有默认值, 所以这一步是可选的
 
 ```swift
 // URLSessionConfiguration
@@ -69,11 +71,9 @@ Far.session.eventMonitors([Alamofire.ClosureEventMonitor()])
 ...
 ```
 
-`Session`都有默认值, 所以这一步是可选的
-
 > ⚠️: 在网络请求开始后, 对`Session`的设置将不再生效.
 
-**`0x01`, 修改默认`API`的配置项 (可选):** 
+### `0x01`, 修改默认`API`的配置项 (可选):
 
 ```swift
 // 设置base URL
@@ -88,7 +88,7 @@ Far.default.headers([
 ... 
 ```
 
-**`0x10`, 定义请求接口:**
+### `0x10`, 定义请求接口:
 
 ```swift
 // 定义login接口
@@ -98,7 +98,7 @@ let login = POST<Account, UserInfo>("login")
 let friends = POST<Page, [Friend]>("friends")
 ```
 
-**`ox11`, 给定义的API增加配置项 (可选):**
+### `0x11`, 给定义的API增加配置项 (可选):
 
 ```swift
 let account = Account(name: "Jack", password: "*******")
