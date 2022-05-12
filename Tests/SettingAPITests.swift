@@ -3,7 +3,7 @@
 //
 
 import XCTest
-@testable import Alamofire
+import Alamofire
 @testable import Far
 
 
@@ -108,7 +108,7 @@ class SettingAPITests {
             // URL = BaseURL + Path + AppendPath
             let BaseURL1 = "http://www.abc.com/"
             let AbsURL1 = BaseURL1 + Path + AppendPath0 + AppendPath1
-            Far.default.dataRequest.base(BaseURL1)
+            Far.api.dataRequest.base(BaseURL1)
             let api0 = GET<Bin, Bin>(Path).appendPath(AppendPath0).appendPath(AppendPath1)
             let url0 = api0._context(file: #fileID, line: #line)._url()
             XCTAssert(AbsURL1 == url0)
@@ -120,7 +120,7 @@ class SettingAPITests {
             XCTAssert(MockURL == url1)
             
             // Path + AppendPath
-            Far.default.dataRequest.base(nil)
+            Far.api.dataRequest.base(nil)
             let api2 = GET<Bin, Bin>(Path).appendPath(AppendPath0).appendPath(AppendPath1)
             let url2 = api2._context(file: #fileID, line: #line)._url()
             XCTAssert(nil == url2)
@@ -132,7 +132,7 @@ class SettingAPITests {
             XCTAssert(nil == url3)
             
             // Clear
-            Far.default.dataRequest.base(nil)
+            Far.api.dataRequest.base(nil)
         }
     }
     
@@ -272,11 +272,11 @@ class SettingAPITests {
         let redir0 = APIs.echoGet._context(file: #file, line: #line)._redirectHandler()
         XCTAssert(redir0 == nil)
         
-        Far.default.dataRequest.redirect(Alamofire.Redirector.doNotFollow)
+        Far.api.dataRequest.redirect(Alamofire.Redirector.doNotFollow)
         let redir1 = APIs.echoGet._context(file: #file, line: #line)._redirectHandler()
         XCTAssert(redir1 is Alamofire.Redirector)
         
-        Far.default.dataRequest.redirect(nil)
+        Far.api.dataRequest.redirect(nil)
         let redir2 = APIs.echoGet._context(file: #file, line: #line)._redirectHandler()
         XCTAssert(redir2 == nil)
         
@@ -284,7 +284,7 @@ class SettingAPITests {
         XCTAssert(redir3 is Alamofire.Redirector)
         
         // Clear
-        Far.default.dataRequest.redirect(nil)
+        Far.api.dataRequest.redirect(nil)
     }
     
     func responseModify() {
@@ -305,9 +305,9 @@ class SettingAPITests {
         XCTAssert(valid0.1 == nil) // nil
         XCTAssert(valid0.2.isEmpty == true) // empty
         
-        Far.default.dataResponse.acceptableStatusCodes(statusCode0)
-        Far.default.dataResponse.acceptableContentTypes(contentType0)
-        Far.default.dataResponse.validations(custom0)
+        Far.api.dataResponse.acceptableStatusCodes(statusCode0)
+        Far.api.dataResponse.acceptableContentTypes(contentType0)
+        Far.api.dataResponse.validations(custom0)
         let valid1 = APIs.echoGet._context(file: #file, line: #line)._validation()
         XCTAssert(valid1.0 == statusCode0)
         XCTAssert(valid1.1 == contentType0)
@@ -329,11 +329,11 @@ class SettingAPITests {
         let cacheResponse0 = APIs.echoGet._context(file: #file, line: #line)._cachedResponseHandler()
         XCTAssert(cacheResponse0 == nil)
         
-        Far.default.dataResponse.cachedResponseHandler(Alamofire.ResponseCacher.doNotCache)
+        Far.api.dataResponse.cachedResponseHandler(Alamofire.ResponseCacher.doNotCache)
         let cacheResponse1 = APIs.echoGet._context(file: #file, line: #line)._cachedResponseHandler()
         XCTAssert(cacheResponse1 is Alamofire.ResponseCacher)
         
-        Far.default.dataResponse.cachedResponseHandler(nil)
+        Far.api.dataResponse.cachedResponseHandler(nil)
         let cacheResponse2 = APIs.echoGet._context(file: #file, line: #line)._cachedResponseHandler()
         XCTAssert(cacheResponse2 == nil)
         
@@ -341,10 +341,10 @@ class SettingAPITests {
         XCTAssert(cacheResponse3 is Alamofire.ResponseCacher)
         
         // Clear
-        Far.default.dataResponse.acceptableStatusCodes(nil)
-        Far.default.dataResponse.acceptableContentTypes(nil)
-        Far.default.dataResponse.validations(nil)
-        Far.default.dataResponse.cachedResponseHandler(nil)
+        Far.api.dataResponse.acceptableStatusCodes(nil)
+        Far.api.dataResponse.acceptableContentTypes(nil)
+        Far.api.dataResponse.validations(nil)
+        Far.api.dataResponse.cachedResponseHandler(nil)
     }
     
     func responseQueue() {
@@ -354,20 +354,20 @@ class SettingAPITests {
         let queue0 = APIs.echoGet._context(file: #file, line: #line)._queue()
         XCTAssert(queue0 === mainQueue)
         
-        Far.default.dataResponse.queue(myQueue)
+        Far.api.dataResponse.queue(myQueue)
         let queue1 = APIs.echoGet._context(file: #file, line: #line)._queue()
         XCTAssert(queue1 === myQueue)
         
-        Far.default.dataResponse.queue(mainQueue)
+        Far.api.dataResponse.queue(mainQueue)
         let queue2 = APIs.echoGet.queue(myQueue)._context(file: #file, line: #line)._queue()
         XCTAssert(queue2 === myQueue)
         
-        Far.default.dataResponse.queue(myQueue)
+        Far.api.dataResponse.queue(myQueue)
         let queue3 = APIs.echoGet.queue(mainQueue)._context(file: #file, line: #line)._queue()
         XCTAssert(queue3 === mainQueue)
         
         // Clear
-        Far.default.dataResponse.queue(.main)
+        Far.api.dataResponse.queue(.main)
     }
     
     func responseDataResponseSerializer() {

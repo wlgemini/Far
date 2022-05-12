@@ -15,7 +15,6 @@ class AllTests: XCTestCase {
     
     func testALL() {
         // Session
-        settingSession.sessionSetting()
         settingSession.sessionInit()
         
         

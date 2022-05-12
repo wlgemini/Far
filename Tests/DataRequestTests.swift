@@ -5,7 +5,7 @@
 //
 
 import XCTest
-@testable import Alamofire
+import Alamofire
 import Far
 
 
@@ -13,7 +13,7 @@ class DataRequestTests {
     
     func method(test: XCTestCase) {
         // Given
-        Far.default.dataRequest.base("https://httpbin.org")
+        Far.api.dataRequest.base("https://httpbin.org")
         let expectation = XCTestExpectation(description: "")
         var response: DataResponse<Data, AFError>?
         let post = POST<[String: Any], Data>("/post")
@@ -40,7 +40,7 @@ class DataRequestTests {
             var user: String
         }
         
-        Far.default.dataRequest.base("https://httpbin.org")
+        Far.api.dataRequest.base("https://httpbin.org")
         let expectation = XCTestExpectation(description: "")
         var response: DataResponse<Auth, AFError>?
         let username = "some_user"
@@ -50,7 +50,7 @@ class DataRequestTests {
         
         // When
         get.authenticate(username: username, password: password).request(nil) { resp in
-            response = resp.result
+            response = resp
             expectation.fulfill()
         }
         
@@ -66,7 +66,7 @@ class DataRequestTests {
     
     func statusCodes(test: XCTestCase) {
         // Given
-        Far.default.dataRequest.base("https://httpbin.org")
+        Far.api.dataRequest.base("https://httpbin.org")
         
         let vali0Filfill = XCTestExpectation(description: "")
         let vali0: (String, Alamofire.DataRequest.Validation) = (
@@ -106,7 +106,7 @@ class DataRequestTests {
             let headers: Headers
         }
         
-        Far.default.dataRequest.base("https://httpbin.org")
+        Far.api.dataRequest.base("https://httpbin.org")
         let expectation = XCTestExpectation(description: "")
         var response: DataResponse<Body, AFError>?
         let get = GET<[String: Any], Body>("/headers")
@@ -143,7 +143,7 @@ class DataRequestTests {
             let args: [String: String]
         }
         
-        Far.default.dataRequest.base("https://httpbin.org")
+        Far.api.dataRequest.base("https://httpbin.org")
         let expectation = XCTestExpectation(description: "")
         var response: DataResponse<HTTPBinResponse, AFError>?
         let post = POST<Params, HTTPBinResponse>("/anything")

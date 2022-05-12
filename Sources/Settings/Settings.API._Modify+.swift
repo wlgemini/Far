@@ -1,5 +1,5 @@
 //
-//  Settings.API._Modify+Helper
+//  Settings.API._Modify+
 //
 
 import Foundation
@@ -34,7 +34,7 @@ extension Settings.API._Modify {
                 
             case .path(let pathURL):
                 // modify `base url` or setting `base url`
-                let anyBaseURL = self.dataRequest.api.base?() ?? Far._default.dataRequest.base._value()
+                let anyBaseURL = self.dataRequest.api.base?() ?? Far._api.dataRequest.base._value()
                 
                 if let baseURL = anyBaseURL {
                     anyFullURL = baseURL + pathURL()
@@ -64,7 +64,7 @@ extension Settings.API._Modify {
     // MARK: HTTPHeaders
     func _headers() -> Alamofire.HTTPHeaders {
         // combinedHeaders init from `Far._default.dataRequest.headers` or an empty headers
-        var combinedHeaders = Far._default.dataRequest.headers._value() ?? Alamofire.HTTPHeaders()
+        var combinedHeaders = Far._api.dataRequest.headers._value() ?? Alamofire.HTTPHeaders()
         
         // Context.dataRequest.headers override or appends to combinedHeaders
         for h in self.dataRequest.headers {
@@ -86,13 +86,13 @@ extension Settings.API._Modify {
             
             switch method {
                 // URLEncoding
-                case .get: return Far._default.dataRequest.encoding.get._value
-                case .delete: return Far._default.dataRequest.encoding.delete._value
+                case .get: return Far._api.dataRequest.encoding.get._value
+                case .delete: return Far._api.dataRequest.encoding.delete._value
                     
                 // JSONEncoding
-                case .patch: return Far._default.dataRequest.encoding.patch._value
-                case .post: return Far._default.dataRequest.encoding.post._value
-                case .put: return Far._default.dataRequest.encoding.put._value
+                case .patch: return Far._api.dataRequest.encoding.patch._value
+                case .post: return Far._api.dataRequest.encoding.post._value
+                case .put: return Far._api.dataRequest.encoding.put._value
                     
                 // default
                 default: return Alamofire.URLEncoding.default
@@ -112,13 +112,13 @@ extension Settings.API._Modify {
             
             switch method {
                 // URLEncodedFormParameterEncoder
-                case .get: return Far._default.dataRequest.encoder.get._value
-                case .delete: return Far._default.dataRequest.encoder.delete._value
+                case .get: return Far._api.dataRequest.encoder.get._value
+                case .delete: return Far._api.dataRequest.encoder.delete._value
                     
                 // JSONEncoding
-                case .patch: return Far._default.dataRequest.encoder.patch._value
-                case .post: return Far._default.dataRequest.encoder.post._value
-                case .put: return Far._default.dataRequest.encoder.put._value
+                case .patch: return Far._api.dataRequest.encoder.patch._value
+                case .post: return Far._api.dataRequest.encoder.post._value
+                case .put: return Far._api.dataRequest.encoder.put._value
                     
                 // default
                 default: return Alamofire.URLEncodedFormParameterEncoder.default
@@ -143,7 +143,7 @@ extension Settings.API._Modify {
     
     // MARK: Redirect
     func _redirectHandler() -> Alamofire.RedirectHandler? {
-        self.dataRequest.redirectHandler ?? Far._default.dataRequest.redirect._value
+        self.dataRequest.redirectHandler ?? Far._api.dataRequest.redirect._value
     }
 }
 
@@ -154,36 +154,36 @@ extension Settings.API._Modify {
     // MARK: Validate DataResponse
     func _validation() -> (Range<Int>?, [String]?, [String : DataRequest.Validation]) {
         let acceptableStatusCodes = self.dataResponse.acceptableStatusCodes ??
-        Far._default.dataResponse.acceptableStatusCodes._value
+        Far._api.dataResponse.acceptableStatusCodes._value
         
         let acceptableContentTypes = self.dataResponse.acceptableContentTypes?() ??
-        Far._default.dataResponse.acceptableContentTypes._value
+        Far._api.dataResponse.acceptableContentTypes._value
         
-        let validations = self.dataResponse.validations.merging(Far._default.dataResponse.validations._value ?? [:], uniquingKeysWith: { (current, _) in current }) /* merging using Store.API.Modify value */
+        let validations = self.dataResponse.validations.merging(Far._api.dataResponse.validations._value ?? [:], uniquingKeysWith: { (current, _) in current }) /* merging using Store.API.Modify value */
         
         return (acceptableStatusCodes, acceptableContentTypes, validations)
     }
     
     // MARK: Cache DataResponse
     func _cachedResponseHandler() -> Alamofire.CachedResponseHandler? {
-        self.dataResponse.cachedResponseHandler ?? Far._default.dataResponse.cachedResponseHandler._value
+        self.dataResponse.cachedResponseHandler ?? Far._api.dataResponse.cachedResponseHandler._value
     }
     
     // MARK: DispatchQueue
     func _queue() -> DispatchQueue {
-        self.dataResponse.queue ?? Far._default.dataResponse.queue._value
+        self.dataResponse.queue ?? Far._api.dataResponse.queue._value
     }
     
     // MARK: Serialize DataResponse
     func _dataResponseSerializer() -> Alamofire.DataResponseSerializer {
         let dataPreprocessor = self.dataResponse.serializeData.dataPreprocessor ??
-        Far._default.dataResponse.serializeData.dataPreprocessor._value
+        Far._api.dataResponse.serializeData.dataPreprocessor._value
         
         let emptyResponseCodes = self.dataResponse.serializeData.emptyResponseCodes ??
-        Far._default.dataResponse.serializeData.emptyResponseCodes._value
+        Far._api.dataResponse.serializeData.emptyResponseCodes._value
         
         let emptyRequestMethods = self.dataResponse.serializeData.emptyRequestMethods ??
-        Far._default.dataResponse.serializeData.emptyRequestMethods._value
+        Far._api.dataResponse.serializeData.emptyRequestMethods._value
         
         return Alamofire.DataResponseSerializer(dataPreprocessor: dataPreprocessor,
                                                 emptyResponseCodes: emptyResponseCodes,
@@ -192,16 +192,16 @@ extension Settings.API._Modify {
     
     func _stringResponseSerializer() -> Alamofire.StringResponseSerializer {
         let dataPreprocessor = self.dataResponse.serializeString.dataPreprocessor ??
-        Far._default.dataResponse.serializeString.dataPreprocessor._value
+        Far._api.dataResponse.serializeString.dataPreprocessor._value
         
         let encoding = self.dataResponse.serializeString.encoding ??
-        Far._default.dataResponse.serializeString.encoding._value
+        Far._api.dataResponse.serializeString.encoding._value
         
         let emptyResponseCodes = self.dataResponse.serializeString.emptyResponseCodes ??
-        Far._default.dataResponse.serializeString.emptyResponseCodes._value
+        Far._api.dataResponse.serializeString.emptyResponseCodes._value
         
         let emptyRequestMethods = self.dataResponse.serializeString.emptyRequestMethods ??
-        Far._default.dataResponse.serializeString.emptyRequestMethods._value
+        Far._api.dataResponse.serializeString.emptyRequestMethods._value
         
         return Alamofire.StringResponseSerializer(dataPreprocessor: dataPreprocessor,
                                                   encoding: encoding,
@@ -212,16 +212,16 @@ extension Settings.API._Modify {
     @available(*, deprecated, message: "JSONResponseSerializer deprecated and will be removed in Alamofire 6. Use DecodableResponseSerializer instead.")
     func _jsonResponseSerializer() -> Alamofire.JSONResponseSerializer {
         let dataPreprocessor = self.dataResponse.serializeJSON.dataPreprocessor ??
-        Far._default.dataResponse.serializeJSON.dataPreprocessor._value
+        Far._api.dataResponse.serializeJSON.dataPreprocessor._value
         
         let emptyResponseCodes = self.dataResponse.serializeJSON.emptyResponseCodes ??
-        Far._default.dataResponse.serializeJSON.emptyResponseCodes._value
+        Far._api.dataResponse.serializeJSON.emptyResponseCodes._value
         
         let emptyRequestMethods = self.dataResponse.serializeJSON.emptyRequestMethods ??
-        Far._default.dataResponse.serializeJSON.emptyRequestMethods._value
+        Far._api.dataResponse.serializeJSON.emptyRequestMethods._value
         
         let options = self.dataResponse.serializeJSON.options ??
-        Far._default.dataResponse.serializeJSON.options._value
+        Far._api.dataResponse.serializeJSON.options._value
         
         return Alamofire.JSONResponseSerializer(dataPreprocessor: dataPreprocessor,
                                                 emptyResponseCodes: emptyResponseCodes,
@@ -232,19 +232,19 @@ extension Settings.API._Modify {
     func _decodableResponseSerializer<R>() -> Alamofire.DecodableResponseSerializer<R>
     where R: Decodable {
         let dataPreprocessor = self.dataResponse.serializeDecodable.dataPreprocessor ??
-        Far._default.dataResponse.serializeDecodable.dataPreprocessor._value ??
+        Far._api.dataResponse.serializeDecodable.dataPreprocessor._value ??
         Alamofire.DecodableResponseSerializer<R>.defaultDataPreprocessor
         
         let decoder = self.dataResponse.serializeDecodable.decoder ??
-        Far._default.dataResponse.serializeDecodable.decoder._value ??
+        Far._api.dataResponse.serializeDecodable.decoder._value ??
         JSONDecoder()
         
         let emptyResponseCodes = self.dataResponse.serializeDecodable.emptyResponseCodes ??
-        Far._default.dataResponse.serializeDecodable.emptyResponseCodes._value ??
+        Far._api.dataResponse.serializeDecodable.emptyResponseCodes._value ??
         Alamofire.DecodableResponseSerializer<R>.defaultEmptyResponseCodes
         
         let emptyRequestMethods = self.dataResponse.serializeDecodable.emptyRequestMethods ??
-        Far._default.dataResponse.serializeDecodable.emptyRequestMethods._value ??
+        Far._api.dataResponse.serializeDecodable.emptyRequestMethods._value ??
         Alamofire.DecodableResponseSerializer<R>.defaultEmptyRequestMethods
         
         return Alamofire.DecodableResponseSerializer(dataPreprocessor: dataPreprocessor,

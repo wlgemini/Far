@@ -13,7 +13,23 @@ public enum Far {}
 // MARK: Session
 extension Far {
     
-    public static let session = Settings.Session()
+    public static var session: Alamofire.Session? {
+        get {
+            if Self._isSessionFinalized {
+                return Self._sessionFinalized
+            } else {
+                return Self._session
+            }
+        }
+        
+        set {
+            if Self._isSessionFinalized {
+                return
+            } else {
+                Self._session = newValue
+            }
+        }
+    }
     
     public static var isSessionFinalized: Bool {
         self._isSessionFinalized
@@ -21,7 +37,7 @@ extension Far {
     
     @discardableResult
     public static func sessionFinalize() -> Alamofire.Session {
-        Self._session
+        Self._sessionFinalized
     }
 }
 
@@ -29,8 +45,8 @@ extension Far {
 // MARK: API Default
 extension Far {
     
-    public static var `default`: Settings.API.Default {
-        Self._default
+    public static var api: Settings.API.Default {
+        Self._api
     }
 }
 
@@ -40,24 +56,16 @@ extension Far {
     
     static var _isSessionFinalized: Bool = false
     
-    static let _session: Alamofire.Session = {
+    static var _session: Alamofire.Session?
+    
+    static let _sessionFinalized: Alamofire.Session = {
         Self._isSessionFinalized = true
-        return Alamofire.Session(configuration: Self.session.configuration._value,
-                                 delegate: Self.session.delegate._value,
-                                 rootQueue: Self.session.rootQueue._value,
-                                 startRequestsImmediately: Self.session.startRequestsImmediately._value,
-                                 requestQueue: Self.session.requestQueue._value,
-                                 serializationQueue: Self.session.serializationQueue._value,
-                                 interceptor: Self.session.interceptor._value,
-                                 serverTrustManager: Self.session.serverTrustManager._value,
-                                 redirectHandler: Self.session.redirectHandler._value,
-                                 cachedResponseHandler: Self.session.cachedResponseHandler._value,
-                                 eventMonitors: Self.session.eventMonitors._value ?? [])
+        return Self._session ?? Alamofire.Session()
     }()
 }
 
 
 extension Far {
     
-    static let _default = Settings.API.Default()
+    static let _api = Settings.API.Default()
 }

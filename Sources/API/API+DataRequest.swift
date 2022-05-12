@@ -142,13 +142,13 @@ extension API {
         let headers = context._headers()
         let encoding = context._encoding()
         let requestModifier = context._urlRequestModifier()
-        return Far._session.request(url,
-                                    method: method,
-                                    parameters: parameters,
-                                    encoding: encoding,
-                                    headers: headers,
-                                    interceptor: nil,
-                                    requestModifier: requestModifier)
+        return Far._sessionFinalized.request(url,
+                                             method: method,
+                                             parameters: parameters,
+                                             encoding: encoding,
+                                             headers: headers,
+                                             interceptor: nil,
+                                             requestModifier: requestModifier)
     }
     
     /// request encodable
@@ -159,13 +159,13 @@ extension API {
         let headers = context._headers()
         let encoder = context._encoder()
         let requestModifier = context._urlRequestModifier()
-        return Far._session.request(url,
-                                    method: method,
-                                    parameters: parameters,
-                                    encoder: encoder,
-                                    headers: headers,
-                                    interceptor: nil,
-                                    requestModifier: requestModifier)
+        return Far._sessionFinalized.request(url,
+                                             method: method,
+                                             parameters: parameters,
+                                             encoder: encoder,
+                                             headers: headers,
+                                             interceptor: nil,
+                                             requestModifier: requestModifier)
     }
     
     /// request modify
