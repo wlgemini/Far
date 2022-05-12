@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
 
   s.swift_versions = ['5.3', '5.4', '5.5', '5.6']
 
-  s.source_files = 'Source/**/*.swift'
+  s.source_files = 'Sources/**/*.swift'
 
   s.dependency 'Alamofire', '~> 5.6'
 end
