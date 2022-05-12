@@ -32,7 +32,7 @@ extension Far {
     }
     
     public static var isSessionFinalized: Bool {
-        self._isSessionFinalized
+        Self._isSessionFinalized
     }
     
     @discardableResult

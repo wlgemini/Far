@@ -12,7 +12,7 @@ dependencies: [
 ]
 ```
 
-## 简单上手
+## 快速上手
 
 ```swift
 import Far

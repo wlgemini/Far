@@ -1,5 +1,5 @@
 //
-//  InternalModifier.swift
+//  _InternalModifier.swift
 //  
 
 import Foundation
@@ -11,7 +11,7 @@ enum _InternalModifier {
     
     // MARK: - Accessing
     /// AccessingRequest
-    struct AccessingRequest: Modifier {
+    struct _AccessingRequest: Modifier {
         
         public func modify(context: ModifyContext) {
             context.accessing.onRequestAvailable = self._onRequestAvailable

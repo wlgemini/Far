@@ -1,8 +1,5 @@
 //
 //  AccessingRequest.swift
-//  
-//
-//  Created by wangluguang on 2022/5/11.
 //
 
 import Foundation
@@ -14,7 +11,7 @@ import Alamofire
 public final class AccessingRequest<A>
 where A: API {
     
-    /// Determine whether or not cancel to the underlaying request when self deinit
+    /// Determine whether or not to cancel the underlaying request when self deinit
     public var isCancelRequestWhenDeinit: Bool = true
     
     /// The underlaying request of current API
@@ -38,7 +35,7 @@ where A: API {
     
     let _api: A
     let _location: _Location
-    lazy var _modifiedAPI = self._api._modifier(_InternalModifier.AccessingRequest(onRequestAvailable: { [weak self] request in
+    lazy var _modifiedAPI = self._api._modifier(_InternalModifier._AccessingRequest(onRequestAvailable: { [weak self] request in
         self?.request = request as? Alamofire.DataRequest
     }))
     
