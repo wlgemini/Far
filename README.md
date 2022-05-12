@@ -8,7 +8,7 @@ make *Function as Request*
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/wlgemini/Far.git", .upToNextMajor(from: "XX.XX.XX"))
+    .package(url: "https://github.com/wlgemini/Far.git", .upToNextMajor(from: "5.6.0"))
 ]
 ```
 
