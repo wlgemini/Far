@@ -12,6 +12,12 @@ dependencies: [
 ]
 ```
 
+### Cocoapods
+
+```
+pod 'Far', '~> 5.6.0'
+```
+
 ## 快速上手
 
 ```swift
