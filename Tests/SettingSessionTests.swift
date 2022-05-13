@@ -7,6 +7,12 @@ class SettingSessionTests {
     
     func sessionInit() {
         let session = Alamofire.Session()
+        
+        Far.session = session
+        XCTAssert(Far.session === session)
+        XCTAssert(Far.isSessionFinalized == false)
+        
+        Far.session = nil
         XCTAssert(Far.session == nil)
         XCTAssert(Far.isSessionFinalized == false)
         
