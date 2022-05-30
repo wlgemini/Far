@@ -22,7 +22,7 @@ where A: API {
     ///   - api: some API
     public init(_ api: A, file: Swift.String = #fileID) {
         self._api = api
-        self._location = _Location(file, nil)
+        self._location = Location(file, nil)
     }
     
     public var wrappedValue: A {
@@ -34,7 +34,7 @@ where A: API {
     }
     
     let _api: A
-    let _location: _Location
+    let _location: Location
     lazy var _modifiedAPI = self._api._modifier(_InternalModifier._AccessingRequest(onRequestAvailable: { [weak self] request in
         self?.request = request as? Alamofire.DataRequest
     }))

@@ -38,7 +38,7 @@ public enum Setter {
 extension Setter.Copy {
     
     /// Nonnil
-    public struct Nonnil<T>: Settable, _Locatable {
+    public struct Nonnil<T>: Settable {
         
         public typealias G = T
         
@@ -50,7 +50,7 @@ extension Setter.Copy {
         
         public mutating func callAsFunction(_ value: T, file: Swift.String = #fileID, line: Swift.UInt = #line) {
             self._value = value
-            self._location = _Location(file, line)
+            self._location = Location(file, line)
         }
         
         init(_ value: T) {
@@ -59,12 +59,12 @@ extension Setter.Copy {
         }
         
         var _value: T
-        var _location: _Location
+        var _location: Location
     }
     
     
     /// Nillable
-    public struct Nillable<T>: Settable, _Locatable {
+    public struct Nillable<T>: Settable {
         
         public typealias G = T?
         
@@ -76,7 +76,7 @@ extension Setter.Copy {
         
         public mutating func callAsFunction(_ value: T?, file: Swift.String = #fileID, line: Swift.UInt = #line) {
             self._value = value
-            self._location = _Location(file, line)
+            self._location = Location(file, line)
         }
         
         init() {
@@ -85,7 +85,7 @@ extension Setter.Copy {
         }
         
         var _value: T?
-        var _location: _Location
+        var _location: Location
     }
 }
 
@@ -93,7 +93,7 @@ extension Setter.Copy {
 extension Setter.Compute {
     
     /// Nonnil
-    public struct Nonnil<T>: Settable, _Locatable {
+    public struct Nonnil<T>: Settable {
     
         public typealias G = T
         
@@ -105,7 +105,7 @@ extension Setter.Compute {
         
         public mutating func callAsFunction(_ value: @escaping @autoclosure Compute<T>, file: Swift.String = #fileID, line: Swift.UInt = #line) {
             self._value = value
-            self._location = _Location(file, line)
+            self._location = Location(file, line)
         }
         
         init(_ value: @escaping @autoclosure Compute<T>) {
@@ -114,12 +114,12 @@ extension Setter.Compute {
         }
         
         var _value: Compute<T>
-        var _location: _Location
+        var _location: Location
     }
     
     
     /// Nillable
-    public struct Nillable<T>: Settable, _Locatable {
+    public struct Nillable<T>: Settable {
         
         public typealias G = T?
         
@@ -131,7 +131,7 @@ extension Setter.Compute {
         
         public mutating func callAsFunction(_ value: @escaping @autoclosure Compute<T?>, file: Swift.String = #fileID, line: Swift.UInt = #line) {
             self._value = value
-            self._location = _Location(file, line)
+            self._location = Location(file, line)
         }
         
         init() {
@@ -140,7 +140,7 @@ extension Setter.Compute {
         }
         
         var _value: Compute<T?>
-        var _location: _Location
+        var _location: Location
     }
 }
 
@@ -148,7 +148,7 @@ extension Setter.Compute {
 extension Setter.Available {
     
     /// Nonnil
-    public struct Nonnil<T>: Settable, _Locatable {
+    public struct Nonnil<T>: Settable {
     
         public typealias G = Available<T>
         
@@ -160,7 +160,7 @@ extension Setter.Available {
         
         public mutating func callAsFunction(_ value: @escaping Available<T>, file: Swift.String = #fileID, line: Swift.UInt = #line) {
             self._value = value
-            self._location = _Location(file, line)
+            self._location = Location(file, line)
         }
         
         init(_ value: @escaping Available<T>) {
@@ -169,12 +169,12 @@ extension Setter.Available {
         }
         
         var _value: Available<T>
-        var _location: _Location
+        var _location: Location
     }
     
     
     /// Nillable
-    public struct Nillable<T>: Settable, _Locatable {
+    public struct Nillable<T>: Settable {
         
         public typealias G = Available<T?>
         
@@ -186,7 +186,7 @@ extension Setter.Available {
         
         public mutating func callAsFunction(_ value: @escaping Available<T?>, file: Swift.String = #fileID, line: Swift.UInt = #line) {
             self._value = value
-            self._location = _Location(file, line)
+            self._location = Location(file, line)
         }
         
         init() {
@@ -195,6 +195,6 @@ extension Setter.Available {
         }
         
         var _value: Available<T?>
-        var _location: _Location
+        var _location: Location
     }
 }

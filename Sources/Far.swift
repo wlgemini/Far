@@ -24,14 +24,14 @@ extension Far {
         
         set {
             if Self._isSessionFinalized {
-                _Log.warning("Can not set new session, cause session has finalized", location: _Location(nil, nil))
+                _Log.warning("Can not set new session, cause session has finalized", location: Location.nowhere)
                 return
             } else {
                 _Debug.execute {
                     if let newSession = newValue {
-                        _Log.trace("Set new session: \(newSession)", location: _Location(nil, nil))
+                        _Log.trace("Set new session: \(newSession)", location: Location.nowhere)
                     } else {
-                        _Log.trace("Set new session: nil", location: _Location(nil, nil))
+                        _Log.trace("Set new session: nil", location: Location.nowhere)
                     }                    
                 }
                 Self._session = newValue
@@ -76,7 +76,7 @@ extension Far {
     static var _session: Alamofire.Session?
     
     static let _sessionFinalized: Alamofire.Session = {
-        _Log.trace("Session finalized", location: _Location(nil, nil))
+        _Log.trace("Session finalized", location: Location.nowhere)
         Self._isSessionFinalized = true
         return Self._session ?? Alamofire.Session()
     }()

@@ -11,7 +11,7 @@ extension Settings.API {
     public final class _Modify {
         
         // DataRequest Location
-        let requestLocation: _Location
+        let requestLocation: Location
         
         // DataRequest
         var dataRequest = Settings.API._Modify._DataRequest()
@@ -23,7 +23,7 @@ extension Settings.API {
         var accessing = Settings.API._Modify._Accessing()
         
         /// init
-        init(requestLocation: _Location) {
+        init(requestLocation: Location) {
             self.requestLocation = requestLocation
         }
     }

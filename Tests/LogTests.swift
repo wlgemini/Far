@@ -10,16 +10,17 @@ import Alamofire
 class LogTests {
  
     func logInit() {
+        
         Far.log.trace { log in
-            Swift.print("Test", log)
+            Swift.print("[Trace]", log.location, log.item)
         }
-        
+
         Far.log.warning { log in
-            Swift.print("Test", log)
+            Swift.print("[Warning]", log.location, log.item)
         }
-        
+
         Far.log.error { log in
-            Swift.print("Test", log)
+            Swift.print("[Error]", log.location, log.item)
         }
     }
 }

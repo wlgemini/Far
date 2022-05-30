@@ -1,40 +1,32 @@
 //
-//  _Location.swift
+//  Location.swift
 //
 
 
-/// Locatable
-protocol _Locatable {
-    
-    /// file & line
-    var _location: _Location { get }
-}
-
-
 /// Location
-struct _Location: Swift.CustomStringConvertible {
+public struct Location: Swift.CustomStringConvertible {
     
     /// a location from nowhere
-    static let nowhere = _Location(nil, nil)
-    
+    public static let nowhere = Location(nil, nil)
+
     /// file: #fileID
-    let file: Swift.String?
+    public let file: Swift.String?
     
     /// line: #line
-    let line: Swift.UInt?
+    public let line: Swift.UInt?
     
     /// init
     /// - Parameters:
     ///   - file: #fileID
     ///   - line: #line
-    init(_ file: Swift.String?, _ line: Swift.UInt?) {
+    public init(_ file: Swift.String?, _ line: Swift.UInt?) {
         self.file = file
         self.line = line
     }
     
     /// description
     ///
-    ///     "@Module/ViewController#23"
+    ///     "@MyModule/MyClass#23"
     ///
     public var description: Swift.String {
         switch (self.file, self.line) {
