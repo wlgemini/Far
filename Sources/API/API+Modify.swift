@@ -10,39 +10,39 @@ import Alamofire
 public extension API {
     
     /// modify base url
-    func base(_ base: @escaping @autoclosure Compute<String>) -> Self {
+    func base(_ base: @escaping @autoclosure Compute<Swift.String>) -> Self {
         self._modifier(DataRequestModifier.URL(base: base))
     }
     
     /// append path
-    func appendPath(_ appendPath: @escaping @autoclosure Compute<String>) -> Self {
+    func appendPath(_ appendPath: @escaping @autoclosure Compute<Swift.String>) -> Self {
         self._modifier(DataRequestModifier.URL(appendPath: appendPath))
     }
     
     /// mocking with full url
-    func mock(_ mock: @escaping @autoclosure Compute<String>) -> Self {
+    func mock(_ mock: @escaping @autoclosure Compute<Swift.String>) -> Self {
         self._modifier(DataRequestModifier.URL(mock: mock))
     }
     
     /// set additional header
-    func header(name: String, value: String) -> Self {
+    func header(name: Swift.String, value: Swift.String) -> Self {
         self._modifier(DataRequestModifier.HTTPHeader(name: name, value: value))
     }
     
     /// set additional headers
-    func headers(_ dictionary: [String: String]) -> Self {
+    func headers(_ dictionary: [Swift.String: Swift.String]) -> Self {
         self._modifier(DataRequestModifier.HTTPHeaders(dictionary))
     }
     
     /// modify encoding
     func encoding(_ encoding: Alamofire.ParameterEncoding) -> Self
-    where Self.Parameters == [String: Any] {
+    where Self.Parameters == [Swift.String: Any] {
         self._modifier(DataRequestModifier.Encoding(encoding))
     }
     
     /// modify encoder
     func encoder(_ encoder: Alamofire.ParameterEncoder) -> Self
-    where Self.Parameters: Encodable {
+    where Self.Parameters: Swift.Encodable {
         self._modifier(DataRequestModifier.Encoder(encoder))
     }
     
@@ -52,16 +52,16 @@ public extension API {
     }
     
     /// modify authenticate
-    func authenticate(username: String,
-                      password: String,
-                      persistence: URLCredential.Persistence = .forSession) -> Self {
+    func authenticate(username: Swift.String,
+                      password: Swift.String,
+                      persistence: Foundation.URLCredential.Persistence = .forSession) -> Self {
         self._modifier(DataRequestModifier.Authenticate(username: username,
                                                         password: password,
                                                         persistence: persistence))
     }
     
     /// modify authenticate
-    func authenticate(credential: URLCredential) -> Self {
+    func authenticate(credential: Foundation.URLCredential) -> Self {
         self._modifier(DataRequestModifier.Authenticate(credential: credential))
     }
     
@@ -76,12 +76,12 @@ public extension API {
 public extension API {
     
     /// validate statusCode
-    func validate(statusCode acceptableStatusCodes: Range<Int>) -> Self {
+    func validate(statusCode acceptableStatusCodes: Swift.Range<Swift.Int>) -> Self {
         self._modifier(DataResponseModifier.Validation(statusCode: acceptableStatusCodes))
     }
     
     /// validate contentType
-    func validate(contentType acceptableContentTypes: @escaping @autoclosure Compute<[String]>) -> Self {
+    func validate(contentType acceptableContentTypes: @escaping @autoclosure Compute<[Swift.String]>) -> Self {
         self._modifier(DataResponseModifier.Validation(contentType: acceptableContentTypes))
     }
     
@@ -89,7 +89,7 @@ public extension API {
     /// - Parameters:
     ///   - identifier: Same identifier will be override.
     ///   - validation: Custom validation
-    func validate(identifier: String, validation: @escaping Alamofire.DataRequest.Validation) -> Self {
+    func validate(identifier: Swift.String, validation: @escaping Alamofire.DataRequest.Validation) -> Self {
         self._modifier(DataResponseModifier.Validation(identifier: identifier, validation: validation))
     }
     
@@ -105,9 +105,9 @@ public extension API {
     
     /// serialize data
     func serialize(dataPreprocessor: Alamofire.DataPreprocessor = Alamofire.DataResponseSerializer.defaultDataPreprocessor,
-                   emptyResponseCodes: Set<Int> = Alamofire.DataResponseSerializer.defaultEmptyResponseCodes,
-                   emptyRequestMethods: Set<Alamofire.HTTPMethod> = Alamofire.DataResponseSerializer.defaultEmptyRequestMethods) -> Self
-    where Returns == Data {
+                   emptyResponseCodes: Swift.Set<Swift.Int> = Alamofire.DataResponseSerializer.defaultEmptyResponseCodes,
+                   emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = Alamofire.DataResponseSerializer.defaultEmptyRequestMethods) -> Self
+    where Returns == Foundation.Data {
         let serializer = Alamofire.DataResponseSerializer(dataPreprocessor: dataPreprocessor,
                                                           emptyResponseCodes: emptyResponseCodes,
                                                           emptyRequestMethods: emptyRequestMethods)
@@ -116,10 +116,10 @@ public extension API {
     
     /// serialize string
     func serialize(dataPreprocessor: Alamofire.DataPreprocessor = Alamofire.StringResponseSerializer.defaultDataPreprocessor,
-                   encoding: String.Encoding? = nil,
-                   emptyResponseCodes: Set<Int> = Alamofire.StringResponseSerializer.defaultEmptyResponseCodes,
-                   emptyRequestMethods: Set<Alamofire.HTTPMethod> = Alamofire.StringResponseSerializer.defaultEmptyRequestMethods) -> Self
-    where Returns == String {
+                   encoding: Swift.String.Encoding? = nil,
+                   emptyResponseCodes: Swift.Set<Swift.Int> = Alamofire.StringResponseSerializer.defaultEmptyResponseCodes,
+                   emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = Alamofire.StringResponseSerializer.defaultEmptyRequestMethods) -> Self
+    where Returns == Swift.String {
         let serializer = Alamofire.StringResponseSerializer(dataPreprocessor: dataPreprocessor,
                                                             encoding: encoding,
                                                             emptyResponseCodes: emptyResponseCodes,
@@ -130,10 +130,10 @@ public extension API {
     /// serialize json
     @available(*, deprecated, message: "JSONResponseSerializer deprecated and will be removed in Alamofire 6. Use DecodableResponseSerializer instead.")
     func serialize(dataPreprocessor: Alamofire.DataPreprocessor = Alamofire.JSONResponseSerializer.defaultDataPreprocessor,
-                   emptyResponseCodes: Set<Int> = Alamofire.JSONResponseSerializer.defaultEmptyResponseCodes,
-                   emptyRequestMethods: Set<Alamofire.HTTPMethod> = Alamofire.JSONResponseSerializer.defaultEmptyRequestMethods,
-                   options: JSONSerialization.ReadingOptions = .allowFragments) -> Self
-    where Returns == [String: Any] {
+                   emptyResponseCodes: Swift.Set<Swift.Int> = Alamofire.JSONResponseSerializer.defaultEmptyResponseCodes,
+                   emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = Alamofire.JSONResponseSerializer.defaultEmptyRequestMethods,
+                   options: Foundation.JSONSerialization.ReadingOptions = .allowFragments) -> Self
+    where Returns == [Swift.String: Any] {
         let serializer = Alamofire.JSONResponseSerializer(dataPreprocessor: dataPreprocessor,
                                                           emptyResponseCodes: emptyResponseCodes,
                                                           emptyRequestMethods: emptyRequestMethods,
@@ -143,10 +143,10 @@ public extension API {
     
     /// serialize decodable
     func serialize(dataPreprocessor: Alamofire.DataPreprocessor = Alamofire.DecodableResponseSerializer<Returns>.defaultDataPreprocessor,
-                   decoder: Alamofire.DataDecoder = JSONDecoder(),
-                   emptyResponseCodes: Set<Int> = Alamofire.DecodableResponseSerializer<Returns>.defaultEmptyResponseCodes,
-                   emptyRequestMethods: Set<Alamofire.HTTPMethod> = Alamofire.DecodableResponseSerializer<Returns>.defaultEmptyRequestMethods) -> Self
-    where Returns: Decodable {
+                   decoder: Alamofire.DataDecoder = Foundation.JSONDecoder(),
+                   emptyResponseCodes: Swift.Set<Swift.Int> = Alamofire.DecodableResponseSerializer<Returns>.defaultEmptyResponseCodes,
+                   emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod> = Alamofire.DecodableResponseSerializer<Returns>.defaultEmptyRequestMethods) -> Self
+    where Returns: Swift.Decodable {
         let serializer = Alamofire.DecodableResponseSerializer<Returns>(dataPreprocessor: dataPreprocessor,
                                                                   decoder: decoder,
                                                                   emptyResponseCodes: emptyResponseCodes,

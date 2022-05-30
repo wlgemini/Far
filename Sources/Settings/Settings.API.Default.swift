@@ -27,7 +27,7 @@ extension Settings.API.Default {
     public struct DataRequest {
         
         // MARK: URL
-        public var base = Setter.Compute.Nillable<String>()
+        public var base = Setter.Compute.Nillable<Swift.String>()
         
         // MARK: Headers
         public var headers = Setter.Compute.Nillable<Alamofire.HTTPHeaders>()
@@ -37,7 +37,7 @@ extension Settings.API.Default {
         public var encoder = Encoder()
         
         // MARK: Authentication
-        public var authenticate = Setter.Copy.Nillable<URLCredential>()
+        public var authenticate = Setter.Copy.Nillable<Foundation.URLCredential>()
         
         // MARK: Redirect
         public var redirect = Setter.Copy.Nillable<Alamofire.RedirectHandler>()
@@ -50,20 +50,20 @@ extension Settings.API.Default {
         
         // MARK: Validate DataResponse
         /// acceptable range, may override by Modifier.
-        public var acceptableStatusCodes = Setter.Copy.Nillable<Range<Int>>()
+        public var acceptableStatusCodes = Setter.Copy.Nillable<Swift.Range<Swift.Int>>()
         
         /// acceptable content type, may override by Modifier.
-        public var acceptableContentTypes = Setter.Copy.Nillable<[String]>()
+        public var acceptableContentTypes = Setter.Copy.Nillable<[Swift.String]>()
         
         /// custom validations, may override by Modifier, default: nil
-        public var validations = Setter.Copy.Nillable<[String: Alamofire.DataRequest.Validation]>()
+        public var validations = Setter.Copy.Nillable<[Swift.String: Alamofire.DataRequest.Validation]>()
         
         // MARK: Cache DataResponse
         public var cachedResponseHandler = Setter.Copy.Nillable<Alamofire.CachedResponseHandler>()
         
         // MARK: DispatchQueue
         /// default: .main
-        public var queue = Setter.Copy.Nonnil<DispatchQueue>(.main)
+        public var queue = Setter.Copy.Nonnil<Foundation.DispatchQueue>(.main)
         
         // MARK: Serialize DataResponse
         public var serializeData = SerializeData()
@@ -133,10 +133,10 @@ extension Settings.API.Default {
         public var dataPreprocessor = Setter.Copy.Nonnil<Alamofire.DataPreprocessor>(Alamofire.DataResponseSerializer.defaultDataPreprocessor)
         
         /// default `Alamofire.DataResponseSerializer.defaultEmptyResponseCodes`
-        public var emptyResponseCodes = Setter.Copy.Nonnil<Set<Int>>(Alamofire.DataResponseSerializer.defaultEmptyResponseCodes)
+        public var emptyResponseCodes = Setter.Copy.Nonnil<Swift.Set<Swift.Int>>(Alamofire.DataResponseSerializer.defaultEmptyResponseCodes)
         
         /// default `Alamofire.DataResponseSerializer.defaultEmptyRequestMethods`
-        public var emptyRequestMethods = Setter.Copy.Nonnil<Set<Alamofire.HTTPMethod>>(Alamofire.DataResponseSerializer.defaultEmptyRequestMethods)
+        public var emptyRequestMethods = Setter.Copy.Nonnil<Swift.Set<Alamofire.HTTPMethod>>(Alamofire.DataResponseSerializer.defaultEmptyRequestMethods)
         
         init() {}
     }
@@ -148,13 +148,13 @@ extension Settings.API.Default {
         public var dataPreprocessor = Setter.Copy.Nonnil<Alamofire.DataPreprocessor>(Alamofire.StringResponseSerializer.defaultDataPreprocessor)
         
         /// default `nil`
-        public var encoding = Setter.Copy.Nillable<String.Encoding>()
+        public var encoding = Setter.Copy.Nillable<Swift.String.Encoding>()
         
         /// default `Alamofire.StringResponseSerializer.defaultEmptyResponseCodes`
-        public var emptyResponseCodes = Setter.Copy.Nonnil<Set<Int>>(Alamofire.StringResponseSerializer.defaultEmptyResponseCodes)
+        public var emptyResponseCodes = Setter.Copy.Nonnil<Swift.Set<Swift.Int>>(Alamofire.StringResponseSerializer.defaultEmptyResponseCodes)
         
         /// default `Alamofire.StringResponseSerializer.defaultEmptyRequestMethods`
-        public var emptyRequestMethods = Setter.Copy.Nonnil<Set<Alamofire.HTTPMethod>>(Alamofire.StringResponseSerializer.defaultEmptyRequestMethods)
+        public var emptyRequestMethods = Setter.Copy.Nonnil<Swift.Set<Alamofire.HTTPMethod>>(Alamofire.StringResponseSerializer.defaultEmptyRequestMethods)
         
         init() {}
     }
@@ -168,14 +168,14 @@ extension Settings.API.Default {
         
         /// default `Alamofire.JSONResponseSerializer.defaultEmptyResponseCodes`
         @available(*, deprecated, message: "JSONResponseSerializer deprecated and will be removed in Alamofire 6. Use DecodableResponseSerializer instead.")
-        public var emptyResponseCodes = Setter.Copy.Nonnil<Set<Int>>(Alamofire.JSONResponseSerializer.defaultEmptyResponseCodes)
+        public var emptyResponseCodes = Setter.Copy.Nonnil<Swift.Set<Swift.Int>>(Alamofire.JSONResponseSerializer.defaultEmptyResponseCodes)
         
         /// default `Alamofire.JSONResponseSerializer.defaultEmptyRequestMethods`
         @available(*, deprecated, message: "JSONResponseSerializer deprecated and will be removed in Alamofire 6. Use DecodableResponseSerializer instead.")
-        public var emptyRequestMethods = Setter.Copy.Nonnil<Set<Alamofire.HTTPMethod>>(Alamofire.JSONResponseSerializer.defaultEmptyRequestMethods)
+        public var emptyRequestMethods = Setter.Copy.Nonnil<Swift.Set<Alamofire.HTTPMethod>>(Alamofire.JSONResponseSerializer.defaultEmptyRequestMethods)
         
         /// default `.allowFragments`
-        public var options = Setter.Copy.Nonnil<JSONSerialization.ReadingOptions>(.allowFragments)
+        public var options = Setter.Copy.Nonnil<Foundation.JSONSerialization.ReadingOptions>(.allowFragments)
         
         init() {}
     }
@@ -190,10 +190,10 @@ extension Settings.API.Default {
         public var decoder = Setter.Copy.Nillable<Alamofire.DataDecoder>()
         
         /// default `Alamofire.DecodableResponseSerializer<API.R>.defaultEmptyResponseCodes`
-        public var emptyResponseCodes = Setter.Copy.Nillable<Set<Int>>()
+        public var emptyResponseCodes = Setter.Copy.Nillable<Swift.Set<Swift.Int>>()
         
         /// default `Alamofire.DecodableResponseSerializer<API.R>.defaultEmptyRequestMethods`
-        public var emptyRequestMethods = Setter.Copy.Nillable<Set<Alamofire.HTTPMethod>>()
+        public var emptyRequestMethods = Setter.Copy.Nillable<Swift.Set<Alamofire.HTTPMethod>>()
         
         init() {}
     }

@@ -12,22 +12,22 @@ protocol _Locatable {
 
 
 /// Location
-struct _Location: CustomStringConvertible {
+struct _Location: Swift.CustomStringConvertible {
     
     /// a location from nowhere
     static let nowhere = _Location(nil, nil)
     
     /// file: #fileID
-    let file: String?
+    let file: Swift.String?
     
     /// line: #line
-    let line: UInt?
+    let line: Swift.UInt?
     
     /// init
     /// - Parameters:
     ///   - file: #fileID
     ///   - line: #line
-    init(_ file: String?, _ line: UInt?) {
+    init(_ file: Swift.String?, _ line: Swift.UInt?) {
         self.file = file
         self.line = line
     }
@@ -36,15 +36,15 @@ struct _Location: CustomStringConvertible {
     ///
     ///     "@Module/ViewController#23"
     ///
-    public var description: String {
+    public var description: Swift.String {
         switch (self.file, self.line) {
         case (.some(let file), .some(let line)):
             let fileName = file.split(separator: ".").first ?? ""
-            return "@\(String(fileName))#\(line)"
+                return "@\(Swift.String(fileName))#\(line)"
             
         case (.some(let file), .none):
             let fileName = file.split(separator: ".").first ?? ""
-            return "@\(String(fileName))"
+                return "@\(Swift.String(fileName))"
             
         case (.none, .some(let line)):
             return "#\(line)"

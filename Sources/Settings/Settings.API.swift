@@ -2,9 +2,6 @@
 //  Settings.API.swift
 //
 
-import Foundation
-import Alamofire
-
 
 extension Settings {
     

@@ -43,11 +43,11 @@ public enum DataRequestModifier {
     ///
     public struct InitialURL: Modifier {
         
-        public init(url: @escaping Compute<String>) {
+        public init(url: @escaping Compute<Swift.String>) {
             self._type = .full(url)
         }
         
-        public init(path: @escaping Compute<String>) {
+        public init(path: @escaping Compute<Swift.String>) {
             self._type = .path(path)
         }
         
@@ -63,9 +63,9 @@ public enum DataRequestModifier {
         
         enum _Type {
             
-            case full(Compute<String>)
+            case full(Compute<Swift.String>)
             
-            case path(Compute<String>)
+            case path(Compute<Swift.String>)
         }
     }
     
@@ -88,15 +88,15 @@ public enum DataRequestModifier {
     ///
     public struct URL: Modifier {
         
-        public init(base: @escaping Compute<String>) {
+        public init(base: @escaping Compute<Swift.String>) {
             self._type = .base(base)
         }
         
-        public init(appendPath: @escaping Compute<String>) {
+        public init(appendPath: @escaping Compute<Swift.String>) {
             self._type = .appendPath(appendPath)
         }
         
-        public init(mock: @escaping Compute<String>) {
+        public init(mock: @escaping Compute<Swift.String>) {
             self._type = .mock(mock)
         }
         
@@ -117,11 +117,11 @@ public enum DataRequestModifier {
         
         enum _Type {
             
-            case base(Compute<String>)
+            case base(Compute<Swift.String>)
             
-            case appendPath(Compute<String>)
+            case appendPath(Compute<Swift.String>)
             
-            case mock(Compute<String>)
+            case mock(Compute<Swift.String>)
         }
     }
 
@@ -129,7 +129,7 @@ public enum DataRequestModifier {
     /// Header
     public struct HTTPHeader: Modifier {
         
-        public init(name: String, value: String) {
+        public init(name: Swift.String, value: Swift.String) {
             self._header = Alamofire.HTTPHeader(name: name, value: value)
         }
         
@@ -144,7 +144,7 @@ public enum DataRequestModifier {
     /// Headers
     public struct HTTPHeaders: Modifier {
         
-        public init(_ dictionary: [String: String]) {
+        public init(_ dictionary: [Swift.String: Swift.String]) {
             self._headers = Alamofire.HTTPHeaders(dictionary)
         }
         
@@ -203,7 +203,7 @@ public enum DataRequestModifier {
             }
         }
         
-        let _timeInterval: TimeInterval
+        let _timeInterval: Foundation.TimeInterval
     }
     
     
@@ -211,11 +211,11 @@ public enum DataRequestModifier {
     /// Authenticate
     public struct Authenticate: Modifier {
         
-        public init(username: String, password: String, persistence: URLCredential.Persistence) {
-            self._credential = URLCredential(user: username, password: password, persistence: persistence)
+        public init(username: Swift.String, password: Swift.String, persistence: Foundation.URLCredential.Persistence) {
+            self._credential = Foundation.URLCredential(user: username, password: password, persistence: persistence)
         }
         
-        public init(credential: URLCredential) {
+        public init(credential: Foundation.URLCredential) {
             self._credential = credential
         }
         
@@ -223,7 +223,7 @@ public enum DataRequestModifier {
             context.dataRequest.authenticate = self._credential
         }
         
-        let _credential: URLCredential
+        let _credential: Foundation.URLCredential
     }
     
     

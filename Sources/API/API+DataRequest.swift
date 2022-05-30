@@ -10,10 +10,10 @@ public extension API {
     
     // MARK: Parameters == [String: Any], Returns == Data
     func request(_ parameters: Parameters?,
-                 completion: @escaping (Alamofire.AFDataResponse<Returns>) -> Void,
-                 file: String = #fileID,
-                 line: UInt = #line)
-    where Parameters == [String: Any], Returns == Data {
+                 completion: @escaping (Alamofire.AFDataResponse<Returns>) -> Swift.Void,
+                 file: Swift.String = #fileID,
+                 line: Swift.UInt = #line)
+    where Parameters == [Swift.String: Any], Returns == Foundation.Data {
         let context = self._context(file: file, line: line)
         guard let request = self._request(parameters: parameters, context: context) else { return }
         self._requestModify(request: request, context: context)
@@ -24,10 +24,10 @@ public extension API {
     
     // MARK: Parameters == [String: Any], Returns == String
     func request(_ parameters: Parameters?,
-                 completion: @escaping (Alamofire.AFDataResponse<Returns>) -> Void,
-                 file: String = #fileID,
-                 line: UInt = #line)
-    where Parameters == [String: Any], Returns == String {
+                 completion: @escaping (Alamofire.AFDataResponse<Returns>) -> Swift.Void,
+                 file: Swift.String = #fileID,
+                 line: Swift.UInt = #line)
+    where Parameters == [Swift.String: Any], Returns == Swift.String {
         let context = self._context(file: file, line: line)
         guard let request = self._request(parameters: parameters, context: context) else { return }
         self._requestModify(request: request, context: context)
@@ -39,10 +39,10 @@ public extension API {
     // MARK: Parameters == [String: Any], Returns == Any
     @available(*, deprecated, message: "JSONResponseSerializer deprecated and will be removed in Alamofire 6. Use DecodableResponseSerializer instead.")
     func request(_ parameters: Parameters?,
-                 completion: @escaping (Alamofire.AFDataResponse<Returns>) -> Void,
-                 file: String = #fileID,
-                 line: UInt = #line)
-    where Parameters == [String: Any], Returns == Any {
+                 completion: @escaping (Alamofire.AFDataResponse<Returns>) -> Swift.Void,
+                 file: Swift.String = #fileID,
+                 line: Swift.UInt = #line)
+    where Parameters == [Swift.String: Any], Returns == Any {
         let context = self._context(file: file, line: line)
         guard let request = self._request(parameters: parameters, context: context) else { return }
         self._requestModify(request: request, context: context)
@@ -53,10 +53,10 @@ public extension API {
     
     // MARK: Parameters == [String: Any], Returns: Decodable
     func request(_ parameters: Parameters?,
-                 completion: @escaping (Alamofire.AFDataResponse<Returns>) -> Void,
-                 file: String = #fileID,
-                 line: UInt = #line)
-    where Parameters == [String: Any], Returns: Decodable {
+                 completion: @escaping (Alamofire.AFDataResponse<Returns>) -> Swift.Void,
+                 file: Swift.String = #fileID,
+                 line: Swift.UInt = #line)
+    where Parameters == [Swift.String: Any], Returns: Swift.Decodable {
         let context = self._context(file: file, line: line)
         guard let request = self._request(parameters: parameters, context: context) else { return }
         self._requestModify(request: request, context: context)
@@ -67,10 +67,10 @@ public extension API {
     
     // MARK: Parameters == Encodable, Returns == Data
     func request(_ parameters: Parameters?,
-                 completion: @escaping (Alamofire.AFDataResponse<Returns>) -> Void,
-                 file: String = #fileID,
-                 line: UInt = #line)
-    where Parameters: Encodable, Returns == Data {
+                 completion: @escaping (Alamofire.AFDataResponse<Returns>) -> Swift.Void,
+                 file: Swift.String = #fileID,
+                 line: Swift.UInt = #line)
+    where Parameters: Swift.Encodable, Returns == Foundation.Data {
         let context = self._context(file: file, line: line)
         guard let request = self._request(parameters: parameters, context: context) else { return }
         self._requestModify(request: request, context: context)
@@ -81,10 +81,10 @@ public extension API {
     
     // MARK: Parameters == Encodable, Returns == String
     func request(_ parameters: Parameters?,
-                 completion: @escaping (Alamofire.AFDataResponse<Returns>) -> Void,
-                 file: String = #fileID,
-                 line: UInt = #line)
-    where Parameters: Encodable, Returns == String {
+                 completion: @escaping (Alamofire.AFDataResponse<Returns>) -> Swift.Void,
+                 file: Swift.String = #fileID,
+                 line: Swift.UInt = #line)
+    where Parameters: Swift.Encodable, Returns == Swift.String {
         let context = self._context(file: file, line: line)
         guard let request = self._request(parameters: parameters, context: context) else { return }
         self._requestModify(request: request, context: context)
@@ -96,10 +96,10 @@ public extension API {
     // MARK: Parameters == Encodable, Returns == Any
     @available(*, deprecated, message: "JSONResponseSerializer deprecated and will be removed in Alamofire 6. Use DecodableResponseSerializer instead.")
     func request(_ parameters: Parameters?,
-                 completion: @escaping (Alamofire.AFDataResponse<Returns>) -> Void,
-                 file: String = #fileID,
-                 line: UInt = #line)
-    where Parameters: Encodable, Returns == Any {
+                 completion: @escaping (Alamofire.AFDataResponse<Returns>) -> Swift.Void,
+                 file: Swift.String = #fileID,
+                 line: Swift.UInt = #line)
+    where Parameters: Swift.Encodable, Returns == Any {
         let context = self._context(file: file, line: line)
         guard let request = self._request(parameters: parameters, context: context) else { return }
         self._requestModify(request: request, context: context)
@@ -110,10 +110,10 @@ public extension API {
     
     // MARK: Parameters == Encodable, Returns: Decodable
     func request(_ parameters: Parameters?,
-                 completion: @escaping (Alamofire.AFDataResponse<Returns>) -> Void,
-                 file: String = #fileID,
-                 line: UInt = #line)
-    where Parameters: Encodable, Returns: Decodable {
+                 completion: @escaping (Alamofire.AFDataResponse<Returns>) -> Swift.Void,
+                 file: Swift.String = #fileID,
+                 line: Swift.UInt = #line)
+    where Parameters: Swift.Encodable, Returns: Swift.Decodable {
         let context = self._context(file: file, line: line)
         guard let request = self._request(parameters: parameters, context: context) else { return }
         self._requestModify(request: request, context: context)
@@ -128,7 +128,7 @@ public extension API {
 extension API {
     
     /// context
-    func _context(file: String, line: UInt) -> ModifyContext {
+    func _context(file: Swift.String, line: Swift.UInt) -> ModifyContext {
         let ctx = ModifyContext(requestLocation: _Location(file, line))
         self.modifier.modify(context: ctx)
         return ctx
@@ -136,7 +136,7 @@ extension API {
     
     /// request encoding
     func _request(parameters: Parameters?, context: ModifyContext) -> Alamofire.DataRequest?
-    where Parameters == [String: Any] {
+    where Parameters == [Swift.String: Any] {
         guard let method = context._method() else { return nil }
         guard let url = context._url() else { return nil }
         let headers = context._headers()
@@ -153,7 +153,7 @@ extension API {
     
     /// request encodable
     func _request(parameters: Parameters?, context: ModifyContext) -> Alamofire.DataRequest?
-    where Parameters: Encodable {
+    where Parameters: Swift.Encodable {
         guard let method = context._method() else { return nil }
         guard let url = context._url() else { return nil }
         let headers = context._headers()
@@ -219,8 +219,8 @@ extension API {
     /// response data
     func _response(request: Alamofire.DataRequest,
                    context: ModifyContext,
-                   completion: @escaping (Alamofire.AFDataResponse<Returns>) -> Void)
-    where Returns == Data {
+                   completion: @escaping (Alamofire.AFDataResponse<Returns>) -> Swift.Void)
+    where Returns == Foundation.Data {
         let queue = context._queue()
         let serializer = context._dataResponseSerializer()
         request.response(queue: queue,
@@ -231,8 +231,8 @@ extension API {
     /// response string
     func _response(request: Alamofire.DataRequest,
                    context: ModifyContext,
-                   completion: @escaping (Alamofire.AFDataResponse<Returns>) -> Void)
-    where Returns == String {
+                   completion: @escaping (Alamofire.AFDataResponse<Returns>) -> Swift.Void)
+    where Returns == Swift.String {
         let queue = context._queue()
         let serializer = context._stringResponseSerializer()
         request.response(queue: queue,
@@ -244,7 +244,7 @@ extension API {
     @available(*, deprecated, message: "JSONResponseSerializer deprecated and will be removed in Alamofire 6. Use DecodableResponseSerializer instead.")
     func _response(request: Alamofire.DataRequest,
                    context: ModifyContext,
-                   completion: @escaping (Alamofire.AFDataResponse<Returns>) -> Void)
+                   completion: @escaping (Alamofire.AFDataResponse<Returns>) -> Swift.Void)
     where Returns == Any {
         let queue = context._queue()
         let serializer = context._jsonResponseSerializer()
@@ -256,8 +256,8 @@ extension API {
     /// response decodable
     func _response(request: Alamofire.DataRequest,
                    context: ModifyContext,
-                   completion: @escaping (Alamofire.AFDataResponse<Returns>) -> Void)
-    where Returns: Decodable {
+                   completion: @escaping (Alamofire.AFDataResponse<Returns>) -> Swift.Void)
+    where Returns: Swift.Decodable {
         let queue = context._queue()
         let serializer: Alamofire.DecodableResponseSerializer<Returns> = context._decodableResponseSerializer()
         request.response(queue: queue,

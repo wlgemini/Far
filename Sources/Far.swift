@@ -39,7 +39,7 @@ extension Far {
         }
     }
     
-    public static var isSessionFinalized: Bool {
+    public static var isSessionFinalized: Swift.Bool {
         Self._isSessionFinalized
     }
     
@@ -59,10 +59,19 @@ extension Far {
 }
 
 
+// MARK: Log
+extension Far {
+    
+    public static var log: Settings.Log {
+        Self._log
+    }
+}
+
+
 // MARK: - Private
 extension Far {
     
-    static var _isSessionFinalized: Bool = false
+    static var _isSessionFinalized: Swift.Bool = false
     
     static var _session: Alamofire.Session?
     
@@ -77,4 +86,10 @@ extension Far {
 extension Far {
     
     static let _api = Settings.API.Default()
+}
+
+
+extension Far {
+    
+    static let _log = Settings.Log()
 }

@@ -9,11 +9,15 @@ import Far
 
 class AllTests: XCTestCase {
     
+    let log = LogTests()
     let settingSession = SettingSessionTests()
     let settingAPI = SettingAPITests()
     let dataRequest = DataRequestTests()
     
     func testALL() {
+        // Log
+        log.logInit()
+        
         // Session
         settingSession.sessionInit()
         

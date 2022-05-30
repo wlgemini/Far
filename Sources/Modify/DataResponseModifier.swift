@@ -13,15 +13,15 @@ public enum DataResponseModifier {
     /// Validation
     public struct Validation: Modifier {
         
-        public init(statusCode acceptableStatusCodes: Range<Int>) {
+        public init(statusCode acceptableStatusCodes: Swift.Range<Swift.Int>) {
             self._type = .statusCode(acceptableStatusCodes)
         }
         
-        public init(contentType acceptableContentTypes: @escaping Compute<[String]>) {
+        public init(contentType acceptableContentTypes: @escaping Compute<[Swift.String]>) {
             self._type = .contentType(acceptableContentTypes)
         }
         
-        public init(identifier: String, validation: @escaping Alamofire.DataRequest.Validation) {
+        public init(identifier: Swift.String, validation: @escaping Alamofire.DataRequest.Validation) {
             self._type = .custom(identifier, validation)
         }
         
@@ -42,11 +42,11 @@ public enum DataResponseModifier {
         
         enum _Type {
             
-            case statusCode(Range<Int>)
+            case statusCode(Swift.Range<Swift.Int>)
             
-            case contentType(Compute<[String]>)
+            case contentType(Compute<[Swift.String]>)
             
-            case custom(String, Alamofire.DataRequest.Validation)
+            case custom(Swift.String, Alamofire.DataRequest.Validation)
         }
     }
     
@@ -70,7 +70,7 @@ public enum DataResponseModifier {
     // MARK: - Queue
     public struct Queue: Modifier {
         
-        public init(_ queue: DispatchQueue) {
+        public init(_ queue: Foundation.DispatchQueue) {
             self._queue = queue
         }
         
@@ -78,7 +78,7 @@ public enum DataResponseModifier {
             context.dataResponse.queue = self._queue
         }
         
-        let _queue: DispatchQueue
+        let _queue: Foundation.DispatchQueue
     }
 
     
@@ -136,7 +136,7 @@ public enum DataResponseModifier {
     
     /// SerializeDecodable
     public struct SerializeDecodable<T>: Modifier
-    where T: Decodable {
+    where T: Swift.Decodable {
         
         public init(_ serializer: Alamofire.DecodableResponseSerializer<T>) {
             self._serializer = serializer

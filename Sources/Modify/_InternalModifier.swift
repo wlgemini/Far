@@ -17,9 +17,9 @@ enum _InternalModifier {
             context.accessing.onRequestAvailable = self._onRequestAvailable
         }
         
-        var _onRequestAvailable: (Alamofire.Request) -> Void
+        var _onRequestAvailable: (Alamofire.Request) -> Swift.Void
         
-        init(onRequestAvailable: @escaping (Alamofire.Request) -> Void) {
+        init(onRequestAvailable: @escaping (Alamofire.Request) -> Swift.Void) {
             self._onRequestAvailable = onRequestAvailable
         }
     }

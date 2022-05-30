@@ -6,7 +6,7 @@
 /// _Debug
 enum _Debug {
     
-    static func execute(_ exe: @escaping () -> Void) {
+    static func execute(_ exe: @escaping () -> Swift.Void) {
         Swift.assert({
             exe()
             return true

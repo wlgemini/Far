@@ -17,7 +17,7 @@ public protocol Settable: Gettable {
     
     associatedtype S
     
-    mutating func callAsFunction(_ value: S, file: String, line: UInt)
+    mutating func callAsFunction(_ value: S, file: Swift.String, line: Swift.UInt)
 }
 
 
@@ -25,10 +25,13 @@ public protocol Settable: Gettable {
 public enum Setter {
     
     /// for copy value
-    public enum Copy { }
+    public enum Copy {}
     
     /// for compute value
-    public enum Compute { }
+    public enum Compute {}
+
+    /// for available value
+    public enum Available {}
 }
 
 
@@ -45,7 +48,7 @@ extension Setter.Copy {
             self._value
         }
         
-        public mutating func callAsFunction(_ value: T, file: String = #fileID, line: UInt = #line) {
+        public mutating func callAsFunction(_ value: T, file: Swift.String = #fileID, line: Swift.UInt = #line) {
             self._value = value
             self._location = _Location(file, line)
         }
@@ -71,7 +74,7 @@ extension Setter.Copy {
             self._value
         }
         
-        public mutating func callAsFunction(_ value: T?, file: String = #fileID, line: UInt = #line) {
+        public mutating func callAsFunction(_ value: T?, file: Swift.String = #fileID, line: Swift.UInt = #line) {
             self._value = value
             self._location = _Location(file, line)
         }
@@ -100,7 +103,7 @@ extension Setter.Compute {
             self._value()
         }
         
-        public mutating func callAsFunction(_ value: @escaping @autoclosure Compute<T>, file: String = #fileID, line: UInt = #line) {
+        public mutating func callAsFunction(_ value: @escaping @autoclosure Compute<T>, file: Swift.String = #fileID, line: Swift.UInt = #line) {
             self._value = value
             self._location = _Location(file, line)
         }
@@ -126,7 +129,7 @@ extension Setter.Compute {
             self._value()
         }
         
-        public mutating func callAsFunction(_ value: @escaping @autoclosure Compute<T?>, file: String = #fileID, line: UInt = #line) {
+        public mutating func callAsFunction(_ value: @escaping @autoclosure Compute<T?>, file: Swift.String = #fileID, line: Swift.UInt = #line) {
             self._value = value
             self._location = _Location(file, line)
         }
@@ -137,6 +140,61 @@ extension Setter.Compute {
         }
         
         var _value: Compute<T?>
+        var _location: _Location
+    }
+}
+
+
+extension Setter.Available {
+    
+    /// Nonnil
+    public struct Nonnil<T>: Settable, _Locatable {
+    
+        public typealias G = Available<T>
+        
+        public typealias S = Available<T>
+        
+        public var value: Available<T> {
+            self._value
+        }
+        
+        public mutating func callAsFunction(_ value: @escaping Available<T>, file: Swift.String = #fileID, line: Swift.UInt = #line) {
+            self._value = value
+            self._location = _Location(file, line)
+        }
+        
+        init(_ value: @escaping Available<T>) {
+            self._value = value
+            self._location = .nowhere
+        }
+        
+        var _value: Available<T>
+        var _location: _Location
+    }
+    
+    
+    /// Nillable
+    public struct Nillable<T>: Settable, _Locatable {
+        
+        public typealias G = Available<T?>
+        
+        public typealias S = Available<T?>
+        
+        public var value: Available<T?> {
+            self._value
+        }
+        
+        public mutating func callAsFunction(_ value: @escaping Available<T?>, file: Swift.String = #fileID, line: Swift.UInt = #line) {
+            self._value = value
+            self._location = _Location(file, line)
+        }
+        
+        init() {
+            self._value = { _ in }
+            self._location = .nowhere
+        }
+        
+        var _value: Available<T?>
         var _location: _Location
     }
 }

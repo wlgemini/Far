@@ -12,7 +12,7 @@ public final class AccessingRequest<A>
 where A: API {
     
     /// Determine whether or not to cancel the underlaying request when self deinit
-    public var isCancelRequestWhenDeinit: Bool = true
+    public var isCancelRequestWhenDeinit: Swift.Bool = true
     
     /// The underlaying request of current API
     public internal(set) weak var request: Alamofire.DataRequest?
@@ -20,7 +20,7 @@ where A: API {
     /// Init
     /// - Parameters:
     ///   - api: some API
-    public init(_ api: A, file: String = #fileID) {
+    public init(_ api: A, file: Swift.String = #fileID) {
         self._api = api
         self._location = _Location(file, nil)
     }

@@ -20,13 +20,13 @@ extension Settings.API._Modify {
     }
     
     // MARK: - URL
-    func _url() -> String? {
+    func _url() -> Swift.String? {
         guard let initialURL = self.dataRequest.api.initialURL else {
             _Log.error("`InitialURL` not set, request won't start", location: self.requestLocation)
             return nil
         }
         
-        var anyFullURL: String?
+        var anyFullURL: Swift.String?
         
         switch initialURL {
             case .full(let fullURL):
@@ -127,7 +127,7 @@ extension Settings.API._Modify {
     }
     
     // MARK: Modify URLRequest
-    func _urlRequestModifier() -> (inout URLRequest) throws -> Void {
+    func _urlRequestModifier() -> (inout Foundation.URLRequest) throws -> Swift.Void {
         // NOTE: Make sure not access `Context` in block
         return { [urlRequestModifiers = self.dataRequest.urlRequestModifiers] (urlRequest) in
             for modifier in urlRequestModifiers {
@@ -137,7 +137,7 @@ extension Settings.API._Modify {
     }
     
     // MARK: Authentication
-    func _authenticate() -> URLCredential? {
+    func _authenticate() -> Foundation.URLCredential? {
         self.dataRequest.authenticate
     }
     
@@ -152,7 +152,7 @@ extension Settings.API._Modify {
 extension Settings.API._Modify {
     
     // MARK: Validate DataResponse
-    func _validation() -> (Range<Int>?, [String]?, [String : DataRequest.Validation]) {
+    func _validation() -> (Swift.Range<Swift.Int>?, [Swift.String]?, [Swift.String : DataRequest.Validation]) {
         let acceptableStatusCodes = self.dataResponse.acceptableStatusCodes ??
         Far._api.dataResponse.acceptableStatusCodes._value
         
@@ -230,14 +230,14 @@ extension Settings.API._Modify {
     }
     
     func _decodableResponseSerializer<R>() -> Alamofire.DecodableResponseSerializer<R>
-    where R: Decodable {
+    where R: Swift.Decodable {
         let dataPreprocessor = self.dataResponse.serializeDecodable.dataPreprocessor ??
         Far._api.dataResponse.serializeDecodable.dataPreprocessor._value ??
         Alamofire.DecodableResponseSerializer<R>.defaultDataPreprocessor
         
         let decoder = self.dataResponse.serializeDecodable.decoder ??
         Far._api.dataResponse.serializeDecodable.decoder._value ??
-        JSONDecoder()
+        Foundation.JSONDecoder()
         
         let emptyResponseCodes = self.dataResponse.serializeDecodable.emptyResponseCodes ??
         Far._api.dataResponse.serializeDecodable.emptyResponseCodes._value ??

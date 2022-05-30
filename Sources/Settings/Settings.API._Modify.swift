@@ -47,10 +47,10 @@ extension Settings.API._Modify {
         var encoder: Alamofire.ParameterEncoder?
         
         // URLRequest Modifiers
-        var urlRequestModifiers: [MutatingAvailable<URLRequest>] = []
+        var urlRequestModifiers: [MutatingAvailable<Foundation.URLRequest>] = []
         
         // Authentication
-        var authenticate: URLCredential?
+        var authenticate: Foundation.URLCredential?
         
         // Redirect
         var redirectHandler: Alamofire.RedirectHandler?
@@ -62,9 +62,9 @@ extension Settings.API._Modify {
     struct _DataResponse {
                 
         // Validate DataResponse
-        var acceptableStatusCodes: Range<Int>?
-        var acceptableContentTypes: Compute<[String]>?
-        var validations: [String: Alamofire.DataRequest.Validation] = [:]
+        var acceptableStatusCodes: Swift.Range<Int>?
+        var acceptableContentTypes: Compute<[Swift.String]>?
+        var validations: [Swift.String: Alamofire.DataRequest.Validation] = [:]
         
         // Cache DataResponse
         var cachedResponseHandler: Alamofire.CachedResponseHandler?
@@ -99,9 +99,9 @@ extension Settings.API._Modify {
         var initialURL: DataRequestModifier.InitialURL._Type?
         
         // Modify URL
-        var base: Compute<String>?
-        var appendPaths: [Compute<String>] = []
-        var mock: Compute<String>?
+        var base: Compute<Swift.String>?
+        var appendPaths: [Compute<Swift.String>] = []
+        var mock: Compute<Swift.String>?
     }
     
     
@@ -153,10 +153,10 @@ extension Settings.API._Modify {
         var dataPreprocessor: Alamofire.DataPreprocessor?
         
         /// default `Alamofire.DataResponseSerializer.defaultEmptyResponseCodes`
-        var emptyResponseCodes: Set<Int>?
+        var emptyResponseCodes: Swift.Set<Int>?
         
         /// default `Alamofire.DataResponseSerializer.defaultEmptyRequestMethods`
-        var emptyRequestMethods: Set<Alamofire.HTTPMethod>?
+        var emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod>?
     }
     
     /// _SerializeString
@@ -166,13 +166,13 @@ extension Settings.API._Modify {
         var dataPreprocessor: Alamofire.DataPreprocessor?
         
         /// default `nil`
-        var encoding: String.Encoding?
+        var encoding: Swift.String.Encoding?
         
         /// default `Alamofire.StringResponseSerializer.defaultEmptyResponseCodes`
-        var emptyResponseCodes: Set<Int>?
+        var emptyResponseCodes: Swift.Set<Int>?
         
         /// default `Alamofire.StringResponseSerializer.defaultEmptyRequestMethods`
-        var emptyRequestMethods: Set<Alamofire.HTTPMethod>?
+        var emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod>?
     }
     
     /// _SerializeJSON
@@ -182,13 +182,13 @@ extension Settings.API._Modify {
         var dataPreprocessor: Alamofire.DataPreprocessor?
         
         /// default `Alamofire.JSONResponseSerializer.defaultEmptyResponseCodes`
-        var emptyResponseCodes: Set<Int>?
+        var emptyResponseCodes: Swift.Set<Int>?
         
         /// default `Alamofire.JSONResponseSerializer.defaultEmptyRequestMethods`
-        var emptyRequestMethods: Set<Alamofire.HTTPMethod>?
+        var emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod>?
         
         /// default `.allowFragments`
-        var options: JSONSerialization.ReadingOptions?
+        var options: Foundation.JSONSerialization.ReadingOptions?
     }
     
     /// _SerializeDecodable
@@ -201,9 +201,9 @@ extension Settings.API._Modify {
         var decoder: Alamofire.DataDecoder?
         
         /// default `Alamofire.DecodableResponseSerializer<API.R>.defaultEmptyResponseCodes`
-        var emptyResponseCodes: Set<Int>?
+        var emptyResponseCodes: Swift.Set<Int>?
         
         /// default `Alamofire.DecodableResponseSerializer<API.R>.defaultEmptyRequestMethods`
-        var emptyRequestMethods: Set<Alamofire.HTTPMethod>?
+        var emptyRequestMethods: Swift.Set<Alamofire.HTTPMethod>?
     }
 }
