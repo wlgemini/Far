@@ -89,7 +89,7 @@ Far.default.headers([
 ... 
 ```
 
-### `0x10`, 定义请求接口, 并增加配置项(可选):
+### `0x02`, 定义请求接口, 并增加配置项(可选):
 
 ```swift
 // 定义login接口
@@ -99,7 +99,7 @@ let login = POST<Account, UserInfo>("login")
 let friends = POST<Page, [Friend]>("friends").timeoutInterval(2)
 ```
 
-### `0x11`, 增加配置项(可选), 并请求API:
+### `0x03`, 增加配置项(可选), 并请求API:
 
 ```swift
 let account = Account(name: "Jack", password: "*******")
@@ -109,4 +109,32 @@ login
     .request(account) { response in
         // some logic here
     }
+```
+
+### `0x04`, 使用`@AccessingRequest`(可选):
+
+`AccessingRequest`是一个`propertyWrapper`, 可用于:
+
+- 在网络请求开始后, 获取`Alamofire.DataRequest`.
+- 当ViewController deinit时, 自动取消网络请求.
+
+```swift
+class ViewController: UIViewController {
+
+    @AccessingRequest(friends)
+    var getFriends
+
+    override func viewDidLoad(_ view: UIView) {
+    
+        self.getFriends.request(...) { response in 
+            ...
+        }
+        
+        // 获取`Alamofire.DataRequest`
+        self.$getFriends.request
+        
+        // deinit时, 自动取消请求
+        self.$getFriends.isCancelRequestWhenDeinit = true
+    }
+}
 ```
