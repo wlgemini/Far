@@ -116,7 +116,7 @@ login
 `AccessingRequest`是一个`propertyWrapper`, 可用于:
 
 - 在网络请求开始后, 获取`Alamofire.DataRequest`.
-- 当ViewController deinit时, 自动取消网络请求.
+- 当`ViewController` `deinit`时, 自动取消网络请求.
 
 ```swift
 class ViewController: UIViewController {
