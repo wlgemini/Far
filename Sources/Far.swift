@@ -27,12 +27,10 @@ extension Far {
                 _Log.warning("Can not set new session, cause session has finalized", location: Location.nowhere)
                 return
             } else {
-                _Debug.execute {
-                    if let newSession = newValue {
-                        _Log.trace("Set new session: \(newSession)", location: Location.nowhere)
-                    } else {
-                        _Log.trace("Set new session: nil", location: Location.nowhere)
-                    }                    
+                if let newSession = newValue {
+                    _Log.trace("Set new session: \(newSession)", location: Location.nowhere)
+                } else {
+                    _Log.trace("Set new session: nil", location: Location.nowhere)
                 }
                 Self._session = newValue
             }
