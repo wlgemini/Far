@@ -11,9 +11,9 @@ enum _InternalModifier {
     
     // MARK: - Accessing
     /// AccessingRequest
-    struct _AccessingRequest: Modifier {
+    struct _AccessingRequest: APIModifier {
         
-        public func modify(context: ModifyContext) {
+        public func apply(to context: ModifiedContext) {
             context.accessing.onRequestAvailable = self._onRequestAvailable
         }
         

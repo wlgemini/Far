@@ -4,7 +4,7 @@
 
 
 // MARK: - API
-public protocol API {
+public protocol API<Parameters, Returns> {
     
     /// Parameters
     associatedtype Parameters
@@ -12,18 +12,18 @@ public protocol API {
     /// Returns
     associatedtype Returns
     
-    /// modifier
-    var modifier: AnyModifier { get }
+    /// Modifier
+    associatedtype Modifier: APIModifier
     
-    /// init
-    init(modifier: AnyModifier)
+    /// modifier
+    var modifier: Modifier { get }
 }
 
 
 extension API {
     
-    func _modifier<M>(_ m: M) -> Self
-    where M: Modifier {
-        Self(modifier: AnyModifier(self.modifier, m))
+    /// modify API
+    public func modifier<NewModifier: APIModifier>(_ newModifier: NewModifier) -> some API<Parameters, Returns> {
+        _ModifiedAPI<Parameters, Returns, Modifier, NewModifier>(modifier: self.modifier, newModifier: newModifier)
     }
 }

@@ -60,7 +60,7 @@ extension Settings.API._Modify {
     // MARK: DataResponse
     /// _DataResponse
     struct _DataResponse {
-                
+        
         // Validate DataResponse
         var acceptableStatusCodes: Swift.Range<Int>?
         var acceptableContentTypes: Compute<[Swift.String]>?

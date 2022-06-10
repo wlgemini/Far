@@ -29,7 +29,7 @@ public enum Setter {
     
     /// for compute value
     public enum Compute {}
-
+    
     /// for available value
     public enum Available {}
 }
@@ -94,7 +94,7 @@ extension Setter.Compute {
     
     /// Nonnil
     public struct Nonnil<T>: Settable {
-    
+        
         public typealias G = T
         
         public typealias S = Compute<T>
@@ -149,7 +149,7 @@ extension Setter.Available {
     
     /// Nonnil
     public struct Nonnil<T>: Settable {
-    
+        
         public typealias G = Available<T>
         
         public typealias S = Available<T>

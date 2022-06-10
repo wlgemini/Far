@@ -25,8 +25,10 @@ where A: API {
         self._location = Location(file, nil)
     }
     
-    public var wrappedValue: A {
-        self._modifiedAPI
+    public var wrappedValue: some API<A.Parameters, A.Returns> {
+        self._api.modifier(_InternalModifier._AccessingRequest(onRequestAvailable: { [weak self] request in
+            self?.request = request as? Alamofire.DataRequest
+        }))
     }
     
     public var projectedValue: AccessingRequest<A> {
@@ -35,9 +37,6 @@ where A: API {
     
     let _api: A
     let _location: Location
-    lazy var _modifiedAPI = self._api._modifier(_InternalModifier._AccessingRequest(onRequestAvailable: { [weak self] request in
-        self?.request = request as? Alamofire.DataRequest
-    }))
     
     deinit {
         if self.isCancelRequestWhenDeinit {

@@ -8,16 +8,16 @@ import Alamofire
 
 /// DataRequestModifier
 public enum DataRequestModifier {
-
+    
     // MARK: - Method/URL
     /// HTTPMethod
-    public struct HTTPMethod: Modifier {
+    public struct HTTPMethod: APIModifier {
         
         public init(method: Alamofire.HTTPMethod) {
             self.method = method
         }
         
-        public func modify(context: ModifyContext) {
+        public func apply(to context: ModifiedContext) {
             if context.dataRequest.api.method == nil {
                 context.dataRequest.api.method = self.method
             } else {
@@ -27,21 +27,21 @@ public enum DataRequestModifier {
         
         let method: Alamofire.HTTPMethod
     }
-
-
+    
+    
     /// InitialURL
     ///
     /// some type examples:
     ///
     ///     http://www.example.com/some/path/to/file
-    ///     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
-    ///                                         full
+    ///     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ///     full
     ///
     ///     http://www.example.com/some/path/to/file
-    ///                           ~~~~~~~~~~~~~~~~~^
-    ///                                         path
+    ///                           ^~~~~~~~~~~~~~~~~~
+    ///                           path
     ///
-    public struct InitialURL: Modifier {
+    public struct InitialURL: APIModifier {
         
         public init(url: @escaping Compute<Swift.String>) {
             self._type = .full(url)
@@ -51,7 +51,7 @@ public enum DataRequestModifier {
             self._type = .path(path)
         }
         
-        public func modify(context: ModifyContext) {
+        public func apply(to context: ModifiedContext) {
             if context.dataRequest.api.initialURL == nil {
                 context.dataRequest.api.initialURL = self._type
             } else {
@@ -75,18 +75,18 @@ public enum DataRequestModifier {
     /// some type examples:
     ///
     ///     http://www.example.com/some/path/to/file
-    ///     ~~~~~~~~~~~~~~~~~~~~~^
-    ///                       base
+    ///     ^~~~~~~~~~~~~~~~~~~~~~
+    ///     base
     ///
     ///     http://www.example.com/some/path/to/file/appendPath
-    ///                                             ~~~~~~~~~~^
-    ///                                              appendPath
+    ///                                             ^~~~~~~~~~~
+    ///                                             appendPath
     ///
     ///     http://www.mock.com/some/path/to/file/appendPath
-    ///     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
-    ///                                                 mock
+    ///     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ///     mock
     ///
-    public struct URL: Modifier {
+    public struct URL: APIModifier {
         
         public init(base: @escaping Compute<Swift.String>) {
             self._type = .base(base)
@@ -100,16 +100,16 @@ public enum DataRequestModifier {
             self._type = .mock(mock)
         }
         
-        public func modify(context: ModifyContext) {
+        public func apply(to context: ModifiedContext) {
             switch self._type {
-            case .base(let base):
-                context.dataRequest.api.base = base
-                
-            case .appendPath(let appendPath):
-                context.dataRequest.api.appendPaths.append(appendPath)
-                
-            case .mock(let mock):
-                context.dataRequest.api.mock = mock
+                case .base(let base):
+                    context.dataRequest.api.base = base
+                    
+                case .appendPath(let appendPath):
+                    context.dataRequest.api.appendPaths.append(appendPath)
+                    
+                case .mock(let mock):
+                    context.dataRequest.api.mock = mock
             }
         }
         
@@ -124,16 +124,16 @@ public enum DataRequestModifier {
             case mock(Compute<Swift.String>)
         }
     }
-
+    
     // MARK: - HTTPHeader
     /// Header
-    public struct HTTPHeader: Modifier {
+    public struct HTTPHeader: APIModifier {
         
         public init(name: Swift.String, value: Swift.String) {
             self._header = Alamofire.HTTPHeader(name: name, value: value)
         }
         
-        public func modify(context: ModifyContext) {
+        public func apply(to context: ModifiedContext) {
             context.dataRequest.headers.add(self._header)
         }
         
@@ -142,13 +142,13 @@ public enum DataRequestModifier {
     
     
     /// Headers
-    public struct HTTPHeaders: Modifier {
+    public struct HTTPHeaders: APIModifier {
         
         public init(_ dictionary: [Swift.String: Swift.String]) {
             self._headers = Alamofire.HTTPHeaders(dictionary)
         }
         
-        public func modify(context: ModifyContext) {
+        public func apply(to context: ModifiedContext) {
             for h in self._headers {
                 context.dataRequest.headers.add(h)
             }
@@ -160,13 +160,13 @@ public enum DataRequestModifier {
     
     // MARK: - Encoder/Encoding
     /// Encoder
-    public struct Encoder: Modifier {
+    public struct Encoder: APIModifier {
         
         public init(_ encoder: Alamofire.ParameterEncoder) {
             self._encoder = encoder
         }
         
-        public func modify(context: ModifyContext) {
+        public func apply(to context: ModifiedContext) {
             context.dataRequest.encoder = self._encoder
         }
         
@@ -175,13 +175,13 @@ public enum DataRequestModifier {
     
     
     /// Encoding
-    public struct Encoding: Modifier {
+    public struct Encoding: APIModifier {
         
         public init(_ encoding: Alamofire.ParameterEncoding) {
             self._encoding = encoding
         }
         
-        public func modify(context: ModifyContext) {
+        public func apply(to context: ModifiedContext) {
             context.dataRequest.encoding = self._encoding
         }
         
@@ -191,13 +191,13 @@ public enum DataRequestModifier {
     
     // MARK: - Modify URLRequest
     /// TimeoutInterval
-    public struct TimeoutInterval: Modifier {
+    public struct TimeoutInterval: APIModifier {
         
         public init(_ timeInterval: TimeInterval) {
             self._timeInterval = timeInterval
         }
         
-        public func modify(context: ModifyContext) {
+        public func apply(to context: ModifiedContext) {
             context.dataRequest.urlRequestModifiers.append { [timeInterval = self._timeInterval] urlRequest in
                 urlRequest.timeoutInterval = timeInterval
             }
@@ -209,7 +209,7 @@ public enum DataRequestModifier {
     
     // MARK: - Authenticate
     /// Authenticate
-    public struct Authenticate: Modifier {
+    public struct Authenticate: APIModifier {
         
         public init(username: Swift.String, password: Swift.String, persistence: Foundation.URLCredential.Persistence) {
             self._credential = Foundation.URLCredential(user: username, password: password, persistence: persistence)
@@ -219,7 +219,7 @@ public enum DataRequestModifier {
             self._credential = credential
         }
         
-        public func modify(context: ModifyContext) {
+        public func apply(to context: ModifiedContext) {
             context.dataRequest.authenticate = self._credential
         }
         
@@ -229,13 +229,13 @@ public enum DataRequestModifier {
     
     // MARK: - Redirect
     /// Redirect
-    public struct Redirect: Modifier {
+    public struct Redirect: APIModifier {
         
         public init(using handler: Alamofire.RedirectHandler) {
             self._handler = handler
         }
         
-        public func modify(context: ModifyContext) {
+        public func apply(to context: ModifiedContext) {
             context.dataRequest.redirectHandler = self._handler
         }
         

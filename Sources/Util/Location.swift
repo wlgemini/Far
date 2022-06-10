@@ -8,7 +8,7 @@ public struct Location: Swift.CustomStringConvertible {
     
     /// a location from nowhere
     public static let nowhere = Location(nil, nil)
-
+    
     /// file: #fileID
     public let file: Swift.String?
     
@@ -30,19 +30,19 @@ public struct Location: Swift.CustomStringConvertible {
     ///
     public var description: Swift.String {
         switch (self.file, self.line) {
-        case (.some(let file), .some(let line)):
-            let fileName = file.split(separator: ".").first ?? ""
+            case (.some(let file), .some(let line)):
+                let fileName = file.split(separator: ".").first ?? ""
                 return "@\(Swift.String(fileName))#\(line)"
-            
-        case (.some(let file), .none):
-            let fileName = file.split(separator: ".").first ?? ""
+                
+            case (.some(let file), .none):
+                let fileName = file.split(separator: ".").first ?? ""
                 return "@\(Swift.String(fileName))"
-            
-        case (.none, .some(let line)):
-            return "#\(line)"
-            
-        case (.none, .none):
-            return ""
+                
+            case (.none, .some(let line)):
+                return "#\(line)"
+                
+            case (.none, .none):
+                return ""
         }
     }
 }

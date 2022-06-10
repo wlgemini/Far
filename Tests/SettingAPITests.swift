@@ -34,7 +34,7 @@ class SettingAPITests {
     }
     
     @AccessingRequest(APIs.echoGet.base("http://www.xyz.com/"))
-    var dataRequestEchoGet
+    var dataRequestEchoGet: some API<Bin, Bin>
     
     func requestMethod() {
         let contextEchoGet = APIs.echoGet._context(file: #fileID, line: #line)
@@ -140,7 +140,7 @@ class SettingAPITests {
         let BaseURL = "http://www.xyz.com/"
         let Path = "echo/"
         let FullURL = BaseURL + Path
-  
+        
         let kv0 = ("X", "y")
         
         let kv1 = ["a": "0",
@@ -152,7 +152,7 @@ class SettingAPITests {
                    "c": "5",
                    "d": "6",
                    "e": "7"]
-
+        
         do {
             // Headers: []
             let api0 = GET<Bin, Bin>(url: FullURL).header(name: kv0.0, value: kv0.1)
@@ -184,7 +184,7 @@ class SettingAPITests {
             }
         }
     }
-
+    
     func requestEncoding() {
         // Default
         let get0 = APIs.echoJSONGet._context(file: #fileID, line: #line)._encoding()

@@ -128,14 +128,14 @@ public extension API {
 extension API {
     
     /// context
-    func _context(file: Swift.String, line: Swift.UInt) -> ModifyContext {
-        let ctx = ModifyContext(requestLocation: Location(file, line))
-        self.modifier.modify(context: ctx)
+    func _context(file: Swift.String, line: Swift.UInt) -> ModifiedContext {
+        let ctx = ModifiedContext(requestLocation: Location(file, line))
+        self.modifier.apply(to: ctx)
         return ctx
     }
     
     /// request encoding
-    func _request(parameters: Parameters?, context: ModifyContext) -> Alamofire.DataRequest?
+    func _request(parameters: Parameters?, context: ModifiedContext) -> Alamofire.DataRequest?
     where Parameters == [Swift.String: Any] {
         guard let method = context._method() else { return nil }
         guard let url = context._url() else { return nil }
@@ -152,7 +152,7 @@ extension API {
     }
     
     /// request encodable
-    func _request(parameters: Parameters?, context: ModifyContext) -> Alamofire.DataRequest?
+    func _request(parameters: Parameters?, context: ModifiedContext) -> Alamofire.DataRequest?
     where Parameters: Swift.Encodable {
         guard let method = context._method() else { return nil }
         guard let url = context._url() else { return nil }
@@ -169,7 +169,7 @@ extension API {
     }
     
     /// request modify
-    func _requestModify(request: Alamofire.DataRequest, context: ModifyContext) {
+    func _requestModify(request: Alamofire.DataRequest, context: ModifiedContext) {
         // authentication
         if let credential = context._authenticate() {
             request.authenticate(with: credential)
@@ -182,7 +182,7 @@ extension API {
     }
     
     /// response modify
-    func _responseModify(request: Alamofire.DataRequest, context: ModifyContext) {
+    func _responseModify(request: Alamofire.DataRequest, context: ModifiedContext) {
         // validation
         let (acceptableStatusCodes, acceptableContentTypes, validations) = context._validation()
         
@@ -218,7 +218,7 @@ extension API {
     
     /// response data
     func _response(request: Alamofire.DataRequest,
-                   context: ModifyContext,
+                   context: ModifiedContext,
                    completion: @escaping (Alamofire.AFDataResponse<Returns>) -> Swift.Void)
     where Returns == Foundation.Data {
         let queue = context._queue()
@@ -230,7 +230,7 @@ extension API {
     
     /// response string
     func _response(request: Alamofire.DataRequest,
-                   context: ModifyContext,
+                   context: ModifiedContext,
                    completion: @escaping (Alamofire.AFDataResponse<Returns>) -> Swift.Void)
     where Returns == Swift.String {
         let queue = context._queue()
@@ -243,7 +243,7 @@ extension API {
     /// response json
     @available(*, deprecated, message: "JSONResponseSerializer deprecated and will be removed in Alamofire 6. Use DecodableResponseSerializer instead.")
     func _response(request: Alamofire.DataRequest,
-                   context: ModifyContext,
+                   context: ModifiedContext,
                    completion: @escaping (Alamofire.AFDataResponse<Returns>) -> Swift.Void)
     where Returns == Any {
         let queue = context._queue()
@@ -255,7 +255,7 @@ extension API {
     
     /// response decodable
     func _response(request: Alamofire.DataRequest,
-                   context: ModifyContext,
+                   context: ModifiedContext,
                    completion: @escaping (Alamofire.AFDataResponse<Returns>) -> Swift.Void)
     where Returns: Swift.Decodable {
         let queue = context._queue()
@@ -266,7 +266,7 @@ extension API {
     }
     
     /// accessing data request
-    func _requestAccessing(request: Alamofire.DataRequest, context: ModifyContext) {
+    func _requestAccessing(request: Alamofire.DataRequest, context: ModifiedContext) {
         // onRequestAvailable
         if let onRequestAvailable = context._accessingRequest() {
             onRequestAvailable(request)

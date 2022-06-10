@@ -17,7 +17,7 @@ class DataRequestTests {
         let expectation = XCTestExpectation(description: "")
         var response: DataResponse<Data, AFError>?
         let post = POST<[String: Any], Data>("/post")
-
+        
         
         // When
         post.request(nil) { resp in
@@ -46,7 +46,7 @@ class DataRequestTests {
         let username = "some_user"
         let password = "some_password"
         let get = GET<[String: Any], Auth>("/basic-auth/\(username)/\(password)")
-
+        
         
         // When
         get.authenticate(username: username, password: password).request(nil) { resp in
@@ -84,9 +84,9 @@ class DataRequestTests {
         get
             .validate(identifier: vali0.0, validation: vali0.1)
             .request(nil) { resp in
-            response = resp
-            respFilfill.fulfill()
-        }
+                response = resp
+                respFilfill.fulfill()
+            }
         
         test.wait(for: [vali0Filfill, respFilfill], timeout: 60)
         
@@ -114,9 +114,9 @@ class DataRequestTests {
         // When
         get
             .headers(["Abc": "1", "Def": "2"]).request(nil) { resp in
-            response = resp
-            expectation.fulfill()
-        }
+                response = resp
+                expectation.fulfill()
+            }
         
         test.wait(for: [expectation], timeout: 20)
         
@@ -152,9 +152,9 @@ class DataRequestTests {
         // When
         post
             .request(params) { resp in
-            response = resp
-            expectation.fulfill()
-        }
+                response = resp
+                expectation.fulfill()
+            }
         
         test.wait(for: [expectation], timeout: 20)
         

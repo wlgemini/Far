@@ -11,7 +11,7 @@ public enum DataResponseModifier {
     
     // MARK: - Validation
     /// Validation
-    public struct Validation: Modifier {
+    public struct Validation: APIModifier {
         
         public init(statusCode acceptableStatusCodes: Swift.Range<Swift.Int>) {
             self._type = .statusCode(acceptableStatusCodes)
@@ -25,7 +25,7 @@ public enum DataResponseModifier {
             self._type = .custom(identifier, validation)
         }
         
-        public func modify(context: ModifyContext) {
+        public func apply(to context: ModifiedContext) {
             switch self._type {
                 case .statusCode(let acceptableStatusCodes):
                     context.dataResponse.acceptableStatusCodes = acceptableStatusCodes
@@ -53,13 +53,13 @@ public enum DataResponseModifier {
     
     // MARK: - CacheResponse
     /// CacheResponse
-    public struct CacheResponse: Modifier {
+    public struct CacheResponse: APIModifier {
         
         public init(using handler: Alamofire.CachedResponseHandler) {
             self._handler = handler
         }
         
-        public func modify(context: ModifyContext) {
+        public func apply(to context: ModifiedContext) {
             context.dataResponse.cachedResponseHandler = self._handler
         }
         
@@ -68,29 +68,29 @@ public enum DataResponseModifier {
     
     
     // MARK: - Queue
-    public struct Queue: Modifier {
+    public struct Queue: APIModifier {
         
         public init(_ queue: Foundation.DispatchQueue) {
             self._queue = queue
         }
         
-        public func modify(context: ModifyContext) {
+        public func apply(to context: ModifiedContext) {
             context.dataResponse.queue = self._queue
         }
         
         let _queue: Foundation.DispatchQueue
     }
-
+    
     
     // MARK: - Serializer
     /// SerializeData
-    public struct SerializeData: Modifier {
+    public struct SerializeData: APIModifier {
         
         public init(_ serializer: Alamofire.DataResponseSerializer) {
             self._serializer = serializer
         }
         
-        public func modify(context: ModifyContext) {
+        public func apply(to context: ModifiedContext) {
             context.dataResponse.serializeData.dataPreprocessor = self._serializer.dataPreprocessor
             context.dataResponse.serializeData.emptyResponseCodes = self._serializer.emptyResponseCodes
             context.dataResponse.serializeData.emptyRequestMethods = self._serializer.emptyRequestMethods
@@ -100,13 +100,13 @@ public enum DataResponseModifier {
     }
     
     /// SerializeString
-    public struct SerializeString: Modifier {
+    public struct SerializeString: APIModifier {
         
         public init(_ serializer: Alamofire.StringResponseSerializer) {
             self._serializer = serializer
         }
         
-        public func modify(context: ModifyContext) {
+        public func apply(to context: ModifiedContext) {
             context.dataResponse.serializeString.dataPreprocessor = self._serializer.dataPreprocessor
             context.dataResponse.serializeString.encoding = self._serializer.encoding
             context.dataResponse.serializeString.emptyResponseCodes = self._serializer.emptyResponseCodes
@@ -118,13 +118,13 @@ public enum DataResponseModifier {
     
     /// SerializeJSON
     @available(*, deprecated, message: "JSONResponseSerializer deprecated and will be removed in Alamofire 6. Use DecodableResponseSerializer instead.")
-    public struct SerializeJSON: Modifier {
+    public struct SerializeJSON: APIModifier {
         
         public init(_ serializer: Alamofire.JSONResponseSerializer) {
             self._serializer = serializer
         }
         
-        public func modify(context: ModifyContext) {
+        public func apply(to context: ModifiedContext) {
             context.dataResponse.serializeJSON.dataPreprocessor = self._serializer.dataPreprocessor
             context.dataResponse.serializeJSON.emptyResponseCodes = self._serializer.emptyResponseCodes
             context.dataResponse.serializeJSON.emptyRequestMethods = self._serializer.emptyRequestMethods
@@ -135,14 +135,14 @@ public enum DataResponseModifier {
     }
     
     /// SerializeDecodable
-    public struct SerializeDecodable<T>: Modifier
+    public struct SerializeDecodable<T>: APIModifier
     where T: Swift.Decodable {
         
         public init(_ serializer: Alamofire.DecodableResponseSerializer<T>) {
             self._serializer = serializer
         }
         
-        public func modify(context: ModifyContext) {
+        public func apply(to context: ModifiedContext) {
             context.dataResponse.serializeDecodable.dataPreprocessor = self._serializer.dataPreprocessor
             context.dataResponse.serializeDecodable.decoder = self._serializer.decoder
             context.dataResponse.serializeDecodable.emptyResponseCodes = self._serializer.emptyResponseCodes

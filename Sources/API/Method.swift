@@ -17,109 +17,104 @@ public protocol Method: API {
 // MARK: - Methods
 public struct GET<Parameters, Returns>: Method {
     
-    public let modifier: AnyModifier
+    public var modifier: some APIModifier {
+        _ModifiedAPI<Parameters, Returns, DataRequestModifier.HTTPMethod, DataRequestModifier.InitialURL>(modifier: self._method, newModifier: self._initialURL)
+    }
     
     public init(_ path: @escaping @autoclosure Compute<Swift.String>) {
-        let modifier = AnyModifier(DataRequestModifier.HTTPMethod(method: .get),
-                                   DataRequestModifier.InitialURL(path: path))
-        self.init(modifier: modifier)
+        self._method = DataRequestModifier.HTTPMethod(method: .get)
+        self._initialURL = DataRequestModifier.InitialURL(path: path)
     }
     
     public init(url: @escaping @autoclosure Compute<Swift.String>) {
-        let modifier = AnyModifier(DataRequestModifier.HTTPMethod(method: .get),
-                                   DataRequestModifier.InitialURL(url: url))
-        self.init(modifier: modifier)
+        self._method = DataRequestModifier.HTTPMethod(method: .get)
+        self._initialURL = DataRequestModifier.InitialURL(url: url)
     }
     
-    public init(modifier: AnyModifier) {
-        self.modifier = modifier
-    }
+    let _method: DataRequestModifier.HTTPMethod
+    let _initialURL: DataRequestModifier.InitialURL
 }
 
 
 public struct POST<Parameters, Returns>: Method {
     
-    public let modifier: AnyModifier
+    public var modifier: some APIModifier {
+        _ModifiedAPI<Parameters, Returns, DataRequestModifier.HTTPMethod, DataRequestModifier.InitialURL>(modifier: self._method, newModifier: self._initialURL)
+    }
     
     public init(_ path: @escaping @autoclosure Compute<Swift.String>) {
-        let modifier = AnyModifier(DataRequestModifier.HTTPMethod(method: .post),
-                                   DataRequestModifier.InitialURL(path: path))
-        self.init(modifier: modifier)
+        self._method = DataRequestModifier.HTTPMethod(method: .post)
+        self._initialURL = DataRequestModifier.InitialURL(path: path)
     }
     
     public init(url: @escaping @autoclosure Compute<Swift.String>) {
-        let modifier = AnyModifier(DataRequestModifier.HTTPMethod(method: .post),
-                                   DataRequestModifier.InitialURL(url: url))
-        self.init(modifier: modifier)
+        self._method = DataRequestModifier.HTTPMethod(method: .post)
+        self._initialURL = DataRequestModifier.InitialURL(url: url)
     }
     
-    public init(modifier: AnyModifier) {
-        self.modifier = modifier
-    }
+    let _method: DataRequestModifier.HTTPMethod
+    let _initialURL: DataRequestModifier.InitialURL
 }
 
 
 public struct PUT<Parameters, Returns>: Method {
     
-    public let modifier: AnyModifier
+    public var modifier: some APIModifier {
+        _ModifiedAPI<Parameters, Returns, DataRequestModifier.HTTPMethod, DataRequestModifier.InitialURL>(modifier: self._method, newModifier: self._initialURL)
+    }
     
     public init(_ path: @escaping @autoclosure Compute<Swift.String>) {
-        let modifier = AnyModifier(DataRequestModifier.HTTPMethod(method: .put),
-                                   DataRequestModifier.InitialURL(path: path))
-        self.init(modifier: modifier)
+        self._method = DataRequestModifier.HTTPMethod(method: .put)
+        self._initialURL = DataRequestModifier.InitialURL(path: path)
     }
     
     public init(url: @escaping @autoclosure Compute<Swift.String>) {
-        let modifier = AnyModifier(DataRequestModifier.HTTPMethod(method: .put),
-                                   DataRequestModifier.InitialURL(url: url))
-        self.init(modifier: modifier)
+        self._method = DataRequestModifier.HTTPMethod(method: .put)
+        self._initialURL = DataRequestModifier.InitialURL(url: url)
     }
     
-    public init(modifier: AnyModifier) {
-        self.modifier = modifier
-    }
+    let _method: DataRequestModifier.HTTPMethod
+    let _initialURL: DataRequestModifier.InitialURL
 }
 
 
 public struct PATCH<Parameters, Returns>: Method {
     
-    public let modifier: AnyModifier
+    public var modifier: some APIModifier {
+        _ModifiedAPI<Parameters, Returns, DataRequestModifier.HTTPMethod, DataRequestModifier.InitialURL>(modifier: self._method, newModifier: self._initialURL)
+    }
     
     public init(_ path: @escaping @autoclosure Compute<Swift.String>) {
-        let modifier = AnyModifier(DataRequestModifier.HTTPMethod(method: .patch),
-                                   DataRequestModifier.InitialURL(path: path))
-        self.init(modifier: modifier)
+        self._method = DataRequestModifier.HTTPMethod(method: .patch)
+        self._initialURL = DataRequestModifier.InitialURL(path: path)
     }
     
     public init(url: @escaping @autoclosure Compute<Swift.String>) {
-        let modifier = AnyModifier(DataRequestModifier.HTTPMethod(method: .patch),
-                                   DataRequestModifier.InitialURL(url: url))
-        self.init(modifier: modifier)
+        self._method = DataRequestModifier.HTTPMethod(method: .patch)
+        self._initialURL = DataRequestModifier.InitialURL(url: url)
     }
     
-    public init(modifier: AnyModifier) {
-        self.modifier = modifier
-    }
+    let _method: DataRequestModifier.HTTPMethod
+    let _initialURL: DataRequestModifier.InitialURL
 }
 
 
 public struct DELETE<Parameters, Returns>: Method {
     
-    public let modifier: AnyModifier
+    public var modifier: some APIModifier {
+        _ModifiedAPI<Parameters, Returns, DataRequestModifier.HTTPMethod, DataRequestModifier.InitialURL>(modifier: self._method, newModifier: self._initialURL)
+    }
     
     public init(_ path: @escaping @autoclosure Compute<Swift.String>) {
-        let modifier = AnyModifier(DataRequestModifier.HTTPMethod(method: .delete),
-                                   DataRequestModifier.InitialURL(path: path))
-        self.init(modifier: modifier)
+        self._method = DataRequestModifier.HTTPMethod(method: .delete)
+        self._initialURL = DataRequestModifier.InitialURL(path: path)
     }
     
     public init(url: @escaping @autoclosure Compute<Swift.String>) {
-        let modifier = AnyModifier(DataRequestModifier.HTTPMethod(method: .delete),
-                                   DataRequestModifier.InitialURL(url: url))
-        self.init(modifier: modifier)
+        self._method = DataRequestModifier.HTTPMethod(method: .delete)
+        self._initialURL = DataRequestModifier.InitialURL(url: url)
     }
     
-    public init(modifier: AnyModifier) {
-        self.modifier = modifier
-    }
+    let _method: DataRequestModifier.HTTPMethod
+    let _initialURL: DataRequestModifier.InitialURL
 }

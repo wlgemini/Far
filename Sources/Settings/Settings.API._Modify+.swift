@@ -85,16 +85,16 @@ extension Settings.API._Modify {
             }
             
             switch method {
-                // URLEncoding
+                    // URLEncoding
                 case .get: return Far._api.dataRequest.encoding.get._value
                 case .delete: return Far._api.dataRequest.encoding.delete._value
                     
-                // JSONEncoding
+                    // JSONEncoding
                 case .patch: return Far._api.dataRequest.encoding.patch._value
                 case .post: return Far._api.dataRequest.encoding.post._value
                 case .put: return Far._api.dataRequest.encoding.put._value
                     
-                // default
+                    // default
                 default: return Alamofire.URLEncoding.default
             }
         }
@@ -111,16 +111,16 @@ extension Settings.API._Modify {
             }
             
             switch method {
-                // URLEncodedFormParameterEncoder
+                    // URLEncodedFormParameterEncoder
                 case .get: return Far._api.dataRequest.encoder.get._value
                 case .delete: return Far._api.dataRequest.encoder.delete._value
                     
-                // JSONEncoding
+                    // JSONEncoding
                 case .patch: return Far._api.dataRequest.encoder.patch._value
                 case .post: return Far._api.dataRequest.encoder.post._value
                 case .put: return Far._api.dataRequest.encoder.put._value
                     
-                // default
+                    // default
                 default: return Alamofire.URLEncodedFormParameterEncoder.default
             }
         }
