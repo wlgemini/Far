@@ -28,7 +28,7 @@ extension API {
     }
     
     /// modify API
-    func _modifier<NewModifier: APIModifier>(_ newModifier: NewModifier) -> _ModifiedAPI<Parameters, Returns, _APIModifier<Modifier, NewModifier>> {
-        _ModifiedAPI(_APIModifier(self.modifier, newModifier))
+    func _modifier<NewModifier: APIModifier>(_ newModifier: NewModifier) -> _APIModified<Parameters, Returns, _APIModifier<Modifier, NewModifier>> {
+        _APIModified(_APIModifier(self.modifier, newModifier))
     }
 }

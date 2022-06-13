@@ -1,5 +1,5 @@
 //
-//  Methods.swift
+//  APIMethods.swift
 //
 
 import Alamofire

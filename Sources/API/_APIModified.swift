@@ -1,10 +1,10 @@
 //
-//  _ModifiedAPI.swift
-//
+//  _APIModified.swift
+//  
 
 
-/// _ModifiedAPI
-struct _ModifiedAPI<P, R, M: APIModifier>: API, APIModifier {
+/// _APIModified
+struct _APIModified<P, R, M: APIModifier>: API, APIModifier {
     
     typealias Parameters = P
     
