@@ -1,21 +1,12 @@
 //
-//  Method.swift
+//  Methods.swift
 //
 
 import Alamofire
 
 
-// MARK: - Method
-public protocol Method: API {
-    
-    init(_ path: @escaping @autoclosure Compute<Swift.String>)
-    
-    init(url: @escaping @autoclosure Compute<Swift.String>)
-}
-
-
 // MARK: - Methods
-public struct GET<Parameters, Returns>: Method {
+public struct GET<Parameters, Returns>: API {
     
     public var modifier: some APIModifier {
         _ModifiedAPI<Parameters, Returns, DataRequestModifier.HTTPMethod, DataRequestModifier.InitialURL>(modifier: self._method, newModifier: self._initialURL)
@@ -36,7 +27,7 @@ public struct GET<Parameters, Returns>: Method {
 }
 
 
-public struct POST<Parameters, Returns>: Method {
+public struct POST<Parameters, Returns>: API {
     
     public var modifier: some APIModifier {
         _ModifiedAPI<Parameters, Returns, DataRequestModifier.HTTPMethod, DataRequestModifier.InitialURL>(modifier: self._method, newModifier: self._initialURL)
@@ -57,7 +48,7 @@ public struct POST<Parameters, Returns>: Method {
 }
 
 
-public struct PUT<Parameters, Returns>: Method {
+public struct PUT<Parameters, Returns>: API {
     
     public var modifier: some APIModifier {
         _ModifiedAPI<Parameters, Returns, DataRequestModifier.HTTPMethod, DataRequestModifier.InitialURL>(modifier: self._method, newModifier: self._initialURL)
@@ -78,7 +69,7 @@ public struct PUT<Parameters, Returns>: Method {
 }
 
 
-public struct PATCH<Parameters, Returns>: Method {
+public struct PATCH<Parameters, Returns>: API {
     
     public var modifier: some APIModifier {
         _ModifiedAPI<Parameters, Returns, DataRequestModifier.HTTPMethod, DataRequestModifier.InitialURL>(modifier: self._method, newModifier: self._initialURL)
@@ -99,7 +90,7 @@ public struct PATCH<Parameters, Returns>: Method {
 }
 
 
-public struct DELETE<Parameters, Returns>: Method {
+public struct DELETE<Parameters, Returns>: API {
     
     public var modifier: some APIModifier {
         _ModifiedAPI<Parameters, Returns, DataRequestModifier.HTTPMethod, DataRequestModifier.InitialURL>(modifier: self._method, newModifier: self._initialURL)

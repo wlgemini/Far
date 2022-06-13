@@ -33,8 +33,8 @@ class SettingAPITests {
         static let redirectTo = POST<Bin, Bin>("redirectTo")
     }
     
-    @AccessingRequest(APIs.echoGet.base("http://www.xyz.com/"))
-    var dataRequestEchoGet: some API<Bin, Bin>
+//    @AccessingRequest(APIs.echoGet.base("http://www.xyz.com/"))
+//    var dataRequestEchoGet: some API<Bin, Bin>
     
     func requestMethod() {
         let contextEchoGet = APIs.echoGet._context(file: #fileID, line: #line)
@@ -408,10 +408,10 @@ class SettingAPITests {
     func accessing() {
         
         // accessingRequest
-        XCTAssert(self.$dataRequestEchoGet.request == nil)
+//        XCTAssert(self.$dataRequestEchoGet.request == nil)
         
-        self.dataRequestEchoGet.request(nil) { resp in }
+//        self.dataRequestEchoGet.request(nil) { resp in }
         
-        XCTAssert(self.$dataRequestEchoGet.request != nil)
+//        XCTAssert(self.$dataRequestEchoGet.request != nil)
     }
 }

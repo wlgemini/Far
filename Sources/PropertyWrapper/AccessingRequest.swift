@@ -21,22 +21,22 @@ where A: API {
     /// - Parameters:
     ///   - api: some API
     public init(_ api: A, file: Swift.String = #fileID) {
-        self._api = api
         self._location = Location(file, nil)
+        self._api = api._modifier(_InternalModifier._AccessingRequest(onRequestAvailable: { [weak self] request in
+            self?.request = request as? Alamofire.DataRequest
+        }))
     }
     
     public var wrappedValue: some API<A.Parameters, A.Returns> {
-        self._api.modifier(_InternalModifier._AccessingRequest(onRequestAvailable: { [weak self] request in
-            self?.request = request as? Alamofire.DataRequest
-        }))
+        self._api
     }
     
     public var projectedValue: AccessingRequest<A> {
         self
     }
     
-    let _api: A
     let _location: Location
+    var _api: _ModifiedAPI<A.Parameters, A.Returns, A.Modifier, _InternalModifier._AccessingRequest>!
     
     deinit {
         if self.isCancelRequestWhenDeinit {

@@ -11,63 +11,63 @@ public extension API {
     
     /// modify base url
     func base(_ base: @escaping @autoclosure Compute<Swift.String>) -> some API<Parameters, Returns> {
-        self.modifier(DataRequestModifier.URL(base: base))
+        self._modifier(DataRequestModifier.URL(base: base))
     }
     
     /// append path
     func appendPath(_ appendPath: @escaping @autoclosure Compute<Swift.String>) -> some API<Parameters, Returns> {
-        self.modifier(DataRequestModifier.URL(appendPath: appendPath))
+        self._modifier(DataRequestModifier.URL(appendPath: appendPath))
     }
     
     /// mocking with full url
     func mock(_ mock: @escaping @autoclosure Compute<Swift.String>) -> some API<Parameters, Returns> {
-        self.modifier(DataRequestModifier.URL(mock: mock))
+        self._modifier(DataRequestModifier.URL(mock: mock))
     }
     
     /// set additional header
     func header(name: Swift.String, value: Swift.String) -> some API<Parameters, Returns> {
-        self.modifier(DataRequestModifier.HTTPHeader(name: name, value: value))
+        self._modifier(DataRequestModifier.HTTPHeader(name: name, value: value))
     }
     
     /// set additional headers
     func headers(_ dictionary: [Swift.String: Swift.String]) -> some API<Parameters, Returns> {
-        self.modifier(DataRequestModifier.HTTPHeaders(dictionary))
+        self._modifier(DataRequestModifier.HTTPHeaders(dictionary))
     }
     
     /// modify encoding
     func encoding(_ encoding: Alamofire.ParameterEncoding) -> some API<Parameters, Returns>
     where Self.Parameters == [Swift.String: Any] {
-        self.modifier(DataRequestModifier.Encoding(encoding))
+        self._modifier(DataRequestModifier.Encoding(encoding))
     }
     
     /// modify encoder
     func encoder(_ encoder: Alamofire.ParameterEncoder) -> some API<Parameters, Returns>
     where Self.Parameters: Swift.Encodable {
-        self.modifier(DataRequestModifier.Encoder(encoder))
+        self._modifier(DataRequestModifier.Encoder(encoder))
     }
     
     /// modify URLRequest.timeoutInterval
     func timeoutInterval(_ timeoutInterval: TimeInterval) -> some API<Parameters, Returns> {
-        self.modifier(DataRequestModifier.TimeoutInterval(timeoutInterval))
+        self._modifier(DataRequestModifier.TimeoutInterval(timeoutInterval))
     }
     
     /// modify authenticate
     func authenticate(username: Swift.String,
                       password: Swift.String,
                       persistence: Foundation.URLCredential.Persistence = .forSession) -> some API<Parameters, Returns> {
-        self.modifier(DataRequestModifier.Authenticate(username: username,
-                                                       password: password,
-                                                       persistence: persistence))
+        self._modifier(DataRequestModifier.Authenticate(username: username,
+                                                        password: password,
+                                                        persistence: persistence))
     }
     
     /// modify authenticate
     func authenticate(credential: Foundation.URLCredential) -> some API<Parameters, Returns> {
-        self.modifier(DataRequestModifier.Authenticate(credential: credential))
+        self._modifier(DataRequestModifier.Authenticate(credential: credential))
     }
     
     /// modify redirect
     func redirect(using handler: Alamofire.RedirectHandler) -> some API<Parameters, Returns> {
-        self.modifier(DataRequestModifier.Redirect(using: handler))
+        self._modifier(DataRequestModifier.Redirect(using: handler))
     }
 }
 
@@ -77,12 +77,12 @@ public extension API {
     
     /// validate statusCode
     func validate(statusCode acceptableStatusCodes: Swift.Range<Swift.Int>) -> some API<Parameters, Returns> {
-        self.modifier(DataResponseModifier.Validation(statusCode: acceptableStatusCodes))
+        self._modifier(DataResponseModifier.Validation(statusCode: acceptableStatusCodes))
     }
     
     /// validate contentType
     func validate(contentType acceptableContentTypes: @escaping @autoclosure Compute<[Swift.String]>) -> some API<Parameters, Returns> {
-        self.modifier(DataResponseModifier.Validation(contentType: acceptableContentTypes))
+        self._modifier(DataResponseModifier.Validation(contentType: acceptableContentTypes))
     }
     
     /// validates the request, using the specified closure.
@@ -90,17 +90,17 @@ public extension API {
     ///   - identifier: Same identifier will be override.
     ///   - validation: Custom validation
     func validate(identifier: Swift.String, validation: @escaping Alamofire.DataRequest.Validation) -> some API<Parameters, Returns> {
-        self.modifier(DataResponseModifier.Validation(identifier: identifier, validation: validation))
+        self._modifier(DataResponseModifier.Validation(identifier: identifier, validation: validation))
     }
     
     /// modify cache response
     func cacheResponse(using handler: Alamofire.CachedResponseHandler) -> some API<Parameters, Returns> {
-        self.modifier(DataResponseModifier.CacheResponse(using: handler))
+        self._modifier(DataResponseModifier.CacheResponse(using: handler))
     }
     
     /// The queue on which the completion handler is dispatched
     func queue(_ queue: DispatchQueue) -> some API<Parameters, Returns> {
-        self.modifier(DataResponseModifier.Queue(queue))
+        self._modifier(DataResponseModifier.Queue(queue))
     }
     
     /// serialize data
@@ -111,7 +111,7 @@ public extension API {
         let serializer = Alamofire.DataResponseSerializer(dataPreprocessor: dataPreprocessor,
                                                           emptyResponseCodes: emptyResponseCodes,
                                                           emptyRequestMethods: emptyRequestMethods)
-        return self.modifier(DataResponseModifier.SerializeData(serializer))
+        return self._modifier(DataResponseModifier.SerializeData(serializer))
     }
     
     /// serialize string
@@ -124,7 +124,7 @@ public extension API {
                                                             encoding: encoding,
                                                             emptyResponseCodes: emptyResponseCodes,
                                                             emptyRequestMethods: emptyRequestMethods)
-        return self.modifier(DataResponseModifier.SerializeString(serializer))
+        return self._modifier(DataResponseModifier.SerializeString(serializer))
     }
     
     /// serialize json
@@ -138,7 +138,7 @@ public extension API {
                                                           emptyResponseCodes: emptyResponseCodes,
                                                           emptyRequestMethods: emptyRequestMethods,
                                                           options: options)
-        return self.modifier(DataResponseModifier.SerializeJSON(serializer))
+        return self._modifier(DataResponseModifier.SerializeJSON(serializer))
     }
     
     /// serialize decodable
@@ -151,6 +151,6 @@ public extension API {
                                                                         decoder: decoder,
                                                                         emptyResponseCodes: emptyResponseCodes,
                                                                         emptyRequestMethods: emptyRequestMethods)
-        return self.modifier(DataResponseModifier.SerializeDecodable<Returns>(serializer))
+        return self._modifier(DataResponseModifier.SerializeDecodable<Returns>(serializer))
     }
 }
