@@ -36,7 +36,7 @@ where A: API {
     }
     
     let _location: Location
-    var _api: _ModifiedAPI<A.Parameters, A.Returns, A.Modifier, _InternalModifier._AccessingRequest>!
+    var _api: _ModifiedAPI<A.Parameters, A.Returns, _APIModifier<A.Modifier, _InternalModifier._AccessingRequest>>!
     
     deinit {
         if self.isCancelRequestWhenDeinit {

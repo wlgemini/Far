@@ -4,18 +4,18 @@
 
 
 /// _ModifiedAPI
-struct _ModifiedAPI<Parameters, Returns, Modifier: APIModifier, NewModifier: APIModifier>: API, APIModifier {
+struct _ModifiedAPI<P, R, M: APIModifier>: API, APIModifier {
     
-    typealias Parameters = Parameters
+    typealias Parameters = P
     
-    typealias Returns = Returns
+    typealias Returns = R
     
-    typealias Modifier = _APIModifier<Modifier, NewModifier>
+    typealias Modifier = M
 
-    let modifier: _APIModifier<Modifier, NewModifier>
+    let modifier: M
 
-    init(modifier: Modifier, newModifier: NewModifier) {
-        self.modifier = _APIModifier(modifier: modifier, newModifier: newModifier)
+    init(_ modifier: M) {
+        self.modifier = modifier
     }
 
     func apply(to context: ModifiedContext) {

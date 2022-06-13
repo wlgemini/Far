@@ -15,19 +15,19 @@ public typealias ModifiedContext = Settings.API._Modify
 
 
 /// _APIModifier
-struct _APIModifier<Modifier: APIModifier, NewModifier: APIModifier>: APIModifier {
+struct _APIModifier<First: APIModifier, Second: APIModifier>: APIModifier {
     
-    let modifier: Modifier
+    let first: First
     
-    let newModifier: NewModifier
+    let second: Second
     
-    init(modifier: Modifier, newModifier: NewModifier) {
-        self.modifier = modifier
-        self.newModifier = newModifier
+    init(_ first: First, _ second: Second) {
+        self.first = first
+        self.second = second
     }
     
     func apply(to context: ModifiedContext) {
-        self.modifier.apply(to: context)
-        self.newModifier.apply(to: context)
+        self.first.apply(to: context)
+        self.second.apply(to: context)
     }
 }

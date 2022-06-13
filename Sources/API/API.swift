@@ -22,13 +22,13 @@ public protocol API<Parameters, Returns> {
 
 extension API {
     
-    /// modify API, return an opaque type
+    /// modify API, with an opaque return type
     public func modifier<NewModifier: APIModifier>(_ newModifier: NewModifier) -> some API<Parameters, Returns> {
-        _ModifiedAPI<Parameters, Returns, Modifier, NewModifier>(modifier: self.modifier, newModifier: newModifier)
+        self._modifier(newModifier)
     }
     
     /// modify API
-    func _modifier<NewModifier: APIModifier>(_ newModifier: NewModifier) -> _ModifiedAPI<Parameters, Returns, Modifier, NewModifier> {
-        _ModifiedAPI<Parameters, Returns, Modifier, NewModifier>(modifier: self.modifier, newModifier: newModifier)
+    func _modifier<NewModifier: APIModifier>(_ newModifier: NewModifier) -> _ModifiedAPI<Parameters, Returns, _APIModifier<Modifier, NewModifier>> {
+        _ModifiedAPI(_APIModifier(self.modifier, newModifier))
     }
 }

@@ -9,7 +9,7 @@ import Alamofire
 public struct GET<Parameters, Returns>: API {
     
     public var modifier: some APIModifier {
-        _ModifiedAPI<Parameters, Returns, DataRequestModifier.HTTPMethod, DataRequestModifier.InitialURL>(modifier: self._method, newModifier: self._initialURL)
+        _APIModifier(self._method, self._initialURL)
     }
     
     public init(_ path: @escaping @autoclosure Compute<Swift.String>) {
@@ -30,7 +30,7 @@ public struct GET<Parameters, Returns>: API {
 public struct POST<Parameters, Returns>: API {
     
     public var modifier: some APIModifier {
-        _ModifiedAPI<Parameters, Returns, DataRequestModifier.HTTPMethod, DataRequestModifier.InitialURL>(modifier: self._method, newModifier: self._initialURL)
+        _APIModifier(self._method, self._initialURL)
     }
     
     public init(_ path: @escaping @autoclosure Compute<Swift.String>) {
@@ -51,7 +51,7 @@ public struct POST<Parameters, Returns>: API {
 public struct PUT<Parameters, Returns>: API {
     
     public var modifier: some APIModifier {
-        _ModifiedAPI<Parameters, Returns, DataRequestModifier.HTTPMethod, DataRequestModifier.InitialURL>(modifier: self._method, newModifier: self._initialURL)
+        _APIModifier(self._method, self._initialURL)
     }
     
     public init(_ path: @escaping @autoclosure Compute<Swift.String>) {
@@ -72,7 +72,7 @@ public struct PUT<Parameters, Returns>: API {
 public struct PATCH<Parameters, Returns>: API {
     
     public var modifier: some APIModifier {
-        _ModifiedAPI<Parameters, Returns, DataRequestModifier.HTTPMethod, DataRequestModifier.InitialURL>(modifier: self._method, newModifier: self._initialURL)
+        _APIModifier(self._method, self._initialURL)
     }
     
     public init(_ path: @escaping @autoclosure Compute<Swift.String>) {
@@ -93,7 +93,7 @@ public struct PATCH<Parameters, Returns>: API {
 public struct DELETE<Parameters, Returns>: API {
     
     public var modifier: some APIModifier {
-        _ModifiedAPI<Parameters, Returns, DataRequestModifier.HTTPMethod, DataRequestModifier.InitialURL>(modifier: self._method, newModifier: self._initialURL)
+        _APIModifier(self._method, self._initialURL)
     }
     
     public init(_ path: @escaping @autoclosure Compute<Swift.String>) {
