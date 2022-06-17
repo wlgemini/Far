@@ -20,41 +20,76 @@ extension Settings.API._Modify {
     }
     
     // MARK: - URL
-    func _url() -> Swift.String? {
+    func _url() -> Foundation.URL? {
+        
+        /// remove last `/` if any
+        func _dropLastForwardSlash(_ string: inout Swift.String) {
+            if string.last == "/" {
+                _ = string.popLast()
+            }
+        }
+        
         guard let initialURL = self.dataRequest.api.initialURL else {
             _Log.error("`InitialURL` not set, request won't start", location: self.requestLocation)
             return nil
         }
         
-        var anyFullURL: Swift.String?
+        var anyFullURL: Foundation.URL?
         
         switch initialURL {
-            case .full(let fullURL):
-                anyFullURL = fullURL()
+            case .full(let fullURLStringCompute):
+                var fullURLString = fullURLStringCompute()
+                _dropLastForwardSlash(&fullURLString)
                 
-            case .path(let pathURL):
-                // modify `base url` or setting `base url`
-                let anyBaseURL = self.dataRequest.api.base?() ?? Far._api.dataRequest.base._value()
-                
-                if let baseURL = anyBaseURL {
-                    anyFullURL = baseURL + pathURL()
+                if let fullURL = Foundation.URL(string: fullURLString) {
+                    anyFullURL = fullURL
                 } else {
-                    _Log.error("Base URL not set, request won't start", location: self.requestLocation)
+                    _Log.error("`\(fullURLString)` doesn’t represent a valid URL, request won't start", location: self.requestLocation)
+                }
+                
+            case .path(let pathStingCompute):
+                var pathSting = pathStingCompute()
+                _dropLastForwardSlash(&pathSting)
+                
+                // using `modify base url` or `setting base url`
+                let anyBaseURLSting = self.dataRequest.api.base?() ?? Far._api.dataRequest.base._value()
+                
+                if var baseURLSting = anyBaseURLSting {
+                    _dropLastForwardSlash(&baseURLSting)
+                    
+                    if var baseURL = Foundation.URL(string: baseURLSting) {
+                        baseURL.appendPathComponent(pathSting)
+                        anyFullURL = baseURL
+                    } else {
+                        _Log.error("For API `\(pathSting)`, `\(baseURLSting)` doesn’t represent a valid URL, request won't start", location: self.requestLocation)
+                    }
+                } else {
+                    _Log.error("For API `\(pathSting)`, base URL not set, request won't start", location: self.requestLocation)
                 }
         }
         
         guard var fullURL = anyFullURL else { return nil }
         
         // append paths
-        let appendPaths = self.dataRequest.api.appendPaths.reduce("", { $0 + $1() })
-        fullURL += appendPaths
+        for pathStingCompute in self.dataRequest.api.appendPaths {
+            var pathSting = pathStingCompute()
+            _dropLastForwardSlash(&pathSting)
+            
+            fullURL.appendPathComponent(pathSting)
+        }
         
         // mock only in debug mode
         _Debug.execute {
-            if let mock = self.dataRequest.api.mock {
-                let mockURL = mock()
-                _Log.warning("Using mock `\(mockURL)` for `\(fullURL)`", location: self.requestLocation)
-                fullURL = mockURL
+            if let mockURLStingCompute = self.dataRequest.api.mock {
+                var mockURLString = mockURLStingCompute()
+                _dropLastForwardSlash(&mockURLString)
+                
+                if let mockURL = URL(string: mockURLString) {
+                    fullURL = mockURL
+                    _Log.warning("Using mock URL `\(mockURL)` for `\(fullURL)`", location: self.requestLocation)
+                } else {
+                    _Log.warning("Mock URL string`\(mockURLString)` doesn’t represent a valid URL", location: self.requestLocation)
+                }
             }
         }
         
