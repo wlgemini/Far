@@ -62,18 +62,18 @@ class SettingAPITests {
         let FullDefaultURL = "http://www.abc.com/a/p/i"
         
         let BaseURL = "http://www.xyz.com"
-        let BaseURL_ = "http://www.xyz.com/"
+        let BaseURL_ = "http://www.xyz.com////"
         
         let BaseDefaultURL = "http://www.abc.com"
-        let BaseDefaultURL_ = "http://www.abc.com/"
+        let BaseDefaultURL_ = "http://www.abc.com////"
         
         let Path = "a/p/i"
-        let _Path = "/a/p/i"
+        let _Path = "////a/p/i"
         
         let AppendPath0 = "foo"
-        let _AppendPath0 = "/foo"
+        let _AppendPath0 = "////foo"
         let AppendPath1 = "bar"
-        let _AppendPath1 = "/bar"
+        let _AppendPath1 = "////bar"
         
         
         // GET(url:) + .appendPath(_ path:)

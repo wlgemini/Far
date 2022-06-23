@@ -22,10 +22,17 @@ extension Settings.API._Modify {
     // MARK: - URL
     func _url() -> Foundation.URL? {
         
+        /// remove first `/` if any
+        func _dropFirstForwardSlash(_ string: inout Swift.String) {
+            while string.first == "/" {
+                string.removeFirst()
+            }
+        }
+        
         /// remove last `/` if any
         func _dropLastForwardSlash(_ string: inout Swift.String) {
-            if string.last == "/" {
-                _ = string.popLast()
+            while string.last == "/" {
+                string.removeLast()
             }
         }
         
@@ -49,6 +56,7 @@ extension Settings.API._Modify {
                 
             case .path(let pathStingCompute):
                 var pathSting = pathStingCompute()
+                _dropFirstForwardSlash(&pathSting)
                 _dropLastForwardSlash(&pathSting)
                 
                 // using `modify base url` or `setting base url`
@@ -73,6 +81,7 @@ extension Settings.API._Modify {
         // append paths
         for pathStingCompute in self.dataRequest.api.appendPaths {
             var pathSting = pathStingCompute()
+            _dropFirstForwardSlash(&pathSting)
             _dropLastForwardSlash(&pathSting)
             
             fullURL.appendPathComponent(pathSting)
