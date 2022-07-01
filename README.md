@@ -33,18 +33,13 @@ let friends = POST<Page, [Friend]>(url: "https://www.exmple.com/friends")
 
 // 调用login接口
 let account = ...
-login.request(account) { response in
-    let userInfo = response.value
-    
-    // save `userInfo`
-    ...
-}
+let response = await try login.request(account)
+let userInfo = response.value
 
 // 调用friends接口
 let page = ...
-friends.request(page) { response in
-    let someFriends = response.value
-}
+let response = await try friends.request(page)
+let someFriends = response.value
 ```
 
 ## 相关概念
@@ -106,12 +101,9 @@ let account = Account(name: "Jack", password: "*******")
 
 let mockedLogin = login.mock("http://www.mocking.com/login")
 
-mockedLogin.request(account) { response in
-    // some logic here
-}
+let response = await try mockedLogin.request(account)
 
-// or `async`
-await try mockedLogin.request(account)
+let userInfo = response.value
 ```
 
 ### `0x04`, 使用`@AccessingRequest`(可选):
@@ -129,11 +121,9 @@ class ViewController: UIViewController {
 
     override func viewDidLoad(_ view: UIView) {
     
-        self.getFriends.request(...) { response in 
-            ...
-        }
+        ...
         
-        // 获取`Alamofire.DataRequest`
+        // 在网络请求开始后，获取`Alamofire.DataRequest`
         self.$getFriends.request
         
         // deinit时, 自动取消请求
