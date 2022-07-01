@@ -121,6 +121,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad(_ view: UIView) {
     
+        // getFriends.request()
         ...
         
         // 在网络请求开始后，获取`Alamofire.DataRequest`
