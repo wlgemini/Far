@@ -10,17 +10,17 @@ import Alamofire
 extension Settings.API._Modify {
     
     // MARK: HTTPMethod
-    func _method() -> Alamofire.HTTPMethod? {
+    func _method() throws -> Alamofire.HTTPMethod {
         guard let method = self.dataRequest.api.method else {
             _Log.error("`HTTPMethod` not set, request won't start", location: self.requestLocation)
-            return nil
+            throw FarError.method("`HTTPMethod` not set")
         }
         
         return method
     }
     
     // MARK: - URL
-    func _url() -> Foundation.URL? {
+    func _url() throws -> Foundation.URL {
         
         /// remove first `/` if any
         func _dropFirstForwardSlash(_ string: inout Swift.String) {
@@ -38,10 +38,10 @@ extension Settings.API._Modify {
         
         guard let initialURL = self.dataRequest.api.initialURL else {
             _Log.error("`InitialURL` not set, request won't start", location: self.requestLocation)
-            return nil
+            throw FarError.url("`InitialURL` not set")
         }
         
-        var anyFullURL: Foundation.URL?
+        var anyAbsoluteURL: Foundation.URL?
         
         switch initialURL {
             case .full(let fullURLStringCompute):
@@ -49,7 +49,7 @@ extension Settings.API._Modify {
                 _dropLastForwardSlash(&fullURLString)
                 
                 if let fullURL = Foundation.URL(string: fullURLString) {
-                    anyFullURL = fullURL
+                    anyAbsoluteURL = fullURL
                 } else {
                     _Log.error("`\(fullURLString)` doesn’t represent a valid URL, request won't start", location: self.requestLocation)
                 }
@@ -67,7 +67,7 @@ extension Settings.API._Modify {
                     
                     if var baseURL = Foundation.URL(string: baseURLSting) {
                         baseURL.appendPathComponent(pathSting)
-                        anyFullURL = baseURL
+                        anyAbsoluteURL = baseURL
                     } else {
                         _Log.error("For API `\(pathSting)`, `\(baseURLSting)` doesn’t represent a valid URL, request won't start", location: self.requestLocation)
                     }
@@ -76,7 +76,9 @@ extension Settings.API._Modify {
                 }
         }
         
-        guard var fullURL = anyFullURL else { return nil }
+        guard var absoluteURL = anyAbsoluteURL else {
+            throw FarError.url("URL doesn’t valid, see error log for more detail.")
+        }
         
         // append paths
         for pathStingCompute in self.dataRequest.api.appendPaths {
@@ -84,7 +86,7 @@ extension Settings.API._Modify {
             _dropFirstForwardSlash(&pathSting)
             _dropLastForwardSlash(&pathSting)
             
-            fullURL.appendPathComponent(pathSting)
+            absoluteURL.appendPathComponent(pathSting)
         }
         
         // mock only in debug mode
@@ -94,15 +96,15 @@ extension Settings.API._Modify {
                 _dropLastForwardSlash(&mockURLString)
                 
                 if let mockURL = URL(string: mockURLString) {
-                    fullURL = mockURL
-                    _Log.warning("Using mock URL `\(mockURL)` for `\(fullURL)`", location: self.requestLocation)
+                    absoluteURL = mockURL
+                    _Log.warning("Using mock URL `\(mockURL)` for `\(absoluteURL)`", location: self.requestLocation)
                 } else {
                     _Log.warning("Mock URL string`\(mockURLString)` doesn’t represent a valid URL", location: self.requestLocation)
                 }
             }
         }
         
-        return fullURL
+        return absoluteURL
     }
     
     // MARK: HTTPHeaders

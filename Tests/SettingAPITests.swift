@@ -37,20 +37,20 @@ class SettingAPITests {
 //    var dataRequestEchoGet: some API<Bin, Bin>
     
     func requestMethod() {
-        let contextEchoGet = APIs.echoGet._context(file: #fileID, line: #line)
-        XCTAssert(contextEchoGet._method() == .get)
+        let contextEchoGet = try? APIs.echoGet._context(file: #fileID, line: #line)._method()
+        XCTAssert(contextEchoGet == .get)
         
-        let contextEchoDelete = APIs.echoDelete._context(file: #fileID, line: #line)
-        XCTAssert(contextEchoDelete._method() == .delete)
+        let contextEchoDelete = try? APIs.echoDelete._context(file: #fileID, line: #line)._method()
+        XCTAssert(contextEchoDelete == .delete)
         
-        let contextEchoPatch = APIs.echoPatch._context(file: #fileID, line: #line)
-        XCTAssert(contextEchoPatch._method() == .patch)
+        let contextEchoPatch = try? APIs.echoPatch._context(file: #fileID, line: #line)._method()
+        XCTAssert(contextEchoPatch == .patch)
         
-        let contextEchoPost = APIs.echoPost._context(file: #fileID, line: #line)
-        XCTAssert(contextEchoPost._method() == .post)
+        let contextEchoPost = try? APIs.echoPost._context(file: #fileID, line: #line)._method()
+        XCTAssert(contextEchoPost == .post)
         
-        let contextEchoPut = APIs.echoPut._context(file: #fileID, line: #line)
-        XCTAssert(contextEchoPut._method() == .put)
+        let contextEchoPut = try? APIs.echoPut._context(file: #fileID, line: #line)._method()
+        XCTAssert(contextEchoPut == .put)
     }
     
     func requestURL() {
@@ -80,27 +80,27 @@ class SettingAPITests {
         do {
             // GET(url:)
             let api0 = GET<Bin, Bin>(url: FullURL)
-            let url0 = api0._context(file: #fileID, line: #line)._url()?.absoluteString
+            let url0 = (try? api0._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(FullURL == url0)
             
             
             // GET(url:) + .appendPath(_ path:)
             let api1 = GET<Bin, Bin>(url: FullURL).appendPath(AppendPath0).appendPath(AppendPath1)
-            let url1 = api1._context(file: #fileID, line: #line)._url()?.absoluteString
+            let url1 = (try? api1._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(AbsoluteURL == url1)
             
             let api1_ = GET<Bin, Bin>(url: FullURL).appendPath(_AppendPath0).appendPath(_AppendPath1)
-            let url1_ = api1_._context(file: #fileID, line: #line)._url()?.absoluteString
+            let url1_ = (try? api1_._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(AbsoluteURL == url1_)
             
             
             // Mock
             let mockAPI0 = api0.mock(MockURL)
-            let mockURL0 = mockAPI0._context(file: #fileID, line: #line)._url()?.absoluteString
+            let mockURL0 = (try? mockAPI0._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(MockURL == mockURL0)
             
             let mockAPI1 = api1.mock(MockURL)
-            let mockURL1 = mockAPI1._context(file: #fileID, line: #line)._url()?.absoluteString
+            let mockURL1 = (try? mockAPI1._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(MockURL == mockURL1)
         }
         
@@ -109,45 +109,45 @@ class SettingAPITests {
         do {
             // GET(_ path:)
             let api0 = GET<Bin, Bin>(Path)
-            let url0 = api0._context(file: #fileID, line: #line)._url()?.absoluteString
+            let url0 = (try? api0._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(nil == url0)
             
             let api0_ = GET<Bin, Bin>(_Path)
-            let url0_ = api0_._context(file: #fileID, line: #line)._url()?.absoluteString
+            let url0_ = (try? api0_._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(nil == url0_)
             
             
             // GET(_ path:) + .base(_ baseURL:)
             let api1 = GET<Bin, Bin>(Path).base(BaseURL)
-            let url1 = api1._context(file: #fileID, line: #line)._url()?.absoluteString
+            let url1 = (try? api1._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(FullURL == url1)
             
             let api1_ = GET<Bin, Bin>(_Path).base(BaseURL_)
-            let url1_ = api1_._context(file: #fileID, line: #line)._url()?.absoluteString
+            let url1_ = (try? api1_._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(FullURL == url1_)
             
             
             // GET(_ path:) + .base(_ baseURL:) + .appendPath(_ path:)
             let api2 = GET<Bin, Bin>(Path).base(BaseURL).appendPath(AppendPath0).appendPath(AppendPath1)
-            let url2 = api2._context(file: #fileID, line: #line)._url()?.absoluteString
+            let url2 = (try? api2._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(AbsoluteURL == url2)
             
             let api2_ = GET<Bin, Bin>(_Path).base(BaseURL_).appendPath(_AppendPath0).appendPath(_AppendPath1)
-            let url2_ = api2_._context(file: #fileID, line: #line)._url()?.absoluteString
+            let url2_ = (try? api2_._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(AbsoluteURL == url2_)
             
             
             // Mock
             let mockAPI0 = api0.mock(MockURL)
-            let mockURL0 = mockAPI0._context(file: #fileID, line: #line)._url()?.absoluteString
+            let mockURL0 = (try? mockAPI0._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(nil == mockURL0)
             
             let mockAPI1 = api1.mock(MockURL)
-            let mockURL1 = mockAPI1._context(file: #fileID, line: #line)._url()?.absoluteString
+            let mockURL1 = (try? mockAPI1._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(MockURL == mockURL1)
             
             let mockAPI2 = api2.mock(MockURL)
-            let mockURL2 = mockAPI2._context(file: #fileID, line: #line)._url()?.absoluteString
+            let mockURL2 = (try? mockAPI2._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(MockURL == mockURL2)
         }
         
@@ -159,12 +159,12 @@ class SettingAPITests {
             // GET(url:)
             Far.api.dataRequest.base(BaseDefaultURL)
             let api0 = GET<Bin, Bin>(url: FullURL)
-            let url0 = api0._context(file: #fileID, line: #line)._url()?.absoluteString
+            let url0 = (try? api0._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(FullURL == url0)
             
             Far.api.dataRequest.base(BaseDefaultURL_)
             let api0_ = GET<Bin, Bin>(url: FullURL)
-            let url0_ = api0_._context(file: #fileID, line: #line)._url()?.absoluteString
+            let url0_ = (try? api0_._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(FullURL == url0_)
             
             
@@ -172,22 +172,22 @@ class SettingAPITests {
             // GET(url:) + .appendPath(_ path:)
             Far.api.dataRequest.base(BaseDefaultURL)
             let api1 = GET<Bin, Bin>(url: FullURL).appendPath(AppendPath0).appendPath(AppendPath1)
-            let url1 = api1._context(file: #fileID, line: #line)._url()?.absoluteString
+            let url1 = (try? api1._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(AbsoluteURL == url1)
             
             Far.api.dataRequest.base(BaseDefaultURL_)
             let api1_ = GET<Bin, Bin>(url: FullURL).appendPath(_AppendPath0).appendPath(_AppendPath1)
-            let url1_ = api1_._context(file: #fileID, line: #line)._url()?.absoluteString
+            let url1_ = (try? api1_._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(AbsoluteURL == url1_)
             
             
             // Mock
             let mockAPI0 = api0.mock(MockURL)
-            let mockURL0 = mockAPI0._context(file: #fileID, line: #line)._url()?.absoluteString
+            let mockURL0 = (try? mockAPI0._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(MockURL == mockURL0)
             
             let mockAPI1 = api1.mock(MockURL)
-            let mockURL1 = mockAPI1._context(file: #fileID, line: #line)._url()?.absoluteString
+            let mockURL1 = (try? mockAPI1._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(MockURL == mockURL1)
         }
         
@@ -198,12 +198,12 @@ class SettingAPITests {
             // GET(_ path:)
             Far.api.dataRequest.base(BaseDefaultURL)
             let api0 = GET<Bin, Bin>(Path)
-            let url0 = api0._context(file: #fileID, line: #line)._url()?.absoluteString
+            let url0 = (try? api0._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(FullDefaultURL == url0)
             
             Far.api.dataRequest.base(BaseDefaultURL_)
             let api0_ = GET<Bin, Bin>(_Path)
-            let url0_ = api0_._context(file: #fileID, line: #line)._url()?.absoluteString
+            let url0_ = (try? api0_._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(FullDefaultURL == url0_)
             
             
@@ -211,12 +211,12 @@ class SettingAPITests {
             // GET(_ path:) + .appendPath(_ path:)
             Far.api.dataRequest.base(BaseDefaultURL)
             let api1 = GET<Bin, Bin>(Path).appendPath(AppendPath0).appendPath(AppendPath1)
-            let url1 = api1._context(file: #fileID, line: #line)._url()?.absoluteString
+            let url1 = (try? api1._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(AbsoluteDefaultURL == url1)
             
             Far.api.dataRequest.base(BaseDefaultURL_)
             let api1_ = GET<Bin, Bin>(_Path).appendPath(_AppendPath0).appendPath(_AppendPath1)
-            let url1_ = api1_._context(file: #fileID, line: #line)._url()?.absoluteString
+            let url1_ = (try? api1_._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(AbsoluteDefaultURL == url1_)
             
             
@@ -224,12 +224,12 @@ class SettingAPITests {
             // GET(_ path:) + .base(_ baseURL:)
             Far.api.dataRequest.base(BaseDefaultURL)
             let api2 = GET<Bin, Bin>(Path).base(BaseURL)
-            let url2 = api2._context(file: #fileID, line: #line)._url()?.absoluteString
+            let url2 = (try? api2._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(FullURL == url2)
             
             Far.api.dataRequest.base(BaseDefaultURL_)
             let api2_ = GET<Bin, Bin>(_Path).base(BaseURL_)
-            let url2_ = api2_._context(file: #fileID, line: #line)._url()?.absoluteString
+            let url2_ = (try? api2_._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(FullURL == url2_)
             
             
@@ -237,30 +237,30 @@ class SettingAPITests {
             // GET(_ path:) + .base(_ baseURL:) + .appendPath(_ path:)
             Far.api.dataRequest.base(BaseDefaultURL)
             let api3 = GET<Bin, Bin>(Path).base(BaseURL).appendPath(AppendPath0).appendPath(AppendPath1)
-            let url3 = api3._context(file: #fileID, line: #line)._url()?.absoluteString
+            let url3 = (try? api3._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(AbsoluteURL == url3)
             
             Far.api.dataRequest.base(BaseDefaultURL_)
             let api3_ = GET<Bin, Bin>(_Path).base(BaseURL_).appendPath(_AppendPath0).appendPath(_AppendPath1)
-            let url3_ = api3_._context(file: #fileID, line: #line)._url()?.absoluteString
+            let url3_ = (try? api3_._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(AbsoluteURL == url3_)
             
             
             // Mock
             let mockAPI0 = api0.mock(MockURL)
-            let mockURL0 = mockAPI0._context(file: #fileID, line: #line)._url()?.absoluteString
+            let mockURL0 = (try? mockAPI0._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(MockURL == mockURL0)
             
             let mockAPI1 = api1.mock(MockURL)
-            let mockURL1 = mockAPI1._context(file: #fileID, line: #line)._url()?.absoluteString
+            let mockURL1 = (try? mockAPI1._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(MockURL == mockURL1)
             
             let mockAPI2 = api2.mock(MockURL)
-            let mockURL2 = mockAPI2._context(file: #fileID, line: #line)._url()?.absoluteString
+            let mockURL2 = (try? mockAPI2._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(MockURL == mockURL2)
             
             let mockAPI3 = api3.mock(MockURL)
-            let mockURL3 = mockAPI3._context(file: #fileID, line: #line)._url()?.absoluteString
+            let mockURL3 = (try? mockAPI3._context(file: #fileID, line: #line)._url())?.absoluteString
             XCTAssert(MockURL == mockURL3)
         }
         
@@ -542,9 +542,9 @@ class SettingAPITests {
         
         // accessingRequest
 //        XCTAssert(self.$dataRequestEchoGet.request == nil)
-        
+//
 //        self.dataRequestEchoGet.request(nil) { resp in }
-        
+//
 //        XCTAssert(self.$dataRequestEchoGet.request != nil)
     }
 }

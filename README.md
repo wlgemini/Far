@@ -78,10 +78,10 @@ Far.session = Alamofire.Session()
 
 ```swift
 // 设置base URL
-Far.default.base("https://www.exmple.com/")
+Far.api.base("https://www.exmple.com/")
 
 // 设置请求头
-Far.default.headers([
+Far.api.headers([
     "key1": "value1",
     "key2": "value2"
 ]) 
@@ -103,12 +103,15 @@ let friends = POST<Page, [Friend]>("friends").timeoutInterval(2)
 
 ```swift
 let account = Account(name: "Jack", password: "*******")
-  
-login
-    .mock("http://www.mocking.com/login")
-    .request(account) { response in
-        // some logic here
-    }
+
+let mockedLogin = login.mock("http://www.mocking.com/login")
+
+mockedLogin.request(account) { response in
+    // some logic here
+}
+
+// or `async`
+await try mockedLogin.request(account)
 ```
 
 ### `0x04`, 使用`@AccessingRequest`(可选):
