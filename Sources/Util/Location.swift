@@ -10,7 +10,7 @@ public struct Location: Swift.CustomStringConvertible {
     public static let nowhere = Location(nil, nil)
     
     /// file: #fileID
-    public let file: Swift.String?
+    public let file: Swift.StaticString?
     
     /// line: #line
     public let line: Swift.UInt?
@@ -19,7 +19,7 @@ public struct Location: Swift.CustomStringConvertible {
     /// - Parameters:
     ///   - file: #fileID
     ///   - line: #line
-    public init(_ file: Swift.String?, _ line: Swift.UInt?) {
+    public init(_ file: Swift.StaticString?, _ line: Swift.UInt?) {
         self.file = file
         self.line = line
     }
@@ -31,12 +31,10 @@ public struct Location: Swift.CustomStringConvertible {
     public var description: Swift.String {
         switch (self.file, self.line) {
             case (.some(let file), .some(let line)):
-                let fileName = file.split(separator: ".").first ?? ""
-                return "@\(Swift.String(fileName))#\(line)"
+                return "@\(file)#\(line)"
                 
             case (.some(let file), .none):
-                let fileName = file.split(separator: ".").first ?? ""
-                return "@\(Swift.String(fileName))"
+                return "@\(file)"
                 
             case (.none, .some(let line)):
                 return "#\(line)"

@@ -1,5 +1,5 @@
 //
-//  Settings.API._Modify+
+//  Settings.API+.swift
 //
 
 import Foundation
@@ -7,20 +7,19 @@ import Alamofire
 
 
 // MARK: - DataRequest
-extension Settings.API._Modify {
+extension Settings.API {
     
-    // MARK: HTTPMethod
-    func _method() throws -> Alamofire.HTTPMethod {
-        guard let method = self.dataRequest.api.method else {
-            _Log.error("`HTTPMethod` not set, request won't start", location: self.requestLocation)
-            throw FarError.method("`HTTPMethod` not set")
+    /// HTTPMethod
+    static func _method(context: Settings.API._Modify) -> Alamofire.HTTPMethod {
+        guard let method = context.dataRequest.api.method else {
+            fatalError("`HTTPMethod` not set")
         }
         
         return method
     }
     
-    // MARK: - URL
-    func _url() throws -> Foundation.URL {
+    /// URL
+    static func _url(context: Settings.API._Modify) -> Settings.API._URLResult {
         
         /// remove first `/` if any
         func _dropFirstForwardSlash(_ string: inout Swift.String) {
@@ -36,12 +35,11 @@ extension Settings.API._Modify {
             }
         }
         
-        guard let initialURL = self.dataRequest.api.initialURL else {
-            _Log.error("`InitialURL` not set, request won't start", location: self.requestLocation)
-            throw FarError.url("`InitialURL` not set")
+        guard let initialURL = context.dataRequest.api.initialURL else {
+            fatalError("`InitialURL` not set")
         }
         
-        var anyAbsoluteURL: Foundation.URL?
+        var absoluteURL: Foundation.URL
         
         switch initialURL {
             case .full(let fullURLStringCompute):
@@ -49,9 +47,10 @@ extension Settings.API._Modify {
                 _dropLastForwardSlash(&fullURLString)
                 
                 if let fullURL = Foundation.URL(string: fullURLString) {
-                    anyAbsoluteURL = fullURL
+                    absoluteURL = fullURL
                 } else {
-                    _Log.error("`\(fullURLString)` doesn’t represent a valid URL, request won't start", location: self.requestLocation)
+                    _Log.error("`\(fullURLString)` doesn’t represent a valid URL, request won't start", location: context.requestLocation)
+                    return .failure(AFError.invalidURL(url: fullURLString))
                 }
                 
             case .path(let pathStingCompute):
@@ -60,28 +59,26 @@ extension Settings.API._Modify {
                 _dropLastForwardSlash(&pathSting)
                 
                 // using `modify base url` or `setting base url`
-                let anyBaseURLSting = self.dataRequest.api.base?() ?? Far._api.dataRequest.base._value()
+                let anyBaseURLSting = context.dataRequest.api.base?() ?? Far._api.dataRequest.base._value()
                 
                 if var baseURLSting = anyBaseURLSting {
                     _dropLastForwardSlash(&baseURLSting)
                     
                     if var baseURL = Foundation.URL(string: baseURLSting) {
                         baseURL.appendPathComponent(pathSting)
-                        anyAbsoluteURL = baseURL
+                        absoluteURL = baseURL
                     } else {
-                        _Log.error("For API `\(pathSting)`, `\(baseURLSting)` doesn’t represent a valid URL, request won't start", location: self.requestLocation)
+                        _Log.error("For API `\(pathSting)`, `\(baseURLSting)` doesn’t represent a valid URL, request won't start", location: context.requestLocation)
+                        return .failure(AFError.invalidURL(url: baseURLSting))
                     }
                 } else {
-                    _Log.error("For API `\(pathSting)`, base URL not set, request won't start", location: self.requestLocation)
+                    _Log.error("For API `\(pathSting)`, base URL not set, request won't start", location: context.requestLocation)
+                    return .failure(AFError.invalidURL(url: pathSting))
                 }
         }
         
-        guard var absoluteURL = anyAbsoluteURL else {
-            throw FarError.url("URL doesn’t valid, see error log for more detail.")
-        }
-        
         // append paths
-        for pathStingCompute in self.dataRequest.api.appendPaths {
+        for pathStingCompute in context.dataRequest.api.appendPaths {
             var pathSting = pathStingCompute()
             _dropFirstForwardSlash(&pathSting)
             _dropLastForwardSlash(&pathSting)
@@ -91,144 +88,144 @@ extension Settings.API._Modify {
         
         // mock only in debug mode
         _Debug.execute {
-            if let mockURLStingCompute = self.dataRequest.api.mock {
+            if let mockURLStingCompute = context.dataRequest.api.mock {
                 var mockURLString = mockURLStingCompute()
                 _dropLastForwardSlash(&mockURLString)
                 
                 if let mockURL = URL(string: mockURLString) {
                     absoluteURL = mockURL
-                    _Log.warning("Using mock URL `\(mockURL)` for `\(absoluteURL)`", location: self.requestLocation)
+                    _Log.warning("Using mock URL `\(mockURL)` for `\(absoluteURL)`", location: context.requestLocation)
                 } else {
-                    _Log.warning("Mock URL string`\(mockURLString)` doesn’t represent a valid URL", location: self.requestLocation)
+                    _Log.warning("Mock URL string`\(mockURLString)` doesn’t represent a valid URL", location: context.requestLocation)
                 }
             }
         }
         
-        return absoluteURL
+        return .success(absoluteURL)
     }
     
-    // MARK: HTTPHeaders
-    func _headers() -> Alamofire.HTTPHeaders {
+    /// HTTPHeaders
+    static func _headers(context: Settings.API._Modify) -> Alamofire.HTTPHeaders {
         // combinedHeaders init from `Far._default.dataRequest.headers` or an empty headers
         var combinedHeaders = Far._api.dataRequest.headers._value() ?? Alamofire.HTTPHeaders()
         
         // Context.dataRequest.headers override or appends to combinedHeaders
-        for h in self.dataRequest.headers {
+        for h in context.dataRequest.headers {
             combinedHeaders.add(h)
         }
         
         return combinedHeaders
     }
     
-    // MARK: Encoding
-    func _encoding() -> Alamofire.ParameterEncoding {
-        if let encoding = self.dataRequest.encoding {
+    /// Encoding
+    static func _encoding(context: Settings.API._Modify) -> Alamofire.ParameterEncoding {
+        if let encoding = context.dataRequest.encoding {
             return encoding
             
         } else {
-            guard let method = self.dataRequest.api.method else {
+            guard let method = context.dataRequest.api.method else {
                 return Alamofire.URLEncoding.default
             }
             
             switch method {
-                    // URLEncoding
+                // URLEncoding
                 case .get: return Far._api.dataRequest.encoding.get._value
                 case .delete: return Far._api.dataRequest.encoding.delete._value
                     
-                    // JSONEncoding
+                // JSONEncoding
                 case .patch: return Far._api.dataRequest.encoding.patch._value
                 case .post: return Far._api.dataRequest.encoding.post._value
                 case .put: return Far._api.dataRequest.encoding.put._value
                     
-                    // default
+                // default
                 default: return Alamofire.URLEncoding.default
             }
         }
     }
     
-    // MARK: Encoder
-    func _encoder() -> Alamofire.ParameterEncoder {
-        if let encoder = self.dataRequest.encoder {
+    /// Encoder
+    static func _encoder(context: Settings.API._Modify) -> Alamofire.ParameterEncoder {
+        if let encoder = context.dataRequest.encoder {
             return encoder
             
         } else {
-            guard let method = self.dataRequest.api.method else {
+            guard let method = context.dataRequest.api.method else {
                 return Alamofire.URLEncodedFormParameterEncoder.default
             }
             
             switch method {
-                    // URLEncodedFormParameterEncoder
+                // URLEncodedFormParameterEncoder
                 case .get: return Far._api.dataRequest.encoder.get._value
                 case .delete: return Far._api.dataRequest.encoder.delete._value
                     
-                    // JSONEncoding
+                // JSONEncoding
                 case .patch: return Far._api.dataRequest.encoder.patch._value
                 case .post: return Far._api.dataRequest.encoder.post._value
                 case .put: return Far._api.dataRequest.encoder.put._value
                     
-                    // default
+                // default
                 default: return Alamofire.URLEncodedFormParameterEncoder.default
             }
         }
     }
     
-    // MARK: Modify URLRequest
-    func _urlRequestModifier() -> (inout Foundation.URLRequest) throws -> Swift.Void {
+    /// Modify URLRequest
+    static func _urlRequestModifier(context: Settings.API._Modify) -> (inout Foundation.URLRequest) throws -> Swift.Void {
         // NOTE: Make sure not access `Context` in block
-        return { [urlRequestModifiers = self.dataRequest.urlRequestModifiers] (urlRequest) in
+        return { [urlRequestModifiers = context.dataRequest.urlRequestModifiers] (urlRequest) in
             for modifier in urlRequestModifiers {
                 try modifier(&urlRequest)
             }
         }
     }
     
-    // MARK: Authentication
-    func _authenticate() -> Foundation.URLCredential? {
-        self.dataRequest.authenticate
+    /// Authentication
+    static func _authenticate(context: Settings.API._Modify) -> Foundation.URLCredential? {
+        context.dataRequest.authenticate
     }
     
-    // MARK: Redirect
-    func _redirectHandler() -> Alamofire.RedirectHandler? {
-        self.dataRequest.redirectHandler ?? Far._api.dataRequest.redirect._value
+    /// Redirect
+    static func _redirectHandler(context: Settings.API._Modify) -> Alamofire.RedirectHandler? {
+        context.dataRequest.redirectHandler ?? Far._api.dataRequest.redirect._value
     }
 }
 
 
 // MARK: - DataResponse
-extension Settings.API._Modify {
+extension Settings.API {
     
-    // MARK: Validate DataResponse
-    func _validation() -> (Swift.Range<Swift.Int>?, [Swift.String]?, [Swift.String : DataRequest.Validation]) {
-        let acceptableStatusCodes = self.dataResponse.acceptableStatusCodes ??
+    /// Validate DataResponse
+    static func _validation(context: Settings.API._Modify) -> (Swift.Range<Swift.Int>?, [Swift.String]?, [Swift.String : DataRequest.Validation]) {
+        let acceptableStatusCodes = context.dataResponse.acceptableStatusCodes ??
         Far._api.dataResponse.acceptableStatusCodes._value
         
-        let acceptableContentTypes = self.dataResponse.acceptableContentTypes?() ??
+        let acceptableContentTypes = context.dataResponse.acceptableContentTypes?() ??
         Far._api.dataResponse.acceptableContentTypes._value
         
-        let validations = self.dataResponse.validations.merging(Far._api.dataResponse.validations._value ?? [:], uniquingKeysWith: { (current, _) in current }) /* merging using Store.API.Modify value */
+        let validations = context.dataResponse.validations.merging(Far._api.dataResponse.validations._value ?? [:], uniquingKeysWith: { (current, _) in current }) /* merging using Store.API.Modify value */
         
         return (acceptableStatusCodes, acceptableContentTypes, validations)
     }
     
-    // MARK: Cache DataResponse
-    func _cachedResponseHandler() -> Alamofire.CachedResponseHandler? {
-        self.dataResponse.cachedResponseHandler ?? Far._api.dataResponse.cachedResponseHandler._value
+    /// Cache DataResponse
+    static func _cachedResponseHandler(context: Settings.API._Modify) -> Alamofire.CachedResponseHandler? {
+        context.dataResponse.cachedResponseHandler ?? Far._api.dataResponse.cachedResponseHandler._value
     }
     
-    // MARK: DispatchQueue
-    func _queue() -> DispatchQueue {
-        self.dataResponse.queue ?? Far._api.dataResponse.queue._value
+    /// DispatchQueue
+    static func _queue(context: Settings.API._Modify) -> DispatchQueue {
+        context.dataResponse.queue ?? Far._api.dataResponse.queue._value
     }
     
-    // MARK: Serialize DataResponse
-    func _dataResponseSerializer() -> Alamofire.DataResponseSerializer {
-        let dataPreprocessor = self.dataResponse.serializeData.dataPreprocessor ??
+    /// Serialize Data
+    static func _dataResponseSerializer(context: Settings.API._Modify) -> Alamofire.DataResponseSerializer {
+        let dataPreprocessor = context.dataResponse.serializeData.dataPreprocessor ??
         Far._api.dataResponse.serializeData.dataPreprocessor._value
         
-        let emptyResponseCodes = self.dataResponse.serializeData.emptyResponseCodes ??
+        let emptyResponseCodes = context.dataResponse.serializeData.emptyResponseCodes ??
         Far._api.dataResponse.serializeData.emptyResponseCodes._value
         
-        let emptyRequestMethods = self.dataResponse.serializeData.emptyRequestMethods ??
+        let emptyRequestMethods = context.dataResponse.serializeData.emptyRequestMethods ??
         Far._api.dataResponse.serializeData.emptyRequestMethods._value
         
         return Alamofire.DataResponseSerializer(dataPreprocessor: dataPreprocessor,
@@ -236,17 +233,18 @@ extension Settings.API._Modify {
                                                 emptyRequestMethods: emptyRequestMethods)
     }
     
-    func _stringResponseSerializer() -> Alamofire.StringResponseSerializer {
-        let dataPreprocessor = self.dataResponse.serializeString.dataPreprocessor ??
+    /// Serialize String
+    static func _stringResponseSerializer(context: Settings.API._Modify) -> Alamofire.StringResponseSerializer {
+        let dataPreprocessor = context.dataResponse.serializeString.dataPreprocessor ??
         Far._api.dataResponse.serializeString.dataPreprocessor._value
         
-        let encoding = self.dataResponse.serializeString.encoding ??
+        let encoding = context.dataResponse.serializeString.encoding ??
         Far._api.dataResponse.serializeString.encoding._value
         
-        let emptyResponseCodes = self.dataResponse.serializeString.emptyResponseCodes ??
+        let emptyResponseCodes = context.dataResponse.serializeString.emptyResponseCodes ??
         Far._api.dataResponse.serializeString.emptyResponseCodes._value
         
-        let emptyRequestMethods = self.dataResponse.serializeString.emptyRequestMethods ??
+        let emptyRequestMethods = context.dataResponse.serializeString.emptyRequestMethods ??
         Far._api.dataResponse.serializeString.emptyRequestMethods._value
         
         return Alamofire.StringResponseSerializer(dataPreprocessor: dataPreprocessor,
@@ -255,18 +253,19 @@ extension Settings.API._Modify {
                                                   emptyRequestMethods: emptyRequestMethods)
     }
     
+    /// Serialize JSON
     @available(*, deprecated, message: "JSONResponseSerializer deprecated and will be removed in Alamofire 6. Use DecodableResponseSerializer instead.")
-    func _jsonResponseSerializer() -> Alamofire.JSONResponseSerializer {
-        let dataPreprocessor = self.dataResponse.serializeJSON.dataPreprocessor ??
+    static func _jsonResponseSerializer(context: Settings.API._Modify) -> Alamofire.JSONResponseSerializer {
+        let dataPreprocessor = context.dataResponse.serializeJSON.dataPreprocessor ??
         Far._api.dataResponse.serializeJSON.dataPreprocessor._value
         
-        let emptyResponseCodes = self.dataResponse.serializeJSON.emptyResponseCodes ??
+        let emptyResponseCodes = context.dataResponse.serializeJSON.emptyResponseCodes ??
         Far._api.dataResponse.serializeJSON.emptyResponseCodes._value
         
-        let emptyRequestMethods = self.dataResponse.serializeJSON.emptyRequestMethods ??
+        let emptyRequestMethods = context.dataResponse.serializeJSON.emptyRequestMethods ??
         Far._api.dataResponse.serializeJSON.emptyRequestMethods._value
         
-        let options = self.dataResponse.serializeJSON.options ??
+        let options = context.dataResponse.serializeJSON.options ??
         Far._api.dataResponse.serializeJSON.options._value
         
         return Alamofire.JSONResponseSerializer(dataPreprocessor: dataPreprocessor,
@@ -275,21 +274,22 @@ extension Settings.API._Modify {
                                                 options: options)
     }
     
-    func _decodableResponseSerializer<R>() -> Alamofire.DecodableResponseSerializer<R>
+    /// Serialize Decodable
+    static func _decodableResponseSerializer<R>(context: Settings.API._Modify) -> Alamofire.DecodableResponseSerializer<R>
     where R: Swift.Decodable {
-        let dataPreprocessor = self.dataResponse.serializeDecodable.dataPreprocessor ??
+        let dataPreprocessor = context.dataResponse.serializeDecodable.dataPreprocessor ??
         Far._api.dataResponse.serializeDecodable.dataPreprocessor._value ??
         Alamofire.DecodableResponseSerializer<R>.defaultDataPreprocessor
         
-        let decoder = self.dataResponse.serializeDecodable.decoder ??
+        let decoder = context.dataResponse.serializeDecodable.decoder ??
         Far._api.dataResponse.serializeDecodable.decoder._value ??
         Foundation.JSONDecoder()
         
-        let emptyResponseCodes = self.dataResponse.serializeDecodable.emptyResponseCodes ??
+        let emptyResponseCodes = context.dataResponse.serializeDecodable.emptyResponseCodes ??
         Far._api.dataResponse.serializeDecodable.emptyResponseCodes._value ??
         Alamofire.DecodableResponseSerializer<R>.defaultEmptyResponseCodes
         
-        let emptyRequestMethods = self.dataResponse.serializeDecodable.emptyRequestMethods ??
+        let emptyRequestMethods = context.dataResponse.serializeDecodable.emptyRequestMethods ??
         Far._api.dataResponse.serializeDecodable.emptyRequestMethods._value ??
         Alamofire.DecodableResponseSerializer<R>.defaultEmptyRequestMethods
         
@@ -301,10 +301,28 @@ extension Settings.API._Modify {
 }
 
 // MARK: - Accessing
-extension Settings.API._Modify {
+extension Settings.API {
     
-    // MARK: - Accessing Request
-    func _accessingRequest() -> Available<Alamofire.Request>? {
-        self.accessing.onRequestAvailable
+    /// Accessing Request
+    static func _accessingRequest(context: Settings.API._Modify) -> Available<Alamofire.Request>? {
+        context.accessing.onRequestAvailable
+    }
+}
+
+
+// MARK: - Helper Type
+extension Settings.API {
+    
+    /// for `Alamofire.URLConvertible`
+    typealias _URLResult = _Result<Foundation.URL, Alamofire.AFError>
+}
+
+extension Settings.API._URLResult: Alamofire.URLConvertible {
+    
+    public func asURL() throws -> URL {
+        switch self {
+            case .success(let url): return url
+            case .failure(let error): throw error
+        }
     }
 }

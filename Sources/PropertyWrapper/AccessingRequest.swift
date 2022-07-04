@@ -20,7 +20,7 @@ where A: API {
     /// Init
     /// - Parameters:
     ///   - api: some API
-    public init(_ api: A, file: Swift.String = #fileID) {
+    public init(_ api: A, file: Swift.StaticString = #fileID) {
         self._location = Location(file, nil)
         self._api = api._modifier(_InternalModifier._AccessingRequest(onRequestAvailable: { [weak self] request in
             self?.request = request as? Alamofire.DataRequest
