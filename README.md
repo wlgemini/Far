@@ -33,12 +33,12 @@ let friends = POST<Page, [Friend]>(url: "https://www.exmple.com/friends")
 
 // 调用login接口
 let account = ...
-let response = await try login.request(account)
+let response = await login.request(account)
 let userInfo = response.value
 
 // 调用friends接口
 let page = ...
-let response = await try friends.request(page)
+let response = await friends.request(page)
 let someFriends = response.value
 ```
 
@@ -101,7 +101,7 @@ let account = Account(name: "Jack", password: "*******")
 
 let mockedLogin = login.mock("http://www.mocking.com/login")
 
-let response = await try mockedLogin.request(account)
+let response = await mockedLogin.request(account)
 
 let userInfo = response.value
 ```

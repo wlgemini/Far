@@ -10,5 +10,12 @@ enum _Result<Success, Failure> where Failure : Error {
     
     /// A failure, storing a `Failure` value.
     case failure(Failure)
+    
+    /// Return value if success
+    var value: Success? {
+        switch self {
+            case .success(let value): return value
+            case .failure: return nil
+        }
+    }
 }
-
