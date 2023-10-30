@@ -1,5 +1,5 @@
 //
-//  Settings.API+.swift
+//  Settings.API+_Helper.swift
 //
 
 import Foundation
@@ -10,7 +10,7 @@ import Alamofire
 extension Settings.API {
     
     /// HTTPMethod
-    static func _method(context: Settings.API._Modify) -> Alamofire.HTTPMethod {
+    static func _method(context: Settings.API.Modified) -> Alamofire.HTTPMethod {
         guard let method = context.dataRequest.api.method else {
             fatalError("`HTTPMethod` not set")
         }
@@ -19,8 +19,7 @@ extension Settings.API {
     }
     
     /// URL
-    static func _url(context: Settings.API._Modify) -> Settings.API._URLResult {
-        
+    static func _url(context: Settings.API.Modified) -> Settings.API._URLResult {
         /// remove first `/` if any
         func _dropFirstForwardSlash(_ string: inout Swift.String) {
             while string.first == "/" {
@@ -105,7 +104,7 @@ extension Settings.API {
     }
     
     /// HTTPHeaders
-    static func _headers(context: Settings.API._Modify) -> Alamofire.HTTPHeaders {
+    static func _headers(context: Settings.API.Modified) -> Alamofire.HTTPHeaders {
         // combinedHeaders init from `Far._default.dataRequest.headers` or an empty headers
         var combinedHeaders = Far._api.dataRequest.headers._value() ?? Alamofire.HTTPHeaders()
         
@@ -118,7 +117,7 @@ extension Settings.API {
     }
     
     /// Encoding
-    static func _encoding(context: Settings.API._Modify) -> Alamofire.ParameterEncoding {
+    static func _encoding(context: Settings.API.Modified) -> Alamofire.ParameterEncoding {
         if let encoding = context.dataRequest.encoding {
             return encoding
             
@@ -144,7 +143,7 @@ extension Settings.API {
     }
     
     /// Encoder
-    static func _encoder(context: Settings.API._Modify) -> Alamofire.ParameterEncoder {
+    static func _encoder(context: Settings.API.Modified) -> Alamofire.ParameterEncoder {
         if let encoder = context.dataRequest.encoder {
             return encoder
             
@@ -170,7 +169,7 @@ extension Settings.API {
     }
     
     /// Modify URLRequest
-    static func _urlRequestModifier(context: Settings.API._Modify) -> (inout Foundation.URLRequest) throws -> Swift.Void {
+    static func _urlRequestModifier(context: Settings.API.Modified) -> (inout Foundation.URLRequest) throws -> Swift.Void {
         // NOTE: Make sure not access `Context` in block
         return { [urlRequestModifiers = context.dataRequest.urlRequestModifiers] (urlRequest) in
             for modifier in urlRequestModifiers {
@@ -180,12 +179,12 @@ extension Settings.API {
     }
     
     /// Authentication
-    static func _authenticate(context: Settings.API._Modify) -> Foundation.URLCredential? {
+    static func _authenticate(context: Settings.API.Modified) -> Foundation.URLCredential? {
         context.dataRequest.authenticate
     }
     
     /// Redirect
-    static func _redirectHandler(context: Settings.API._Modify) -> Alamofire.RedirectHandler? {
+    static func _redirectHandler(context: Settings.API.Modified) -> Alamofire.RedirectHandler? {
         context.dataRequest.redirectHandler ?? Far._api.dataRequest.redirect._value
     }
 }
@@ -195,7 +194,7 @@ extension Settings.API {
 extension Settings.API {
     
     /// Validate DataResponse
-    static func _validation(context: Settings.API._Modify) -> (Swift.Range<Swift.Int>?, [Swift.String]?, [Swift.String : DataRequest.Validation]) {
+    static func _validation(context: Settings.API.Modified) -> (Swift.Range<Swift.Int>?, [Swift.String]?, [Swift.String : DataRequest.Validation]) {
         let acceptableStatusCodes = context.dataResponse.acceptableStatusCodes ??
         Far._api.dataResponse.acceptableStatusCodes._value
         
@@ -208,17 +207,17 @@ extension Settings.API {
     }
     
     /// Cache DataResponse
-    static func _cachedResponseHandler(context: Settings.API._Modify) -> Alamofire.CachedResponseHandler? {
+    static func _cachedResponseHandler(context: Settings.API.Modified) -> Alamofire.CachedResponseHandler? {
         context.dataResponse.cachedResponseHandler ?? Far._api.dataResponse.cachedResponseHandler._value
     }
     
     /// DispatchQueue
-    static func _queue(context: Settings.API._Modify) -> DispatchQueue {
+    static func _queue(context: Settings.API.Modified) -> DispatchQueue {
         context.dataResponse.queue ?? Far._api.dataResponse.queue._value
     }
     
     /// Serialize Data
-    static func _dataResponseSerializer(context: Settings.API._Modify) -> Alamofire.DataResponseSerializer {
+    static func _dataResponseSerializer(context: Settings.API.Modified) -> Alamofire.DataResponseSerializer {
         let dataPreprocessor = context.dataResponse.serializeData.dataPreprocessor ??
         Far._api.dataResponse.serializeData.dataPreprocessor._value
         
@@ -234,7 +233,7 @@ extension Settings.API {
     }
     
     /// Serialize String
-    static func _stringResponseSerializer(context: Settings.API._Modify) -> Alamofire.StringResponseSerializer {
+    static func _stringResponseSerializer(context: Settings.API.Modified) -> Alamofire.StringResponseSerializer {
         let dataPreprocessor = context.dataResponse.serializeString.dataPreprocessor ??
         Far._api.dataResponse.serializeString.dataPreprocessor._value
         
@@ -255,7 +254,7 @@ extension Settings.API {
     
     /// Serialize JSON
     @available(*, deprecated, message: "JSONResponseSerializer deprecated and will be removed in Alamofire 6. Use DecodableResponseSerializer instead.")
-    static func _jsonResponseSerializer(context: Settings.API._Modify) -> Alamofire.JSONResponseSerializer {
+    static func _jsonResponseSerializer(context: Settings.API.Modified) -> Alamofire.JSONResponseSerializer {
         let dataPreprocessor = context.dataResponse.serializeJSON.dataPreprocessor ??
         Far._api.dataResponse.serializeJSON.dataPreprocessor._value
         
@@ -275,7 +274,7 @@ extension Settings.API {
     }
     
     /// Serialize Decodable
-    static func _decodableResponseSerializer<R>(context: Settings.API._Modify) -> Alamofire.DecodableResponseSerializer<R>
+    static func _decodableResponseSerializer<R>(context: Settings.API.Modified) -> Alamofire.DecodableResponseSerializer<R>
     where R: Swift.Decodable {
         let dataPreprocessor = context.dataResponse.serializeDecodable.dataPreprocessor ??
         Far._api.dataResponse.serializeDecodable.dataPreprocessor._value ??
@@ -304,7 +303,7 @@ extension Settings.API {
 extension Settings.API {
     
     /// Accessing Request
-    static func _accessingRequest(context: Settings.API._Modify) -> Available<Alamofire.Request>? {
+    static func _accessingRequest(context: Settings.API.Modified) -> Available<Alamofire.Request>? {
         context.accessing.onRequestAvailable
     }
 }
@@ -319,7 +318,7 @@ extension Settings.API {
 
 extension Settings.API._URLResult: Alamofire.URLConvertible {
     
-    public func asURL() throws -> URL {
+    func asURL() throws -> URL {
         switch self {
             case .success(let url): return url
             case .failure(let error): throw error

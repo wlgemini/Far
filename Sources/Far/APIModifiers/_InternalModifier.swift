@@ -13,7 +13,7 @@ enum _InternalModifier {
     /// AccessingRequest
     struct _AccessingRequest: APIModifier {
         
-        public func apply(to context: ModifiedContext) {
+        func apply(to context: Settings.API.Modified) {
             context.accessing.onRequestAvailable = self._onRequestAvailable
         }
         

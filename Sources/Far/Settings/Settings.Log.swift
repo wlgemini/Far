@@ -25,9 +25,9 @@ extension Settings.Log {
     public struct Message {
         
         /// location in file
-        let location: Location
+        public let location: Location
         
         /// item
-        let item: Any
+        public let item: Any
     }
 }

@@ -1,15 +1,14 @@
 //
-//  AccessingRequest.swift
+//  AutoCancelRequest.swift
 //
 
 import Foundation
 import Alamofire
 
 
-/// Getting `Alamofire.DataRequest`
+/// Auto cancel `Alamofire.DataRequest`
 @propertyWrapper
-public final class AccessingRequest<A>
-where A: API {
+public final class AutoCancelRequest<A> where A: API {
     
     /// Determine whether or not to cancel the underlaying request when self deinit
     public var isCancelRequestWhenDeinit: Swift.Bool = true
@@ -31,12 +30,12 @@ where A: API {
         self._api
     }
     
-    public var projectedValue: AccessingRequest<A> {
+    public var projectedValue: AutoCancelRequest<A> {
         self
     }
     
     let _location: Location
-    var _api: _APIModified<A.Parameters, A.Returns, _APIModifier<A.Modifier, _InternalModifier._AccessingRequest>>!
+    var _api: APIModified<A.Parameters, A.Returns, APIModifier2<A.Modifier, _InternalModifier._AccessingRequest>>!
     
     deinit {
         if self.isCancelRequestWhenDeinit {

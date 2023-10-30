@@ -17,7 +17,7 @@ public enum DataRequestModifier {
             self.method = method
         }
         
-        public func apply(to context: ModifiedContext) {
+        public func apply(to context: Settings.API.Modified) {
             if context.dataRequest.api.method == nil {
                 context.dataRequest.api.method = self.method
             } else {
@@ -51,7 +51,7 @@ public enum DataRequestModifier {
             self._type = .path(path)
         }
         
-        public func apply(to context: ModifiedContext) {
+        public func apply(to context: Settings.API.Modified) {
             if context.dataRequest.api.initialURL == nil {
                 context.dataRequest.api.initialURL = self._type
             } else {
@@ -100,7 +100,7 @@ public enum DataRequestModifier {
             self._type = .mock(mock)
         }
         
-        public func apply(to context: ModifiedContext) {
+        public func apply(to context: Settings.API.Modified) {
             switch self._type {
                 case .base(let base):
                     context.dataRequest.api.base = base
@@ -133,7 +133,7 @@ public enum DataRequestModifier {
             self._header = Alamofire.HTTPHeader(name: name, value: value)
         }
         
-        public func apply(to context: ModifiedContext) {
+        public func apply(to context: Settings.API.Modified) {
             context.dataRequest.headers.add(self._header)
         }
         
@@ -148,7 +148,7 @@ public enum DataRequestModifier {
             self._headers = Alamofire.HTTPHeaders(dictionary)
         }
         
-        public func apply(to context: ModifiedContext) {
+        public func apply(to context: Settings.API.Modified) {
             for h in self._headers {
                 context.dataRequest.headers.add(h)
             }
@@ -166,7 +166,7 @@ public enum DataRequestModifier {
             self._encoder = encoder
         }
         
-        public func apply(to context: ModifiedContext) {
+        public func apply(to context: Settings.API.Modified) {
             context.dataRequest.encoder = self._encoder
         }
         
@@ -181,7 +181,7 @@ public enum DataRequestModifier {
             self._encoding = encoding
         }
         
-        public func apply(to context: ModifiedContext) {
+        public func apply(to context: Settings.API.Modified) {
             context.dataRequest.encoding = self._encoding
         }
         
@@ -197,7 +197,7 @@ public enum DataRequestModifier {
             self._timeInterval = timeInterval
         }
         
-        public func apply(to context: ModifiedContext) {
+        public func apply(to context: Settings.API.Modified) {
             context.dataRequest.urlRequestModifiers.append { [timeInterval = self._timeInterval] urlRequest in
                 urlRequest.timeoutInterval = timeInterval
             }
@@ -219,7 +219,7 @@ public enum DataRequestModifier {
             self._credential = credential
         }
         
-        public func apply(to context: ModifiedContext) {
+        public func apply(to context: Settings.API.Modified) {
             context.dataRequest.authenticate = self._credential
         }
         
@@ -235,7 +235,7 @@ public enum DataRequestModifier {
             self._handler = handler
         }
         
-        public func apply(to context: ModifiedContext) {
+        public func apply(to context: Settings.API.Modified) {
             context.dataRequest.redirectHandler = self._handler
         }
         

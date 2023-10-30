@@ -1,4 +1,4 @@
-// swift-tools-version: 5.7
+// swift-tools-version: 5.9
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -8,8 +8,8 @@ let package = Package(
     
     platforms: [
         .macOS(.v10_15),
-        .iOS(.v11),
-        .tvOS(.v11),
+        .iOS(.v12),
+        .tvOS(.v12),
         .watchOS(.v4)],
     
     products: [
@@ -17,13 +17,12 @@ let package = Package(
     ],
     
     dependencies: [
-        .package(url: "https://github.com/Alamofire/Alamofire.git", .upToNextMajor(from: "5.6.0"))
+        .package(url: "https://github.com/Alamofire/Alamofire.git", .upToNextMajor(from: "5.8.0"))
     ],
     
     targets: [
         .target(name: "Far",
                 dependencies: ["Alamofire"],
-                path: "Sources",
                 linkerSettings: [.linkedFramework("Foundation", .when(platforms: [.iOS, .macOS, .tvOS, .watchOS]))]),
         
         .testTarget(name: "FarTests",

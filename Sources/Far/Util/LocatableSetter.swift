@@ -3,17 +3,8 @@
 //
 
 
-/// for Getter type
-public protocol Gettable {
-    
-    associatedtype G
-    
-    var value: G { get }
-}
-
-
-/// for Setter type
-public protocol Settable: Gettable {
+/// for locatable setter type
+public protocol LocatableSetter {
     
     associatedtype S
     
@@ -38,15 +29,9 @@ public enum Setter {
 extension Setter.Copy {
     
     /// Nonnil
-    public struct Nonnil<T>: Settable {
-        
-        public typealias G = T
+    public struct Nonnil<T>: LocatableSetter {
         
         public typealias S = T
-        
-        public var value: T {
-            self._value
-        }
         
         public mutating func callAsFunction(_ value: T, file: Swift.StaticString = #fileID, line: Swift.UInt = #line) {
             self._value = value
@@ -64,15 +49,9 @@ extension Setter.Copy {
     
     
     /// Nillable
-    public struct Nillable<T>: Settable {
-        
-        public typealias G = T?
-        
+    public struct Nillable<T>: LocatableSetter {
+
         public typealias S = T?
-        
-        public var value: T? {
-            self._value
-        }
         
         public mutating func callAsFunction(_ value: T?, file: Swift.StaticString = #fileID, line: Swift.UInt = #line) {
             self._value = value
@@ -93,16 +72,10 @@ extension Setter.Copy {
 extension Setter.Compute {
     
     /// Nonnil
-    public struct Nonnil<T>: Settable {
-        
-        public typealias G = T
-        
+    public struct Nonnil<T>: LocatableSetter {
+
         public typealias S = Compute<T>
-        
-        public var value: T {
-            self._value()
-        }
-        
+
         public mutating func callAsFunction(_ value: @escaping @autoclosure Compute<T>, file: Swift.StaticString = #fileID, line: Swift.UInt = #line) {
             self._value = value
             self._location = Location(file, line)
@@ -119,15 +92,9 @@ extension Setter.Compute {
     
     
     /// Nillable
-    public struct Nillable<T>: Settable {
-        
-        public typealias G = T?
-        
+    public struct Nillable<T>: LocatableSetter {
+
         public typealias S = Compute<T?>
-        
-        public var value: T? {
-            self._value()
-        }
         
         public mutating func callAsFunction(_ value: @escaping @autoclosure Compute<T?>, file: Swift.StaticString = #fileID, line: Swift.UInt = #line) {
             self._value = value
@@ -148,16 +115,10 @@ extension Setter.Compute {
 extension Setter.Available {
     
     /// Nonnil
-    public struct Nonnil<T>: Settable {
-        
-        public typealias G = Available<T>
-        
+    public struct Nonnil<T>: LocatableSetter {
+
         public typealias S = Available<T>
-        
-        public var value: Available<T> {
-            self._value
-        }
-        
+
         public mutating func callAsFunction(_ value: @escaping Available<T>, file: Swift.StaticString = #fileID, line: Swift.UInt = #line) {
             self._value = value
             self._location = Location(file, line)
@@ -174,16 +135,10 @@ extension Setter.Available {
     
     
     /// Nillable
-    public struct Nillable<T>: Settable {
-        
-        public typealias G = Available<T?>
-        
+    public struct Nillable<T>: LocatableSetter {
+
         public typealias S = Available<T?>
-        
-        public var value: Available<T?> {
-            self._value
-        }
-        
+
         public mutating func callAsFunction(_ value: @escaping Available<T?>, file: Swift.StaticString = #fileID, line: Swift.UInt = #line) {
             self._value = value
             self._location = Location(file, line)

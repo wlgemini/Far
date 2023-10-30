@@ -33,8 +33,12 @@ class SettingAPITests {
         static let redirectTo = POST<Bin, Bin>("redirectTo")
     }
     
-    //    @AccessingRequest(APIs.echoGet.base("http://www.xyz.com/"))
-    //    var dataRequestEchoGet: some API<Bin, Bin>
+    /*
+     MARK: Swift Bug
+     
+     @AutoCancelRequest(APIs.echoGet.base("http://www.xyz.com/"))
+     var dataRequestEchoGet
+     */
     
     func requestMethod() {
         let contextEchoGet = Settings.API._method(context: APIs.echoGet._context(file: #fileID, line: #line))

@@ -16,35 +16,35 @@ class AllTests: XCTestCase {
     
     func testALL() {
         // Log
-        log.logInit()
+        self.log.logInit()
         
         // Session
-        settingSession.sessionInit()
+        self.settingSession.sessionInit()
         
         
         // API
-        settingAPI.requestMethod()
-        settingAPI.requestURL()
-        settingAPI.requestEncoding()
-        settingAPI.requestEncoder()
-        settingAPI.requestHeaders()
-        settingAPI.requestModifier()
-        settingAPI.requestModify()
+        self.settingAPI.requestMethod()
+        self.settingAPI.requestURL()
+        self.settingAPI.requestEncoding()
+        self.settingAPI.requestEncoder()
+        self.settingAPI.requestHeaders()
+        self.settingAPI.requestModifier()
+        self.settingAPI.requestModify()
         
-        settingAPI.responseModify()
-        settingAPI.responseQueue()
-        settingAPI.responseDataResponseSerializer()
-        settingAPI.responseStringResponseSerializer()
-        settingAPI.responseJSONResponseSerializer()
-        settingAPI.responseDecodableResponseSerializer()
-        settingAPI.accessing()
+        self.settingAPI.responseModify()
+        self.settingAPI.responseQueue()
+        self.settingAPI.responseDataResponseSerializer()
+        self.settingAPI.responseStringResponseSerializer()
+        self.settingAPI.responseJSONResponseSerializer()
+        self.settingAPI.responseDecodableResponseSerializer()
+        self.settingAPI.accessing()
         
         
         // DataRequest
-        dataRequest.method(test: self)
-        dataRequest.auth(test: self)
-        dataRequest.statusCodes(test: self)
-        dataRequest.headers(test: self)
-        dataRequest.echo(test: self)
+        self.dataRequest.method(test: self)
+        self.dataRequest.auth(test: self)
+        self.dataRequest.statusCodes(test: self)
+        self.dataRequest.headers(test: self)
+        self.dataRequest.echo(test: self)
     }
 }

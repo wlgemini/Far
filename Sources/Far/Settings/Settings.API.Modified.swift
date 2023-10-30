@@ -1,5 +1,5 @@
 //
-//  Settings.API._Modify.swift
+//  Settings.API.Modified.swift
 //
 
 import Foundation
@@ -8,19 +8,19 @@ import Alamofire
 
 extension Settings.API {
     
-    public final class _Modify {
+    public final class Modified {
         
         // DataRequest Location
         let requestLocation: Location
         
         // DataRequest
-        var dataRequest = Settings.API._Modify._DataRequest()
+        var dataRequest = Settings.API.Modified._DataRequest()
         
         // DataResponse
-        var dataResponse = Settings.API._Modify._DataResponse()
+        var dataResponse = Settings.API.Modified._DataResponse()
         
         // Accessing
-        var accessing = Settings.API._Modify._Accessing()
+        var accessing = Settings.API.Modified._Accessing()
         
         /// init
         init(requestLocation: Location) {
@@ -30,14 +30,14 @@ extension Settings.API {
 }
 
 
-extension Settings.API._Modify {
+extension Settings.API.Modified {
     
     // MARK: DataRequest
     /// _DataRequest
     struct _DataRequest {
         
         // API
-        var api = Settings.API._Modify._API()
+        var api = Settings.API.Modified._API()
         
         // Headers
         var headers: Alamofire.HTTPHeaders = Alamofire.HTTPHeaders()
@@ -73,10 +73,10 @@ extension Settings.API._Modify {
         var queue: DispatchQueue?
         
         // Serialize DataResponse
-        var serializeData = Settings.API._Modify._SerializeData()
-        var serializeString = Settings.API._Modify._SerializeString()
-        var serializeJSON = Settings.API._Modify._SerializeJSON()
-        var serializeDecodable = Settings.API._Modify._SerializeDecodable()
+        var serializeData = Settings.API.Modified._SerializeData()
+        var serializeString = Settings.API.Modified._SerializeString()
+        var serializeJSON = Settings.API.Modified._SerializeJSON()
+        var serializeDecodable = Settings.API.Modified._SerializeDecodable()
     }
     
     

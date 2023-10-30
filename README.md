@@ -8,14 +8,14 @@ make *Function as Request*
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/wlgemini/Far.git", .upToNextMajor(from: "5.6.0"))
+    .package(url: "https://github.com/wlgemini/Far.git", .upToNextMajor(from: "5.8.0"))
 ]
 ```
 
 ### Cocoapods
 
 ```
-pod 'Far', '~> 5.6.0'
+pod 'Far', '~> 5.8.0'
 ```
 
 ## 快速上手
@@ -24,22 +24,22 @@ pod 'Far', '~> 5.6.0'
 import Far
 
 
-// 定义login接口
+/* 定义login接口 */
 let login = POST<Account, UserInfo>(url: "https://www.exmple.com/login")
 
-// 定义friends接口
+/* 定义friends接口 */
 let friends = POST<Page, [Friend]>(url: "https://www.exmple.com/friends")
 
 
-// 调用login接口
-let account = ...
+/* 调用login接口 */
+let account = Account(name: "Jack", password: "*******")
 let response = await login.request(account)
-let userInfo = response.value
+let userInfo: UserInfo = response.value
 
-// 调用friends接口
-let page = ...
+/* 调用friends接口 */
+let page = Page(offset: 0, count: 20)
 let response = await friends.request(page)
-let someFriends = response.value
+let someFriends: [Friend] = response.value
 ```
 
 ## 相关概念
@@ -72,26 +72,44 @@ Far.session = Alamofire.Session()
 ### `0x01`, 修改默认的`API`配置项(可选):
 
 ```swift
-// 设置base URL
-Far.api.base("https://www.exmple.com/")
+// MARK: DataRequest
+/* 设置base URL (如果app中只有一个domain, 随后定义的API则继承这个domain) */
+Far.api.dataRequest.base("https://www.exmple.com/")
 
-// 设置请求头
-Far.api.headers([
+/* 设置请求头 */
+Far.api.dataRequest.headers([
     "key1": "value1",
     "key2": "value2"
 ]) 
 
-... 
+/*
+- Encoding/Encoder
+- Authentication
+- Redirect
+*/
+...
+
+
+// MARK: DataResponse
+/*
+- Validate
+- Cache
+- Serialize
+*/
+...
 ```
 
 ### `0x02`, 定义请求接口, 并增加配置项(可选):
 
 ```swift
-// 定义login接口
+/* 定义login接口 (base url继承自Far.api.dataRequest.base) */
 let login = POST<Account, UserInfo>("login")
+    .headers(...)           /* 添加额外的headers */
+    .timeoutInterval(...)   /* 设置timeout */
 
-// 定义friends接口
-let friends = POST<Page, [Friend]>("friends").timeoutInterval(2)
+/* 定义friends接口, 并设置超时时间 */
+let friends = POST<Page, [Friend]>("friends")
+    .timeoutInterval(...)
 ```
 
 ### `0x03`, 增加配置项(可选), 并请求API:
@@ -99,7 +117,7 @@ let friends = POST<Page, [Friend]>("friends").timeoutInterval(2)
 ```swift
 let account = Account(name: "Jack", password: "*******")
 
-let mockedLogin = login.mock("http://www.mocking.com/login")
+let mockedLogin = login.mock("http://www.mocking.com/login")    /* 对当前API使用mock请求, DEBUG环境生效 */
 
 let response = await mockedLogin.request(account)
 
@@ -108,10 +126,10 @@ let userInfo = response.value
 
 ### `0x04`, 使用`@AccessingRequest`(可选):
 
-`AccessingRequest`是一个`propertyWrapper`, 可用于:
+`AccessingRequest`是一个`@propertyWrapper`, 可用于:
 
 - 在网络请求开始后, 获取`Alamofire.DataRequest`.
-- 当`ViewController` `deinit`时, 自动取消网络请求.
+- 当`ViewController.deinit`时, 自动取消网络请求.
 
 ```swift
 class ViewController: UIViewController {
@@ -121,13 +139,13 @@ class ViewController: UIViewController {
 
     override func viewDidLoad(_ view: UIView) {
     
-        // getFriends.request()
+        /* getFriends.request() */
         ...
         
-        // 在网络请求开始后，获取`Alamofire.DataRequest`
+        /* 在网络请求开始后，获取`Alamofire.DataRequest` */
         self.$getFriends.request
         
-        // deinit时, 自动取消请求
+        /* deinit时, 自动取消请求 */
         self.$getFriends.isCancelRequestWhenDeinit = true
     }
 }

@@ -1,5 +1,5 @@
 //
-//  APIMethods.swift
+//  Methods.swift
 //
 
 import Alamofire
@@ -9,7 +9,7 @@ import Alamofire
 public struct GET<Parameters, Returns>: API {
     
     public var modifier: some APIModifier {
-        _APIModifier(self._method, self._initialURL)
+        APIModifier2(self._method, self._initialURL)
     }
     
     public init(_ path: @escaping @autoclosure Compute<Swift.String>) {
@@ -30,7 +30,7 @@ public struct GET<Parameters, Returns>: API {
 public struct POST<Parameters, Returns>: API {
     
     public var modifier: some APIModifier {
-        _APIModifier(self._method, self._initialURL)
+        APIModifier2(self._method, self._initialURL)
     }
     
     public init(_ path: @escaping @autoclosure Compute<Swift.String>) {
@@ -51,7 +51,7 @@ public struct POST<Parameters, Returns>: API {
 public struct PUT<Parameters, Returns>: API {
     
     public var modifier: some APIModifier {
-        _APIModifier(self._method, self._initialURL)
+        APIModifier2(self._method, self._initialURL)
     }
     
     public init(_ path: @escaping @autoclosure Compute<Swift.String>) {
@@ -72,7 +72,7 @@ public struct PUT<Parameters, Returns>: API {
 public struct PATCH<Parameters, Returns>: API {
     
     public var modifier: some APIModifier {
-        _APIModifier(self._method, self._initialURL)
+        APIModifier2(self._method, self._initialURL)
     }
     
     public init(_ path: @escaping @autoclosure Compute<Swift.String>) {
@@ -93,7 +93,7 @@ public struct PATCH<Parameters, Returns>: API {
 public struct DELETE<Parameters, Returns>: API {
     
     public var modifier: some APIModifier {
-        _APIModifier(self._method, self._initialURL)
+        APIModifier2(self._method, self._initialURL)
     }
     
     public init(_ path: @escaping @autoclosure Compute<Swift.String>) {
