@@ -134,7 +134,7 @@ let userInfo = response.value
 ```swift
 class ViewController: UIViewController {
 
-    @AccessingRequest(friends)
+    @AutoCancelRequest(friends)
     var getFriends
 
     override func viewDidLoad(_ view: UIView) {
