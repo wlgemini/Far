@@ -124,9 +124,9 @@ let response = await mockedLogin.request(account)
 let userInfo = response.value
 ```
 
-### `0x04`, 使用`@AccessingRequest`(可选):
+### `0x04`, 使用`@AutoCancelRequest`(可选):
 
-`AccessingRequest`是一个`@propertyWrapper`, 可用于:
+`AutoCancelRequest`是一个`@propertyWrapper`, 可用于:
 
 - 在网络请求开始后, 获取`Alamofire.DataRequest`.
 - 当`ViewController.deinit`时, 自动取消网络请求.
