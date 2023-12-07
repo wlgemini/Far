@@ -151,10 +151,6 @@ dependencies: [
 pod 'Far', '~> 5.8.0'
 ```
 
-## Author
-
-wlgemini, wangluguang@live.com
-
 ## License
 
-Driftwood is available under the MIT license. See the LICENSE file for more info.
+Far is available under the MIT license. See the LICENSE file for more info.
