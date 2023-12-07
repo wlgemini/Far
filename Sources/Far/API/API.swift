@@ -3,12 +3,6 @@
 //
 
 
-/// APIModifier
-public protocol APIModifier {
-    
-    func apply(to context: Settings.API.Modified)
-}
-
 /// API
 public protocol API<Parameters, Returns> {
     
@@ -23,6 +17,12 @@ public protocol API<Parameters, Returns> {
     
     /// modifier
     var modifier: Modifier { get }
+}
+
+/// APIModifier
+public protocol APIModifier {
+    
+    func apply(to context: Settings.API.Modified)
 }
 
 /// APIModifier2
