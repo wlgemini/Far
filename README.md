@@ -135,7 +135,11 @@ class ViewController: UIViewController {
 }
 ```
 
-## 接入
+## Requirements
+
+- iOS 10.0+, macOS 10.15+, tvOS 12.0+, watchOS 4.0+
+
+## Installation
 
 ### Swift Package Manager
 
